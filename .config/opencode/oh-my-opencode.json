@@ -1,0 +1,62 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "title": {
+      "model": "minimax-cn-coding-plan/MiniMax-M2.5"
+    },
+    "sisyphus": {
+      "model": "minimax-cn-coding-plan/MiniMax-M2.5",
+      "prompt_append": "\n\nALWAYS follow this workflow: 1) Use superpowers/tdd to generate tests, 2) Implement code, 3) Run superpowers/code-review. Never skip steps."
+    },
+    "sisyphus-junior": {
+      "model": "minimax-cn-coding-plan/MiniMax-M2.5"
+    },
+    "oracle": {
+      "model": "deepseek/deepseek-chat",
+      "prompt_append": "\n\nValidate plans with superpowers/writing-plans skill before outputting. Prioritize speed and clarity."
+    },
+    "librarian": {
+      "model": "kimi-for-coding/k2p5"
+    },
+    "explore": {
+      "model": "kimi-for-coding/k2p5"
+    },
+    "multimodal-looker": {
+      "model": "kimi-for-coding/k2p5"
+    },
+    "prometheus": {
+      "model": "kimi-for-coding/kimi-k2-thinking",
+      "prompt_append": "\n\nYou are Prometheus, the planning agent. ALWAYS use the superpowers/writing-plans skill to produce structured, testable, and actionable development plans with clear completion criteria."
+    },
+    "metis": {
+      "model": "kimi-for-coding/k2p5"
+    },
+    "momus": {
+      "model": "deepseek/deepseek-reasoner",
+      "prompt_append": "\n\nYou are Momus, the plan critic. Use the superpowers/momus skill to rigorously evaluate the feasibility, completeness, and risk of any proposed plan. Demand testability and clear success criteria."
+    },
+    "atlas": {
+      "model": "deepseek/deepseek-chat"
+    },
+    "build": {
+      "model": "deepseek/deepseek-reasoner"
+    },
+    "monarch": {
+      "model": "deepseek/deepseek-reasoner"
+    }
+  },
+  "categories": {
+    "ultrabrain": {
+      "model": "minimax-cn-coding-plan/MiniMax-M2.5"
+    },
+    "quick": {
+      "model": "kimi-for-coding/k2p5"
+    },
+    "unspecified-high": {
+      "model": "minimax-cn-coding-plan/MiniMax-M2.5"
+    },
+    "unspecified-low": {
+      "model": "kimi-for-coding/k2p5"
+    }
+  }
+}

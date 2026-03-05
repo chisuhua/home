@@ -1,0 +1,59 @@
+call plug#begin('~/.vim/plugged')
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'vim-scripts/DrawIt'
+Plug 'airblade/vim-gitgutter'
+Plug 'freitass/todo.txt-vim'
+Plug 'vim-scripts/ShowTrailingWhitespace'
+
+
+"color
+Plug 'altercation/vim-colors-solarized'
+Plug 'crusoexia/vim-monokai'
+Plug 'jnurmine/Zenburn'						"colorscheme for GUI
+Plug 'missingtears/editplus'						"colorscheme for GUI
+Plug 'tomasr/molokai'
+
+"Plug 'gregsexton/MatchTag'
+"Plug 'vim-scripts/delimitMate.vim'
+"Plug 'jrosiek/vim-mark'
+
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'suan/vim-instant-markdown'
+Plug 'MattesGroeger/vim-bookmarks'
+Plug 'vim-scripts/Mark--Karkat'
+
+
+
+"Plug 'ivanov/vim-ipython'
+"Plug 'julienr/vim-cellmode'
+
+"cpp
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'Chiel92/vim-autoformat'
+Plug 'rhysd/vim-clang-format'
+
+"verilog
+"Plug 'zhuzhzh/verilog_emacsauto.vim'
+
+"llvm
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
+Plug 'voldikss/LeaderF-floaterm'
+Plug 'voldikss/vim-floaterm'
+Plug 'Yggdroot/indentLine'
+
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
+"Plug 'aceofall/gtags.vim'
+
+Plug 'majutsushi/tagbar'
+
+
+call plug#end()

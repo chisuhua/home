@@ -1,0 +1,40 @@
+# ~/.tmuxinator/git_mlearning.yml
+
+name: git_dl
+root: /work/git/deeplearn
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: logs
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t git_mlearning
+
+windows:
+  - caffe: cd caffe
+  - caffe2: cd caffe2
+  - caffe2_tutorials: cd caffe2_tutorials
+  - tensorflow: cd tensorflow
+  - mxnet: cd mxnet
+  - nGraph: cd nervana
+  - pytorch: cd pytorch
+  - tiny-dnn: cd tiny-dnn
+  - ncnn: cd ncnn
+  - tvm: cd tvm
