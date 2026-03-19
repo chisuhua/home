@@ -625,6 +625,38 @@ return {
     })
   end,
 },
+{
+  "inkarkat/vim-mark",
+  event = "VeryLazy", -- 或根据需要改为 "BufRead" 等
+  keys = {
+    { "m*", mode = "n", desc = "Mark word under cursor" },
+    { "mm", mode = "n", desc = "Mark current line" },
+    { "<leader>mc", mode = "n", desc = "Clear all marks" },
+    { "<leader>mn", mode = "n", desc = "Next mark" },
+    { "<leader>mp", mode = "n", desc = "Previous mark" },
+  },
+  config = function()
+    -- 可选：自定义高亮颜色（需确保你的 colorscheme 支持）
+    vim.cmd([[ highlight MarkedWord ctermbg=yellow guibg=yellow ]])
+    -- 如果你想禁用自动高亮当前词（默认行为），可以设置：
+    -- vim.g.mark_enable_default_mappings = 0
+  end,
+},
+{
+  'ojroques/nvim-osc52',
+  event = 'VeryLazy',
+  config = function()
+    require('osc52').setup({
+      max_length = 100000,  -- 最大拷贝字符数（iTerm2 默认限制）
+      silent = true,
+    })
+  end,
+},
+{
+  "kevinhwang91/nvim-hlslens",
+  event = "VeryLazy",
+  config = true
+},
 -- 🔑 快捷键提示
 {
   "folke/which-key.nvim",

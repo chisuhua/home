@@ -46,6 +46,29 @@ require("lazy").setup("plugins", {
   }
 })
 
+-- 【关键】禁用 Neovim 内置剪贴板，避免 "No provider" 警告
+vim.opt.clipboard = ""
+
+-- 【加载 osc52 插件】
+local osc52 = require('osc52')
+
+-- 【配置】
+osc52.setup({
+  max_length = 100000,  -- 允许复制较长内容（iTerm2 默认限制 ~200KB）
+  silent = true,        -- 不显示 "Copied to clipboard" 消息
+})
+
+-- 【核心】每次 yank（复制）后自动发送到本地剪贴板
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    -- 只处理普通复制操作（排除删除、更改等）
+    if vim.v.event.operator == 'y' then
+      local content = vim.fn.getreg('"')  -- 获取默认寄存器内容
+      osc52.copy(content)
+    end
+  end,
+})
+
 -- 设置光标颜色（iTerm2 OSC 512）
 -- 格式: \x1b]PlRRGGBB\x1b\\  (RRGGBB 为十六进制颜色，无需 #)
 -- local function set_cursor_color(color_hex)

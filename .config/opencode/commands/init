@@ -1,0 +1,80 @@
+# /init - C++ 项目初始化命令
+
+**用途**: 设置开发环境，生成 clangd 索引
+
+**执行**:
+```bash
+# 项目级脚本 (如果存在)
+./init.sh
+
+# 或全局脚本
+~/.config/opencode/scripts/init-clangd.sh .
+```
+
+**执行操作**:
+1. 检查 clangd 是否安装
+2. 设置环境变量 (如果存在 env.sh)
+3. 生成 compile_commands.json (CMake 项目)
+4. 创建符号链接
+5. 触发 clangd 索引
+
+**适用范围**: 所有 C++/CUDA 项目
+
+**首次使用**: 克隆项目后必须运行
+
+**后续使用**: 
+- 重新生成索引：`/init`
+- 代码变化自动更新，无需手动运行
+
+---
+
+## 📋 项目级 init.sh 模板
+
+如果项目没有 init.sh，可以创建以下模板:
+
+```bash
+#!/bin/bash
+# 项目初始化脚本
+
+set -e
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+echo "=========================================="
+echo "项目初始化"
+echo "=========================================="
+
+# 1. 检查 clangd
+if ! command -v clangd &> /dev/null; then
+    echo "❌ clangd 未安装! 请运行：sudo apt install clangd-18"
+    exit 1
+fi
+echo "✅ clangd: $(clangd --version | head -1)"
+
+# 2. 设置环境
+if [ -f "env.sh" ]; then
+    echo "设置环境..."
+    . env.sh
+fi
+
+# 3. 生成 compile_commands.json
+if [ -f "CMakeLists.txt" ]; then
+    echo "生成 compile_commands.json..."
+    cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON > /dev/null 2>&1
+    if [ -f "build/compile_commands.json" ]; then
+        ln -sf build/compile_commands.json .
+        echo "✅ compile_commands.json 已生成"
+    fi
+fi
+
+# 4. 触发 clangd 索引
+LARGE_FILE=$(find src -name "*.cpp" -o -name "*.cu" 2>/dev/null | head -1)
+if [ -n "$LARGE_FILE" ] && [ -f "$LARGE_FILE" ]; then
+    echo "触发索引..."
+    cat "$LARGE_FILE" > /dev/null
+    echo "✅ clangd 索引已触发"
+fi
+
+echo ""
+echo "初始化完成!"
+```
