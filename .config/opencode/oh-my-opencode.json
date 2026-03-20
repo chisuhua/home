@@ -38,6 +38,13 @@
     "atlas": {
       "model": "minimax/minimax-m2.5"
     },
+    "hephaestus": {
+      "model": "bailian-coding-plan/qwen3-coder-plus",
+      "prompt_append": "\n\nYou are Hephaestus, specialist in complex C++ (templates, memory safety, performance). Use cpp-* skills when applicable."
+    },
+    "quick": {
+      "model": "bailian-coding-plan/glm-4.7"
+    },
     "build": {
       "model": "bailian-coding-plan/qwen3-coder-plus"
     },
@@ -49,14 +56,20 @@
     "ultrabrain": {
       "model": "bailian-coding-plan/qwen3.5-plus"
     },
-    "quick": {
-      "model": "bailian-coding-plan/glm-4.7"
-    },
     "unspecified-high": {
       "model": "minimax/minimax-m2.5"
     },
     "unspecified-low": {
       "model": "bailian-coding-plan/glm-4.7"
+    },
+    "visual-engineering": {
+      "model": "minimax/minimax-m2.5"
+    },
+    "deep": {
+      "model": "bailian-coding-plan/qwen3-coder-plus"
+    },
+    "writing": {
+      "model": "moonshot/kimi-k2.5"
     }
   }
 }
