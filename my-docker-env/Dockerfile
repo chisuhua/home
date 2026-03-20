@@ -1,4 +1,3 @@
-# 即使在 CPU 机器上也能构建！
 FROM nvidia/cuda:13.0.2-devel-ubuntu24.04
 
 # 设置时区 & 非交互式安装
@@ -11,16 +10,22 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN sed -i 's|http://.*.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list && \
     sed -i 's|http://security.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list
 
-# 安装系统基础工具
+# 【修改点 1】安装系统基础工具
+# 新增了: cmake-curses-gui clang lldb lld clangd
+# 移除了末尾重复的 default-jdk 安装，统一在这里处理
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     apt-get update && \
     apt-get install -y \
         curl wget git vim nano htop tree \
-        build-essential cmake g++ gdb valgrind \
+        build-essential cmake cmake-curses-gui g++ gdb valgrind \
+        clang lldb lld clangd \
         python3 python3-pip python3-venv python3-full \
         tmux unzip zip \
         libssl-dev \
-	  ca-certificates gnupg && \
+        ca-certificates gnupg \
+        pkg-config libx11-dev libxkbfile-dev libsecret-1-dev \
+        sqlite3 jq \
+        default-jdk && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs && \
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz && \
@@ -31,50 +36,48 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN curl -fsSL https://code-server.dev/install.sh | sh 
 
-#ARG USERNAME=dev
+
+# 切换到普通用户
 ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=1000
-#RUN groupadd --gid $USER_GID $USERNAME && \
-#    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME && \
-#    echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
-#    chmod 0440 /etc/sudoers.d/$USERNAME
-#RUN groupmod -g ${USER_GID} ${USERNAME} 2>/dev/null || groupadd --gid ${USER_GID} ${USERNAME} && \
-#    usermod -u ${USER_UID} -g ${USER_GID} ${USERNAME} 2>/dev/null || \
-#    useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} && \
-#    mkdir -p /home/${USERNAME}/.npm-global /home/${USERNAME}/.opencode/bin /home/${USERNAME}/.bun && \
-#    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} /workspace
+
+RUN usermod -aG sudo ubuntu
+RUN echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    echo 'Defaults:ubuntu !requiretty' >> /etc/sudoers
 
 USER $USERNAME
 WORKDIR /home/$USERNAME
-
 
 RUN mkdir -p ~/.npm-global && \
     npm config set prefix '~/.npm-global'
 
 RUN curl -fsSL https://bun.sh/install | bash
 
-#RUN curl -fsSL https://opencode.ai/install | bash
+ENV PATH="/home/${USERNAME}/.bun/bin:${PATH}"
 
-RUN ~/.bun/bin/bun install -g opencode-ai@latest
-RUN ~/.bun/bin/bunx oh-my-opencode@latest install --no-tui --claude=no --gemini=no --copilot=no
-
-RUN ~/.bun/bin/bun install -g @anthropic-ai/claude-code && \
+RUN ~/.bun/bin/bun install -g opencode-ai@latest && \
+    ~/.bun/bin/bun install -g oh-my-opencode@latest && \
+    ~/.bun/bin/bun install -g @anthropic-ai/claude-code && \
     ~/.bun/bin/bun install -g openclaw@latest
+
+#RUN mkdir -p ~/.opencode && \
+#    echo '{\n  \"ui\": \"cli\",\n  \"providers\": {\n    \"claude\": false,\n    \"gemini\": false,\n    \"copilot\": false\n  }\n}' > ~/.opencode/config.json
+# ~/.bun/bin/bunx oh-my-opencode@latest install --no-tui --claude=no --gemini=no --copilot=no
+
 
 RUN mkdir -p ~/.local/bin && \
     ln -sf ~/.bun/bin/opencode ~/.local/bin/opencode 2>/dev/null || true && \
-    ln -sf ~/.bun/bin/claude-code ~/.local/bin/claude-code 2>/dev/null || true
+    ln -sf ~/.bun/bin/claude ~/.local/bin/claude 2>/dev/null || true
 
-RUN apt install -y default-jdk && \
-    pkg-config libx11-dev libxkbfile-dev libsecret-1-dev \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN curl -fsSL https://code-server.dev/install.sh | sh
+# 【修改点 2】删除了原文件末尾那个单独安装 JDK 和 code-server 且未清理缓存的 RUN 指令
+# 因为上面已经在 root 阶段统一处理了，这样镜像更干净、层数更少。
 
+ENV PATH="/home/${USERNAME}/.local/bin:/home/${USERNAME}/.bun/bin:/home/${USERNAME}/venv/bin:/home/${USERNAME}/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-ENV PATH="/home/ubuntu/venv/bin:/home/ubuntu/.npm-global/bin:/home/ubuntu/.opencode/bin:/home/ubuntu/.local/bin:/usr/local/bin:$PATH"
+EXPOSE 8080
 
 RUN python3 -m venv $HOME/venv && \
     $HOME/venv/bin/pip install --upgrade pip && \
@@ -82,9 +85,6 @@ RUN python3 -m venv $HOME/venv && \
     $HOME/venv/bin/pip cache purge
 
 WORKDIR /workspace
-#RUN $HOME/venv/bin/pip install -r requirements.txt
-
 
 # 默认命令
-#CMD ["bash"]
 CMD ["tail", "-f", "/dev/null"]

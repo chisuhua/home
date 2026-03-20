@@ -7,6 +7,7 @@ docker run -d \
   -v ~/workspace/home/.config:/home/ubuntu/.config \
   -v ~/workspace/home/.openclaw:/home/ubuntu/.openclaw \
   -v ~/workspace/home/.claude:/home/ubuntu/.claude \
+  -v ~/workspace/home/.claude.json:/home/ubuntu/.claude.json \
   -v ~/workspace/home/.ssh:/home/ubuntu/.ssh \
   -v ~/workspace/home/.tmux:/home/ubuntu/.tmux \
   -v ~/workspace/home/.tmuxinator:/home/ubuntu/.tmuxinator \
