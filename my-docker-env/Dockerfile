@@ -38,6 +38,15 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 
 RUN curl -fsSL https://code-server.dev/install.sh | sh 
 
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
+RUN apt-get update && apt-get install -y sudo ripgrep && \
+    apt-get install gh && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 # 切换到普通用户
 ARG USERNAME=ubuntu
@@ -58,10 +67,15 @@ RUN curl -fsSL https://bun.sh/install | bash
 
 ENV PATH="/home/${USERNAME}/.bun/bin:${PATH}"
 
-RUN ~/.bun/bin/bun install -g opencode-ai@latest && \
-    ~/.bun/bin/bun install -g oh-my-opencode@latest && \
-    ~/.bun/bin/bun install -g @anthropic-ai/claude-code && \
-    ~/.bun/bin/bun install -g openclaw@latest
+# https://github.com/anomalyco/opencode
+# https://github.com/code-yeongyu/oh-my-openagent
+# https://github.com/anthropics/claude-code/releases
+RUN ~/.bun/bin/bun install -g opencode-ai@v1.3.0 && \
+    ~/.bun/bin/bun install -g oh-my-opencode@v3.12.3 && \
+    ~/.bun/bin/bun install -g @anthropic-ai/claude-code@v2.1.81 && \
+    ~/.bun/bin/bun install -g openclaw@2026.3.22 && \
+    npm install -g pnpm
+
 
 #RUN mkdir -p ~/.opencode && \
 #    echo '{\n  \"ui\": \"cli\",\n  \"providers\": {\n    \"claude\": false,\n    \"gemini\": false,\n    \"copilot\": false\n  }\n}' > ~/.opencode/config.json
@@ -78,6 +92,9 @@ RUN mkdir -p ~/.local/bin && \
 ENV PATH="/home/${USERNAME}/.local/bin:/home/${USERNAME}/.bun/bin:/home/${USERNAME}/venv/bin:/home/${USERNAME}/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 EXPOSE 8080
+EXPOSE 18789
+EXPOSE 50080
+
 
 RUN python3 -m venv $HOME/venv && \
     $HOME/venv/bin/pip install --upgrade pip && \

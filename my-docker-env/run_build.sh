@@ -1,6 +1,6 @@
 # === 配置区（请修改为你自己的信息）===
 IMAGE_NAME="my-aidev"
-VERSION="v1.0.1"
+VERSION="v1.0.2"
 
 # 构建镜像
 echo "🏗️  Building Docker image..."

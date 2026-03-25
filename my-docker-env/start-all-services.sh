@@ -14,7 +14,7 @@
 
 set -e
 
-CONTAINER="aidev"
+CONTAINER="aidev2"
 # 统一使用同一个 token 认证所有服务
 AUTH_TOKEN="0cccbedfb661cefb0cea5ad3b866b75d1106fdcdccc12fdd"
 
@@ -23,7 +23,9 @@ echo "🦊 启动所有服务..."
 # 1. 启动 OpenClaw Gateway (端口 18789)
 echo "   [1/3] 启动 OpenClaw..."
 #docker exec $CONTAINER tmux kill-session -t openclaw 2>/dev/null || true
-docker exec -d $CONTAINER tmux new -d -s openclaw "openclaw gateway"
+#docker exec -d $CONTAINER tmux new -d -s openclaw "openclaw gateway"
+docker exec -it $CONTAINER tmux new -s openclaw "openclaw gateway"
+#docker exec -it $CONTAINER tmux new -s openclaw "openclaw gateway; exec bash"
 #docker exec -d $CONTAINER sh -c "tmux new -s openclaw -d 'openclaw gateway start' || (tmux kill-session -t openclaw 2>/dev/null; tmux new -s openclaw 'openclaw gateway start')"
 
 # 2. 启动 Code-Server (使用统一 token 密码认证)

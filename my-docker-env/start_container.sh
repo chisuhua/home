@@ -1,10 +1,15 @@
 docker run -d \
-  --name aidev \
+  --name aidev2 \
   --restart always \
-  -w /workspace \
+  --memory="6g" \
+  --memory-swap="6g" \
+  --cpus="1.7" \
+  --oom-kill-disable \
   -p 18789:18789 \
   -p 50080:50080 \
+  -w /workspace \
   -v ~/workspace/home/.config:/home/ubuntu/.config \
+  -v ~/workspace/home/.bashrc:/home/ubuntu/.bashrc \
   -v ~/workspace/home/.openclaw:/home/ubuntu/.openclaw \
   -v ~/workspace/home/.claude:/home/ubuntu/.claude \
   -v ~/workspace/home/.claude.json:/home/ubuntu/.claude.json \
@@ -13,24 +18,13 @@ docker run -d \
   -v ~/workspace/home/.tmuxinator:/home/ubuntu/.tmuxinator \
   -v ~/workspace/home/.tmux.conf:/home/ubuntu/.tmux.conf \
   -v ~/workspace/home/.local/share:/home/ubuntu/.local/share \
+  -v ~/workspace/home/.gitconfig:/home/ubuntu/.gitconfig \
   -v ~/workspace:/workspace \
-  my-aidev:v1.0.0 \
+  my-aidev:v1.0.2 \
   /bin/bash -c "tail -f /dev/null"
 
 #  -u "$(id -u):$(id -g)" \
 
 echo "
-# 初始化 oh-my-opencode（仅需一次）
-omo init --yes
-omo config set default_agent sisyphus
-omo config set planner_enabled true
-
-# 验证双引擎
-claude --version
-opencode --version
-openclaw --version
-
-# 创建 C++ 项目示例
-cd /workspace
-setup-cpp-project myproject  # 使用容器内置命令（见下方）
+run exec_container.sh
 "
