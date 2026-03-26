@@ -1,0 +1,68 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-03-25T10:07:39.526Z",
+      "updatedAt": "2026-03-25T10:07:39.526Z"
+    },
+    "cuda-kernels": {
+      "source": "huggingface/kernels",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/huggingface/kernels.git",
+      "skillPath": "skills/cuda-kernels/SKILL.md",
+      "skillFolderHash": "c5486e1ab61c6ef8f73aa3d1b347cbedc55f9217",
+      "installedAt": "2026-03-26T04:21:04.508Z",
+      "updatedAt": "2026-03-26T04:21:04.508Z"
+    },
+    "cuda": {
+      "source": "technillogue/ptx-isa-markdown",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/technillogue/ptx-isa-markdown.git",
+      "skillPath": "cuda_skill/SKILL.md",
+      "skillFolderHash": "39dc5962c73d55a4ccd7b026320ad66b89c9f85e",
+      "installedAt": "2026-03-26T04:21:46.350Z",
+      "updatedAt": "2026-03-26T04:21:46.350Z"
+    },
+    "cmake": {
+      "source": "mohitmishra786/low-level-dev-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mohitmishra786/low-level-dev-skills.git",
+      "skillPath": "skills/build-systems/cmake/SKILL.md",
+      "skillFolderHash": "84d7c5f93405750f42ea2f82cfef7cd8ca918854",
+      "installedAt": "2026-03-26T04:22:00.510Z",
+      "updatedAt": "2026-03-26T04:22:00.510Z"
+    },
+    "cpp-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/jeffallan/claude-skills.git",
+      "skillPath": "skills/cpp-pro/SKILL.md",
+      "skillFolderHash": "9f45a70ad5798e5cb06ab15ce9b77da780864e56",
+      "installedAt": "2026-03-26T04:22:20.666Z",
+      "updatedAt": "2026-03-26T04:22:20.666Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp",
+    "openclaw",
+    "claude-code"
+  ]
+}

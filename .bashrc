@@ -121,6 +121,13 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export HF_ENDPOINT=https://hf-mirror.com
 export OPENCODE_EXPERIMENTAL_LSP_TOOL=true
+export NODE_COMPILE_CACHE=/var/tmp/openclaw-compile-cache
+mkdir -p /var/tmp/openclaw-compile-cache
+export OPENCLAW_NO_RESPAWN=1
+
+export CUDA_PATH="/usr/local/cuda"
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/local/cuda/lib:$LD_LIBRARY_PATH"
+export PATH="/usr/local/cuda/bin:$PATH"
 
 # OpenClaw Completion
 source "/home/ubuntu/.openclaw/completions/openclaw.bash"

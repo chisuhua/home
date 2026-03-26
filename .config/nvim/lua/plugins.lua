@@ -572,7 +572,17 @@ return {
     config = function()
       require("diffview").setup({
         keymaps = {
-          disable_defaults = true, -- 👈 确保不禁用默认
+          view = {
+          ["q"] = "<cmd>DiffviewClose<CR>", -- 确保 q 能退出
+          ["<tab>"] = "select_next_entry",  -- 使用 tab 切换文件
+          ["<s-tab>"] = "select_prev_entry",
+          },
+          file_panel = {
+            ["j"] = "next_entry",
+            ["k"] = "prev_entry",
+            ["o"] = "open_entry", 
+          }
+          -- disable_defaults = true, -- 👈 确保不禁用默认
           -- file_panel = {
           --   -- ✅ 使用 actions 函数，不是字符串！
           --   { "n", "s", actions.toggle_stage_entry, { desc = "Stage/Unstage hunk" } },
