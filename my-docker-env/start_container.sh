@@ -1,10 +1,10 @@
 docker run -d \
   --name aidev2 \
   --restart always \
-  --memory="6g" \
-  --memory-swap="6g" \
+  --memory="5.5g" \
+  --memory-swap="8.5g" \
   --cpus="1.7" \
-  --oom-kill-disable \
+  --oom-score-adj=500 \
   -p 18789:18789 \
   -p 50080:50080 \
   -w /workspace \
@@ -14,6 +14,7 @@ docker run -d \
   -v ~/workspace/home/.claude:/home/ubuntu/.claude \
   -v ~/workspace/home/.claude.json:/home/ubuntu/.claude.json \
   -v ~/workspace/home/.ssh:/home/ubuntu/.ssh \
+  -v ~/workspace/home/.agents:/home/ubuntu/.agents \
   -v ~/workspace/home/.tmux:/home/ubuntu/.tmux \
   -v ~/workspace/home/.tmuxinator:/home/ubuntu/.tmuxinator \
   -v ~/workspace/home/.tmux.conf:/home/ubuntu/.tmux.conf \

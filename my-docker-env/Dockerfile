@@ -44,6 +44,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
 
 RUN apt-get update && apt-get install -y sudo ripgrep && \
     apt-get install gh && \
+    apt-get install ccache && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
