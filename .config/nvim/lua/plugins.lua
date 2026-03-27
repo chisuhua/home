@@ -87,21 +87,21 @@ return {
 	  config = true,
 	},
   -- 🧠 AI 补全
-  {
-    "zbirenbaum/copilot.lua",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = {
-          enabled = false,
-          auto_trigger = true,
-          debounce = 75,
-          -- keymap = { accept = "<C-l>" },
-        },
-        panel = { enabled = false },
-      })
-    end,
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("copilot").setup({
+  --       suggestion = {
+  --         enabled = false,
+  --         auto_trigger = true,
+  --         debounce = 75,
+  --         -- keymap = { accept = "<C-l>" },
+  --       },
+  --       panel = { enabled = false },
+  --     })
+  --   end,
+  -- },
   -- 🌳 文件树
   -- {
   --   "nvim-tree/nvim-tree.lua",
