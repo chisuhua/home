@@ -1,6 +1,6 @@
-# USER.md — 池工档案 v1.2
+# USER.md — Suhua 档案 v1.2
 
-- **Name:** 主人 / 池工
+- **Name:** Suhua
 - **Timezone:** Asia/Shanghai (UTC+8)
 - **Location:** 上海
 
@@ -42,5 +42,4 @@ C++/CUDA/PTX、Python、
 
 ## 文件位置
 代码: `/workspace/`
-笔记: `/workspace/mynotes`
-记忆: `~/.openclaw/workspace/memory/`
+架构笔记: `/workspace/mynotes`
