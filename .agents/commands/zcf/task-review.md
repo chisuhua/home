@@ -1,6 +1,6 @@
 ---
 description: '任务完成评审，检查架构一致性、文档偏差，决定下一步行动'
-allowed_tools: Read(docs/**, src/**), Write(docs/**), Bash(pytest, git diff, git log, date)
+allowed_tools: Read(docs/**, src/**), Write(docs/**), Bash(pytest, git diff, git log, date, bash scripts/check-compliance.sh)
 argument_hint: <任务标识> [Task XXX | module-name | phase-name]
 # examples:
 #   /zcf:task-review "Task 001 完成"
@@ -12,9 +12,50 @@ argument_hint: <任务标识> [Task XXX | module-name | phase-name]
 
 **定位**：任务完成后进行评审，检查架构一致性、发现文档偏差、决定下一步行动
 
-**触发时机**：每个 Task/Module/Phase 完成后（通过 `subagent-driven-development` 或 `/zcf:workflow` 执行后）
+**触发时机**：每个 Task/Module/Phase 完成后（通过 ACP 驱动 OpenCode 执行后）
 
-**目标读者**：软件架构师、项目负责人
+**目标读者**：**DevMate**（技术合伙人）
+
+**执行者角色**：**编码助手**（Encoding Assistant）
+
+---
+
+## 编码助手角色定义
+
+**你是**: 编码助手（Encoding Assistant）  
+**你的职责**: 根据架构文档实现代码，完成任务后进行自评  
+**你的反馈对象**: **DevMate**（技术合伙人）  
+**报告格式**: 标准化评审报告（给 DevMate 看）
+
+**禁止行为**:
+- ❌ 直接修改 `docs/architecture/`（只读，仅 DevMate 可写）
+- ❌ 自动执行 `git commit/push`（需 DevMate 确认）
+- ❌ 合并分支（需 DevMate 执行 `merge-branches.sh`）
+
+---
+
+## Git 分支策略（关联 acf-workflow §2.5）
+
+**分支命名**: `feature/<task-id>-<short-desc>`  
+**示例**: `feature/task-001-crawler-base`
+
+**评审前确认**:
+```bash
+# 1. 确认当前分支
+git rev-parse --abbrev-ref HEAD  # 应该是 feature/task-xxx-xxx
+
+# 2. 检查工作区干净
+git status --porcelain  # 应该为空
+
+# 3. 运行合规检查
+bash scripts/check-compliance.sh  # 必须通过
+```
+
+**评审通过后**:
+```bash
+# 等待 DevMate 执行合并
+# DevMate 将运行：bash scripts/merge-branches.sh --feature feature/task-xxx-xxx
+```
 
 ---
 
@@ -309,110 +350,168 @@ argument_hint: <任务标识> [Task XXX | module-name | phase-name]
 
 ---
 
-## 输出报告格式
+## 输出报告格式（标准化，给 DevMate）
 
-### 任务级评审报告
+### 任务级评审报告（必须包含以下章节）
 
 ```markdown
-# Task 001 完成评审报告
+# {{TASK_ID}} 完成评审报告（给 DevMate）
 
-**日期**：2026-03-26
-**评审人**：AI Architect
+**日期**：{{DATE}}
+**评审人**：编码助手（{{AGENT_NAME}}）
+**反馈对象**：DevMate
 
 ---
 
-## 任务执行结果
+## 一、任务执行结果
 
-**任务**：创建 Crawler 基类
-**执行时间**：2026-03-26 14:30-15:45（1 小时 15 分）
-**预计时间**：2-3 小时
-**状态**：✅ 完成
+**任务**：{{TASK_TITLE}}
+**执行时间**：{{START_TIME}}-{{END_TIME}}（{{DURATION}}）
+**预计时间**：{{ESTIMATED_TIME}}
+**状态**：✅ 完成 / ⚠️ 部分完成 / ❌ 阻塞
 
-**产出物**：
-- `src/crawler/base.py` (156 行)
-- `tests/crawler/test_base.py` (89 行)
-- Git 提交：`a1b2c3d feat: add Crawler base class`
+**产出物清单**：
+{{#each FILES_CREATED}}
+- `{{this.path}}` ({{this.lines}} 行，新增)
+{{/each}}
+{{#each FILES_MODIFIED}}
+- `{{this.path}}` (修改 {{this.changed_lines}} 行)
+{{/each}}
+
+**Git 分支**：`{{BRANCH_NAME}}`
+**Git 提交**：
+{{#each COMMITS}}
+- `{{this.hash}}` {{this.message}}
+{{/each}}
 
 **测试结果**：
 ```bash
-pytest tests/crawler/test_base.py -v
-# PASSED: test_crawler_init
-# PASSED: test_crawler_fetch
-# PASSED: test_crawler_parse
-# 覆盖率：85%
+{{TEST_COMMAND}}
+```
+```
+{{TEST_OUTPUT}}
+# 覆盖率：{{COVERAGE}}%
+```
+
+**合规检查**：
+```bash
+bash scripts/check-compliance.sh
+# ✅ 架构合规检查通过
 ```
 
 ---
 
-## 架构一致性检查
+## 二、架构一致性检查
 
 ### ✅ 一致项
-- 模块位置符合架构文档（`src/crawler/`）
-- 类命名符合设计原则（`Crawler` 而非 `SpiderBot`）
-- 接口签名符合 api-spec.md
+{{#each CONSISTENT_ITEMS}}
+- {{this}}
+{{/each}}
 
-### ⚠️ 发现偏差
-1. **偏差 1**：增加了 `retry_count` 参数，但 api-spec.md 未记录
-   - **原因**：实现时发现需要处理网络重试
-   - **建议**：更新 api-spec.md 第 3.2 节
-   - **偏差级别**：⚠️ 轻微（向后兼容）
+### ⚠️ 发现偏差（如无偏差，写"无"）
 
-2. **偏差 2**：依赖了 `aiohttp`，但架构文档未提及
-   - **原因**：设计文档未指定异步 HTTP 库
-   - **建议**：更新架构文档 4.1 技术选型表
-   - **偏差级别**：⚠️ 中等（需要记录）
+{{#each DEVIATIONS}}
+#### 偏差 {{@index}}：{{this.title}}
+
+- **描述**：{{this.description}}
+- **原因**：{{this.reason}}
+- **影响**：{{this.impact}}
+- **建议**：{{this.suggestion}}
+- **偏差级别**：{{this.severity}}（轻微/中等/严重）
+
+{{/each}}
 
 ---
 
-## 文档更新建议
+## 三、给 DevMate 的行动建议
 
-**需要更新的文档**：
-1. `docs/architecture/phases/phase-1/crawler/api-spec.md` — 添加 `retry_count` 参数说明
-2. `docs/architecture/2026-03-26-ecommerce-analysis-system.md` — 添加 `aiohttp` 到技术选型表
+**需要 DevMate 确认的事项**：
+{{#each ITEMS_NEED_CONFIRMATION}}
+- [ ] {{this}}
+{{/each}}
 
-**更新策略建议**：
+**需要 DevMate 执行的命令**：
+{{#each COMMANDS_FOR_DEVMATE}}
+```bash
+{{this}}
+```
+{{/each}}
+
+**文档更新建议**：
+{{#each DOCS_TO_UPDATE}}
+1. `{{this.file}}` — {{this.change}}
+{{/each}}
+
+**更新策略**：
 - [ ] 立即更新（推荐，偏差轻微）
 - [ ] 累积到阶段结束时统一更新
-- [ ] 暂停，用户审查（不适用）
-
-**快速更新命令**：
-```bash
-/zcf:arch-doc "更新：爬虫模块 API 规范，添加 retry_count 参数"
-/zcf:arch-doc "更新：技术选型表，添加 aiohttp"
-```
+- [ ] 暂停，DevMate 审查（严重偏差）
 
 ---
 
-## 下一步决策
+## 四、下一步决策
 
-**Task 002 准备就绪**：创建 HTML 解析器
+**下一任务**：{{NEXT_TASK_ID}}: {{NEXT_TASK_TITLE}}
 
 **前置条件检查**：
-- [x] Task 001 完成且测试通过
-- [x] 无阻塞性架构问题
-- [ ] api-spec.md 已更新（等待用户决定）
+{{#each PRECONDITIONS}}
+- [{{this.status}}] {{this.description}}
+{{/each}}
 
-**建议行动**：
-1. **选项 A**：直接继续 Task 002（偏差可接受，推荐）
-2. **选项 B**：先更新文档，再执行 Task 002（保守做法）
-3. **选项 C**：暂停，用户审查当前偏差（不适用）
+**建议行动**（给 DevMate）：
+1. **选项 A**：{{OPTION_A}}
+2. **选项 B**：{{OPTION_B}}
+3. **选项 C**：{{OPTION_C}}
 
-**你的决定**：[等待用户输入]
+**等待 DevMate 决定**。
 
 ---
 
-## GitHub Issue 更新
+## 附录：详细输出
 
-**关联 Issue**：#1
+### 详细测试输出
+{{DETAILED_TEST_OUTPUT}}
 
-**更新命令**：
-```bash
-# 添加评论
-gh issue comment #1 --body "任务完成评审通过，发现 2 个轻微偏差，建议更新文档。"
-
-# 关闭 Issue（如果 PR 已合并）
-gh issue close #1 --reason completed
+### Git Diff 摘要
+```diff
+{{GIT_DIFF_SUMMARY}}
 ```
+
+### 分支状态
+```bash
+git status
+git log --oneline -3
+```
+```
+
+---
+
+## 评审报告填写指南（编码助手必读）
+
+**必须填写的章节**：
+1. ✅ 一、任务执行结果（产出物清单、Git 提交、测试结果、合规检查）
+2. ✅ 二、架构一致性检查（一致项、偏差）
+3. ✅ 三、给 DevMate 的行动建议（需要确认的事项、需要执行的命令）
+4. ✅ 四、下一步决策（下一任务、建议行动）
+
+**可选填写的章节**：
+- 附录：详细输出（仅当 DevMate 要求时）
+
+**偏差级别定义**：
+| 级别 | 定义 | 处理策略 |
+|------|------|----------|
+| **轻微** | 向后兼容变更，不影响其他模块 | 立即更新文档或累积更新 |
+| **中等** | 需要记录的技术选型变更 | 更新架构文档，可能需要 ADR |
+| **严重** | 架构违规或破坏性变更 | 暂停，DevMate 审查，必须 ADR |
+
+**合规检查必须通过**：
+```bash
+bash scripts/check-compliance.sh
+# 检查项：
+# 1. 架构文档只读性
+# 2. 外部依赖检查
+# 3. 测试覆盖率≥80%
+# 4. 架构问题记录
 ```
 
 ---

@@ -1,36 +1,41 @@
-# 任务评审报告模板
+# 任务评审报告模板（编码助手版）
 
-**用途**：用于 `/zcf:task-review` 生成的标准化评审报告
+**用途**：用于 `/zcf:task-review` 生成的标准化评审报告（给 DevMate 看）
 
-**保存位置**：`docs/architecture/reviews/task-XXX-review.md`
+**保存位置**：`docs/architecture/reviews/task-XXX-review.md` 或 `temp/task-XXX-report.md`
+
+**执行者角色**：编码助手（Encoding Assistant）  
+**反馈对象**：DevMate（技术合伙人）
 
 ---
 
-## 模板结构
+## 模板结构（精简版，聚焦 DevMate 反馈）
 
 ```markdown
-# {{TASK_ID}} 完成评审报告
+# {{TASK_ID}} 完成评审报告（给 DevMate）
 
 **日期**：{{DATE}}
-**评审人**：{{REVIEWER}}
+**评审人**：编码助手（{{AGENT_NAME}}）
+**反馈对象**：DevMate
 
 ---
 
-## 任务执行结果
+## 一、任务执行结果
 
 **任务**：{{TASK_TITLE}}
 **执行时间**：{{START_TIME}}-{{END_TIME}}（{{DURATION}}）
 **预计时间**：{{ESTIMATED_TIME}}
-**状态**：{{STATUS}}
+**状态**：✅ 完成 / ⚠️ 部分完成 / ❌ 阻塞
 
-**产出物**：
+**产出物清单**：
 {{#each FILES_CREATED}}
-- `{{this.path}}` ({{this.lines}} 行)
+- `{{this.path}}` ({{this.lines}} 行，新增)
 {{/each}}
 {{#each FILES_MODIFIED}}
 - `{{this.path}}` (修改 {{this.changed_lines}} 行)
 {{/each}}
 
+**Git 分支**：`{{BRANCH_NAME}}`
 **Git 提交**：
 {{#each COMMITS}}
 - `{{this.hash}}` {{this.message}}
@@ -39,20 +44,28 @@
 **测试结果**：
 ```bash
 {{TEST_COMMAND}}
+```
+```
 {{TEST_OUTPUT}}
 # 覆盖率：{{COVERAGE}}%
 ```
 
+**合规检查**：
+```bash
+bash scripts/check-compliance.sh
+# ✅ 架构合规检查通过
+```
+
 ---
 
-## 架构一致性检查
+## 二、架构一致性检查
 
 ### ✅ 一致项
 {{#each CONSISTENT_ITEMS}}
 - {{this}}
 {{/each}}
 
-### ⚠️ 发现偏差
+### ⚠️ 发现偏差（如无偏差，写"无"）
 
 {{#each DEVIATIONS}}
 #### 偏差 {{@index}}：{{this.title}}
@@ -67,28 +80,33 @@
 
 ---
 
-## 文档更新建议
+## 三、给 DevMate 的行动建议
 
-**需要更新的文档**：
+**需要 DevMate 确认的事项**：
+{{#each ITEMS_NEED_CONFIRMATION}}
+- [ ] {{this}}
+{{/each}}
+
+**需要 DevMate 执行的命令**：
+{{#each COMMANDS_FOR_DEVMATE}}
+```bash
+{{this}}
+```
+{{/each}}
+
+**文档更新建议**：
 {{#each DOCS_TO_UPDATE}}
 1. `{{this.file}}` — {{this.change}}
 {{/each}}
 
-**更新策略建议**：
+**更新策略**：
 - [ ] 立即更新（推荐，偏差轻微）
 - [ ] 累积到阶段结束时统一更新
-- [ ] 暂停，用户审查（严重偏差）
-
-**快速更新命令**：
-```bash
-{{#each UPDATE_COMMANDS}}
-{{this}}
-{{/each}}
-```
+- [ ] 暂停，DevMate 审查（严重偏差）
 
 ---
 
-## 下一步决策
+## 四、下一步决策
 
 **下一任务**：{{NEXT_TASK_ID}}: {{NEXT_TASK_TITLE}}
 
@@ -97,42 +115,66 @@
 - [{{this.status}}] {{this.description}}
 {{/each}}
 
-**建议行动**：
+**建议行动**（给 DevMate）：
 1. **选项 A**：{{OPTION_A}}
 2. **选项 B**：{{OPTION_B}}
 3. **选项 C**：{{OPTION_C}}
 
-**你的决定**：[等待用户输入]
+**等待 DevMate 决定**。
 
 ---
 
-## GitHub Issue 更新
+## 附录：详细输出（可选）
 
-**关联 Issue**：#{{ISSUE_NUMBER}}
-
-**更新命令**：
-```bash
-# 添加评论
-gh issue comment #{{ISSUE_NUMBER}} --body "{{COMMENT}}"
-
-# 关闭 Issue（如果 PR 已合并）
-gh issue close #{{ISSUE_NUMBER}} --reason completed
-```
-
----
-
-## 附录：详细测试输出
-
+### 详细测试输出
 {{DETAILED_TEST_OUTPUT}}
 
----
-
-## 附录：Git Diff 摘要
-
+### Git Diff 摘要
 ```diff
 {{GIT_DIFF_SUMMARY}}
 ```
+
+### 分支状态
+```bash
+git status
+git log --oneline -3
 ```
+```
+
+---
+
+## 填写指南（编码助手必读）
+
+**必须填写的章节**：
+1. ✅ 一、任务执行结果（产出物清单、Git 提交、测试结果、合规检查）
+2. ✅ 二、架构一致性检查（一致项、偏差）
+3. ✅ 三、给 DevMate 的行动建议（需要确认的事项、需要执行的命令）
+4. ✅ 四、下一步决策（下一任务、建议行动）
+
+**可选填写的章节**：
+- 附录：详细输出（仅当 DevMate 要求时）
+
+**偏差级别定义**：
+| 级别 | 定义 | 处理策略 |
+|------|------|----------|
+| **轻微** | 向后兼容变更，不影响其他模块 | 立即更新文档或累积更新 |
+| **中等** | 需要记录的技术选型变更 | 更新架构文档，可能需要 ADR |
+| **严重** | 架构违规或破坏性变更 | 暂停，DevMate 审查，必须 ADR |
+
+**合规检查必须通过**：
+```bash
+bash scripts/check-compliance.sh
+# 检查项：
+# 1. 架构文档只读性
+# 2. 外部依赖检查
+# 3. 测试覆盖率≥80%
+# 4. 架构问题记录
+```
+
+**Git 分支策略**：
+- 分支命名：`feature/<task-id>-<short-desc>`
+- 评审前确认：当前分支是 feature 分支，工作区干净
+- 评审通过后：等待 DevMate 执行 `merge-branches.sh` 合并
 
 ---
 
