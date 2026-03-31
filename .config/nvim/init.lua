@@ -6,10 +6,14 @@ vim.g.maplocalleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = "a"
-vim.opt.clipboard = "unnamedplus"
-vim.keymap.set('n', 'yy', '"_yy', { desc = "Yank to internal register only" })
+-- vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = ""
+
+-- vim.keymap.set('n', 'yy', '"_yy', { desc = "Yank to internal register only" })
 vim.keymap.set({'n', 'v'}, '<D-c>', '"+y', { desc = "Copy to macOS clipboard" })
-vim.keymap.set({'n', 'v'}, '<M-c>', '"+y', { desc = "Copy via Alt+C" })
+vim.keymap.set({'n', 'v'}, '<D-v>', '"+p', { desc = "Past from  macOS clipboard" })
+vim.keymap.set({'n', 'v'}, '<M-c>', '"+y', { desc = "Copy via Alot+C" })
+vim.keymap.set({'n', 'v'}, '<M-v>', '"+p', { desc = "Past via Alot+C" })
 
 vim.opt.swapfile = false
 vim.opt.backup = false
