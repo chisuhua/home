@@ -1,0 +1,231 @@
+{
+  "numStartups": 11,
+  "installMethod": "native",
+  "autoUpdates": false,
+  "hasUsedBackgroundTask": true,
+  "tipsHistory": {
+    "new-user-warmup": 8,
+    "plan-mode-for-complex-tasks": 8,
+    "terminal-setup": 11,
+    "memory-command": 1,
+    "theme-command": 1,
+    "colorterm-truecolor": 1,
+    "status-line": 1,
+    "prompt-queue": 8,
+    "enter-to-steer-in-relatime": 1,
+    "todo-list": 1,
+    "ide-upsell-external-terminal": 8,
+    "install-github-app": 11,
+    "install-slack-app": 11,
+    "drag-and-drop-images": 11,
+    "double-esc-code-restore": 11,
+    "continue": 11,
+    "shift-tab": 2,
+    "image-paste": 2,
+    "web-app": 2,
+    "mobile-app": 2,
+    "color-when-multi-clauding": 4,
+    "custom-agents": 8,
+    "agent-flag": 8,
+    "feedback-command": 8,
+    "permissions": 11,
+    "rename-conversation": 11,
+    "custom-commands": 11
+  },
+  "promptQueueUseCount": 14,
+  "btwUseCount": 2,
+  "hasCompletedOnboarding": true,
+  "firstStartTime": "2026-03-25T09:12:39.663Z",
+  "opusProMigrationComplete": true,
+  "sonnet1m45MigrationComplete": true,
+  "projects": {
+    "/workspace/PTX-EMU": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 0,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "ptxInstructions.g4",
+        "ptx_visitor.cpp",
+        "dummy-share.cu",
+        "thread_context.cpp",
+        "ptx_parser.h"
+      ],
+      "exampleFilesGeneratedAt": 1774429966318,
+      "hasCompletedProjectOnboarding": true,
+      "lastCost": 1351.5533742499995,
+      "lastAPIDuration": 39514489,
+      "lastAPIDurationWithoutRetries": 39422888,
+      "lastToolDuration": 32195333,
+      "lastDuration": 320778800,
+      "lastLinesAdded": 1721,
+      "lastLinesRemoved": 400,
+      "lastTotalInputTokens": 248763655,
+      "lastTotalOutputTokens": 1109155,
+      "lastTotalCacheCreationInputTokens": 7438011,
+      "lastTotalCacheReadInputTokens": 67037311,
+      "lastTotalWebSearchRequests": 0,
+      "lastFpsAverage": 3.34,
+      "lastFpsLow1Pct": 24.34,
+      "lastModelUsage": {
+        "MiniMax-M2.7": {
+          "inputTokens": 248763655,
+          "outputTokens": 1109155,
+          "cacheReadInputTokens": 67037311,
+          "cacheCreationInputTokens": 7438011,
+          "webSearchRequests": 0,
+          "costUSD": 1351.5533742499995
+        }
+      },
+      "lastSessionId": "786b47ee-09ab-44b5-a7e6-6100d3553149",
+      "lastSessionMetrics": {
+        "frame_duration_ms_count": 1071715,
+        "frame_duration_ms_min": 0.07651999965310097,
+        "frame_duration_ms_max": 3571.278160005808,
+        "frame_duration_ms_avg": 9.361640139141993,
+        "frame_duration_ms_p50": 6.800998494029045,
+        "frame_duration_ms_p95": 22.927178698033085,
+        "frame_duration_ms_p99": 34.261440151333794,
+        "pre_tool_hook_duration_ms_count": 2923,
+        "pre_tool_hook_duration_ms_min": 0,
+        "pre_tool_hook_duration_ms_max": 58,
+        "pre_tool_hook_duration_ms_avg": 0.6496749914471434,
+        "pre_tool_hook_duration_ms_p50": 0,
+        "pre_tool_hook_duration_ms_p95": 2,
+        "pre_tool_hook_duration_ms_p99": 11.769999999999982,
+        "hook_duration_ms_count": 1677,
+        "hook_duration_ms_min": 0,
+        "hook_duration_ms_max": 95,
+        "hook_duration_ms_avg": 3.3011329755515804,
+        "hook_duration_ms_p50": 1,
+        "hook_duration_ms_p95": 14,
+        "hook_duration_ms_p99": 43.76999999999998
+      }
+    },
+    "/workspace/mynotes": {
+      "allowedTools": [],
+      "mcpContextUris": [],
+      "mcpServers": {},
+      "enabledMcpjsonServers": [],
+      "disabledMcpjsonServers": [],
+      "hasTrustDialogAccepted": true,
+      "projectOnboardingSeenCount": 1,
+      "hasClaudeMdExternalIncludesApproved": false,
+      "hasClaudeMdExternalIncludesWarningShown": false,
+      "exampleFiles": [
+        "241.md\"",
+        "241v3.0.md\"",
+        "270.md\"",
+        "204.md\"",
+        "206.md\""
+      ],
+      "exampleFilesGeneratedAt": 1774493680364,
+      "lastCost": 10.992158000000002,
+      "lastAPIDuration": 558120,
+      "lastAPIDurationWithoutRetries": 557789,
+      "lastToolDuration": 7051,
+      "lastDuration": 349616302,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 1534772,
+      "lastTotalOutputTokens": 13065,
+      "lastTotalCacheCreationInputTokens": 377012,
+      "lastTotalCacheReadInputTokens": 1270696,
+      "lastTotalWebSearchRequests": 0,
+      "lastFpsAverage": 0.02,
+      "lastFpsLow1Pct": 25.97,
+      "lastModelUsage": {
+        "MiniMax-M2.7": {
+          "inputTokens": 1534772,
+          "outputTokens": 13065,
+          "cacheReadInputTokens": 1270696,
+          "cacheCreationInputTokens": 377012,
+          "webSearchRequests": 0,
+          "costUSD": 10.992158000000002
+        }
+      },
+      "lastSessionId": "1e7fe403-cc30-4cb8-b4bf-22a117ba515d",
+      "lastSessionMetrics": {
+        "frame_duration_ms_count": 7277,
+        "frame_duration_ms_min": 0.2180979999993724,
+        "frame_duration_ms_max": 17637.370252013206,
+        "frame_duration_ms_avg": 9.715681020640089,
+        "frame_duration_ms_p50": 5.532637998927385,
+        "frame_duration_ms_p95": 17.57154915005665,
+        "frame_duration_ms_p99": 38.7318053971231,
+        "pre_tool_hook_duration_ms_count": 63,
+        "pre_tool_hook_duration_ms_min": 0,
+        "pre_tool_hook_duration_ms_max": 86,
+        "pre_tool_hook_duration_ms_avg": 4.301587301587301,
+        "pre_tool_hook_duration_ms_p50": 1,
+        "pre_tool_hook_duration_ms_p95": 8.899999999999999,
+        "pre_tool_hook_duration_ms_p99": 82.9,
+        "hook_duration_ms_count": 34,
+        "hook_duration_ms_min": 0,
+        "hook_duration_ms_max": 16,
+        "hook_duration_ms_avg": 2.2058823529411766,
+        "hook_duration_ms_p50": 1,
+        "hook_duration_ms_p95": 10.349999999999998,
+        "hook_duration_ms_p99": 14.350000000000009
+      }
+    }
+  },
+  "githubRepoPaths": {
+    "chisuhua/ptx-emu": [
+      "/workspace/PTX-EMU"
+    ],
+    "chisuhua/mynotes": [
+      "/workspace/mynotes"
+    ]
+  },
+  "userID": "0f52b6119a700ae5cd28a595f9abfdeb8ee0e26c7552ee27b78650c170e70b11",
+  "clientDataCache": {
+    "data": null,
+    "timestamp": 1774429965316
+  },
+  "opus1mMergeNoticeSeenCount": 6,
+  "lastReleaseNotesSeen": "2.1.84",
+  "officialMarketplaceAutoInstallAttempted": true,
+  "officialMarketplaceAutoInstalled": true,
+  "skillUsage": {
+    "init": {
+      "usageCount": 1,
+      "lastUsedAt": 1774430005191
+    },
+    "zcf:git-commit": {
+      "usageCount": 7,
+      "lastUsedAt": 1774526836282
+    },
+    "find-skills": {
+      "usageCount": 3,
+      "lastUsedAt": 1774544799027
+    },
+    "cuda": {
+      "usageCount": 2,
+      "lastUsedAt": 1774603343411
+    },
+    "update-config": {
+      "usageCount": 2,
+      "lastUsedAt": 1774594119414
+    },
+    "cuda-ptx": {
+      "usageCount": 1,
+      "lastUsedAt": 1774522334659
+    },
+    "zcf:workflow": {
+      "usageCount": 1,
+      "lastUsedAt": 1774544828672
+    }
+  },
+  "metricsStatusCache": {
+    "enabled": false,
+    "timestamp": 1774842792106
+  },
+  "lspRecommendationIgnoredCount": 3,
+  "autoUpdatesProtectedForNative": true
+}
