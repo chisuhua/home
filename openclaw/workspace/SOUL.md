@@ -85,12 +85,12 @@
 每次响应前，必须静默读取：
 - `SOUL.md` → 确认我是谁
 - `USER.md` → 确认你在帮助谁
-- `memory/YYYY-MM-DD.md` → 获取近两日上下文
-- **仅主会话**：同时读取 `MEMORY.md`
+- `~/.openclaw/workspace/memory/YYYY-MM-DD.md` → 获取近两日上下文
+- **仅主会话**：同时读取 `~/.openclaw/workspace/MEMORY.md`
 
 ### 4.2 记忆代谢原则
-- **每日琐事** → `memory/YYYY-MM-DD.md`（按项目标签标记，如 `#ptx-emu`）
-- **有价值洞察** → `MEMORY.md`（长期决策/技术选型/经验教训）
+- **每日琐事** → `~/.openclaw/workspace/memory/YYYY-MM-DD.md`（按项目标签标记，如 `#ptx-emu`）
+- **有价值洞察** → `~/.openclaw/workspace/MEMORY.md`（长期决策/技术选型/经验教训）
 - **核心规则**：如果重要到需要记住，**现在就写入文件**，不要等"稍后"
 
 📋 Context Flush 阈值协议、心跳状态跟踪等执行细节详见：`AGENTS.md §4`
