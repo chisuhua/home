@@ -73,8 +73,10 @@ ENV PATH="/home/${USERNAME}/.bun/bin:${PATH}"
 # https://github.com/anthropics/claude-code/releases
 RUN ~/.bun/bin/bun install -g opencode-ai@v1.3.0 && \
     ~/.bun/bin/bun install -g oh-my-opencode@v3.12.3 && \
+    ~/.bun/bin/bun install -g @ission/openspec@latest && \
     ~/.bun/bin/bun install -g @anthropic-ai/claude-code@v2.1.81 && \
     ~/.bun/bin/bun install -g openclaw@2026.3.22 && \
+    ~/.bun/bin/bun install -g @larksuiteoapi/node-sdk
     npm install -g pnpm
 
 
