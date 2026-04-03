@@ -1,30 +1,88 @@
 #!/bin/bash
+# build.sh - 构建 Docker 镜像（自动处理缓存破坏）
+# 
+# 用法：
+#   ./build.sh              # 普通构建（使用缓存）
+#   ./build.sh --force      # 强制构建（破坏缓存，获取最新包版本）
+#   ./build.sh --no-cache   # 完全无缓存构建
+#   ./build.sh --rebuild    # 重新构建并推送（如果有远程仓库）
+
 set -e
 
-# === 配置区（请修改为你自己的信息）===
-ACR_REGION="cn-shanghai"          # 华东上海
-ACR_NAMESPACE="your-namespace"    # 替换为你的 ACR 命名空间
-IMAGE_NAME="my-aidev"
-VERSION="v1.0.0"
+IMAGE_NAME="my-dev-env"
+DOCKERFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# 构建镜像
-echo "🏗️  Building Docker image..."
-docker build -t $IMAGE_NAME:$VERSION .
+# 解析参数
+FORCE_BUILD=false
+NO_CACHE=false
+REBUILD=false
 
-# 登录 ACR（使用 RAM 子账号 AccessKey）
-echo "🔑 Logging into ACR..."
-# ⚠️ 请先设置环境变量：export ACR_USERNAME=xxx ACR_PASSWORD=yyy
-# 或使用阿里云 CLI: aliyun cr GetAuthorizationToken
-echo "$ACR_PASSWORD" | docker login --username "$ACR_USERNAME" --password-stdin registry.$ACR_REGION.aliyuncs.com
+for arg in "$@"; do
+    case $arg in
+        --force)
+            FORCE_BUILD=true
+            shift
+            ;;
+        --no-cache)
+            NO_CACHE=true
+            shift
+            ;;
+        --rebuild)
+            REBUILD=true
+            shift
+            ;;
+        *)
+            echo "❌ 未知参数：$arg"
+            echo "用法：$0 [--force] [--no-cache] [--rebuild]"
+            exit 1
+            ;;
+    esac
+done
 
-# 打标签 & 推送
-FULL_TAG="registry.$ACR_REGION.aliyuncs.com/$ACR_NAMESPACE/$IMAGE_NAME:$VERSION"
-docker tag $IMAGE_NAME:$VERSION $FULL_TAG
-echo "📤 Pushing to ACR: $FULL_TAG"
-docker push $FULL_TAG
+echo "🔨 开始构建 Docker 镜像：$IMAGE_NAME"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# 同时推送 latest（可选）
-docker tag $IMAGE_NAME:$VERSION registry.$ACR_REGION.aliyuncs.com/$ACR_NAMESPACE/$IMAGE_NAME:latest
-docker push registry.$ACR_REGION.aliyuncs.com/$ACR_NAMESPACE/$IMAGE_NAME:latest
+# 构建命令
+BUILD_CMD="docker build"
 
-echo "✅ Done! Image available at: $FULL_TAG"
+if [ "$NO_CACHE" = true ]; then
+    echo "📌 模式：完全无缓存构建"
+    BUILD_CMD="$BUILD_CMD --no-cache"
+elif [ "$FORCE_BUILD" = true ]; then
+    echo "📌 模式：强制构建（破坏 bun 包缓存）"
+    CACHE_BUST=$(date +%Y%m%d)
+    BUILD_CMD="$BUILD_CMD --build-arg CACHE_BUST=$CACHE_BUST"
+    echo "📌 CACHE_BUST=$CACHE_BUST"
+else
+    echo "📌 模式：普通构建（使用 Docker 缓存）"
+fi
+
+BUILD_CMD="$BUILD_CMD -t $IMAGE_NAME $DOCKERFILE_DIR"
+
+echo ""
+echo "🚀 执行：$BUILD_CMD"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# 执行构建
+eval $BUILD_CMD
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ 构建完成！"
+echo ""
+echo "📋 启动容器："
+echo "   docker run -d --name dev-env $IMAGE_NAME"
+echo ""
+echo "📋 查看镜像："
+echo "   docker images | grep $IMAGE_NAME"
+echo ""
+
+# 如果是 rebuild 模式，推送到远程
+if [ "$REBUILD" = true ]; then
+    echo "📤 推送到远程仓库..."
+    # 根据实际远程仓库地址修改
+    # docker tag $IMAGE_NAME <your-registry>/my-dev-env:latest
+    # docker push <your-registry>/my-dev-env:latest
+    echo "⚠️  请配置远程仓库地址后取消注释推送命令"
+fi

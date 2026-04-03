@@ -69,15 +69,28 @@ RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/home/${USERNAME}/.bun/bin:${PATH}"
 
 # https://github.com/anomalyco/opencode
-# https://github.com/code-yeongyu/oh-my-openagent
+# https://github.com/code-yeongyu/oh-my-opencode
 # https://github.com/anthropics/claude-code/releases
-RUN ~/.bun/bin/bun install -g opencode-ai@v1.3.0 && \
-    ~/.bun/bin/bun install -g oh-my-opencode@v3.12.3 && \
-    ~/.bun/bin/bun install -g @ission/openspec@latest && \
-    ~/.bun/bin/bun install -g @anthropic-ai/claude-code@v2.1.81 && \
-    ~/.bun/bin/bun install -g openclaw@2026.3.22 && \
-    ~/.bun/bin/bun install -g @larksuiteoapi/node-sdk
-    npm install -g pnpm
+# 
+# 【缓存破坏机制】确保 @latest 包能真正更新：
+# 1. 使用 ARG CACHE_BUST 构建参数，需要更新时改变值：docker build --build-arg CACHE_BUST=$(date +%Y%m%d)
+# 2. 安装前清理 bun 缓存
+# 3. 使用 --force 强制重新获取
+#
+# 用法：
+#   - 自动更新：docker build --build-arg CACHE_BUST=$(date +%Y%m%d) -t my-dev-env .
+#   - 强制更新：docker build --no-cache -t my-dev-env .
+#
+ARG CACHE_BUST=1
+
+RUN ~/.bun/bin/bun cache clean && \
+    ~/.bun/bin/bun install -g opencode-ai@latest --force && \
+    ~/.bun/bin/bun install -g oh-my-opencode@latest --force && \
+    ~/.bun/bin/bun install -g @ission/openspec@latest --force && \
+    ~/.bun/bin/bun install -g @anthropic-ai/claude-code@latest --force && \
+    ~/.bun/bin/bun install -g openclaw@latest --force && \
+    ~/.bun/bin/bun install -g @larksuiteoapi/node-sdk@latest --force && \
+    npm install -g pnpm@latest --force
 
 
 #RUN mkdir -p ~/.opencode && \
