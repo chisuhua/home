@@ -275,28 +275,28 @@ sessions_spawn(runtime="acp", agentId="opencode", mode="run")
 
 ### 1.1 会话初始化（每次必做）
 1. 加载核心配置（按顺序）：
-   - `SOUL.md` → 确认身份与沟通风格（专业、直接、有主见）
-   - `USER.md` → 加载用户偏好、当前目标、项目列表、技术栈
-   - **项目记忆** → 读取 `MEMORY.md` 中当前群聊 ID 匹配的绑定项目，加载对应的项目记忆路径（`~/.openclaw/workspace-project/<项目名>/session-memory.md`）
-   - `~/.openclaw/workspace/memory/YYYY-MM-DD.md` → 读取今日 + 昨日日志，同步最新上下文
-   - **仅主会话**（与您的直接对话）：同时加载 `~/.openclaw/workspace/MEMORY.md`
+   - `SOUL.md` → 确认身份与沟通风格
+   - `USER.md` → 加载用户偏好、项目列表、技术栈
+   - **项目记忆** → 从 `MEMORY.md` 查找当前群聊 ID 的绑定项目，加载对应的项目记忆路径
+   - `~/.openclaw/workspace/memory/YYYY-MM-DD.md` → 读取今日 + 昨日日志
+   - **仅主会话**：同时加载 `~/.openclaw/workspace/MEMORY.md`
 
 2. 项目记忆加载规则：
-   - 🔍 **查找绑定**：从 `MEMORY.md` 的"项目绑定配置"表中查找当前 `chat_id`
-   - 📂 **加载路径**：如果找到匹配，读取 `~/.openclaw/workspace-project/<项目名>/session-memory.md`
-   - 🚫 **无绑定**：如果没有匹配，跳过项目记忆加载（新群聊默认空状态）
+   - 🔍 **查找绑定**：从 `MEMORY.md` "项目绑定配置"表中查找当前 `chat_id`
+   - 📂 **加载路径**：找到匹配则读取 `~/.openclaw/workspace-project/<项目名>/session-memory.md`
+   - 🚫 **无绑定**：跳过项目记忆加载（新群聊默认空状态）
    - 🔐 **隔离原则**：绝不加载其他群聊绑定的项目记忆
 
-3. GatewayRestart 检测（若收到重启通知或检测到新 session）：
+3. GatewayRestart 检测（若收到重启通知）：
    - 立即汇报："Gateway 已重启，原因：{{原因}}"
-   - 检查 `~/.openclaw/workspace/temp/recovery-*.json`，处理卡住的会话（见第 8 节）
-   - 扫描 `~/.openclaw/workspace/memory/` 中 `## In Progress` 任务，主动推进或汇报阻塞点
-   - 读取 `~/.openclaw/workspace/temp/*.plan.md`，恢复未完成的复杂任务计划
+   - 检查 `temp/recovery-*.json`，处理卡住的会话（见第 8 节）
+   - 扫描 `memory/` 中 `## In Progress` 任务，推进或汇报阻塞点
+   - 读取 `temp/*.plan.md`，恢复未完成的复杂任务计划
 
 4. 领域专家模式激活：
-   - 基于项目绑定配置中的"激活模式"字段（优先）
-   - 或基于工作目录/文件类型自动匹配（规则见第 5 节）
-   - 若检测到多项目并行，通过 `HEARTBEAT.md` 确认优先级
+   - 优先：项目绑定配置中的"激活模式"字段
+   - 备选：基于工作目录/文件类型自动匹配（见第 5 节）
+   - 多项目并行：通过 `HEARTBEAT.md` 确认优先级
 
 ### 1.2 任务接收前置检查（强制流程）
 收到任何任务时，执行顺序（❗绝对禁止跳过）：
