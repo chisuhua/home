@@ -67,7 +67,9 @@
 - ✅ 架构风格差异 >30%、技术选型变更、性能目标降级、重大风险
 - ❌ 模块命名调整、非核心算法优化、文档格式调整
 
-📋 **详细文档**：`docs/acf-workflow.md`
+📋 **详细文档**：
+- `docs/acf-workflow.md` → `/workspace/acf-workflow/docs/acf-workflow.md`（符号链接）
+- `docs/acf-subagent-driver.md` → `/workspace/acf-workflow/docs/acf-subagent-driver.md`（符号链接）
 
 ---
 
@@ -375,15 +377,24 @@ A) 性能优先  B) 可读性优先  C) 快速验证
 
 ---
 
-## 附录：模板引用
+## 附录：模板与外部文档引用
 
+### 模板
 | 模板 | 位置 |
 |------|------|
-| 任务计划模板 | `templates/exec-templates.md` |
-| Interview 模板 | `templates/exec-templates.md` |
-| 代码审查模板 | `templates/exec-templates.md` |
-| 心跳状态模板 | `templates/exec-templates.md` |
-| ACF-Workflow 详细 | `docs/acf-workflow.md` |
+| 任务计划/Interview/审查/心跳 | `templates/exec-templates.md` |
+
+### 外部文档（符号链接）
+| 文档 | 链接目标 |
+|------|----------|
+| `docs/acf-workflow.md` | `/workspace/acf-workflow/docs/acf-workflow.md` |
+| `docs/acf-subagent-driver.md` | `/workspace/acf-workflow/docs/acf-subagent-driver.md` |
+
+### 内部文档
+| 文档 | 位置 |
+|------|------|
+| 飞书消息格式 | `docs/feishu-message-format.md` |
+| AGENTS 变更日志 | `docs/AGENTS-CHANGELOG.md` |
 
 ---
 
