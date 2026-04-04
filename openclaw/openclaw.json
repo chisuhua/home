@@ -1,0 +1,365 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.31",
+    "lastTouchedAt": "2026-04-02T09:06:31.816Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-04-02T09:06:31.680Z",
+    "lastRunVersion": "2026.3.31",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "ui": {
+    "seamColor": "#00D4FF",
+    "assistant": {
+      "name": "DevMate",
+      "avatar": "🦊"
+    }
+  },
+  "acp": {
+    "enabled": true,
+    "dispatch": {
+      "enabled": true
+    },
+    "backend": "acpx",
+    "defaultAgent": "opencode",
+    "allowedAgents": [
+      "opencode",
+      "claude",
+      "codex"
+    ],
+    "maxConcurrentSessions": 4
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "bailian": {
+        "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+        "apiKey": "sk-sp-e0fb34a4c65a429fbd9e5c263a4d6f2e",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.5-plus",
+            "name": "qwen3.5-plus",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 1000000,
+            "maxTokens": 65536,
+            "compat": {
+              "thinkingFormat": "qwen"
+            }
+          },
+          {
+            "id": "qwen3-max-2026-01-23",
+            "name": "qwen3-max-2026-01-23",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 65536,
+            "compat": {
+              "thinkingFormat": "qwen"
+            }
+          },
+          {
+            "id": "qwen3-coder-next",
+            "name": "qwen3-coder-next",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 65536
+          },
+          {
+            "id": "qwen3-coder-plus",
+            "name": "qwen3-coder-plus",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 1000000,
+            "maxTokens": 65536
+          },
+          {
+            "id": "MiniMax-M2.5",
+            "name": "MiniMax-M2.5",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 196608,
+            "maxTokens": 32768
+          },
+          {
+            "id": "glm-5",
+            "name": "glm-5",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 202752,
+            "maxTokens": 16384,
+            "compat": {
+              "thinkingFormat": "qwen"
+            }
+          },
+          {
+            "id": "glm-4.7",
+            "name": "glm-4.7",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 202752,
+            "maxTokens": 16384,
+            "compat": {
+              "thinkingFormat": "qwen"
+            }
+          },
+          {
+            "id": "kimi-k2.5",
+            "name": "kimi-k2.5",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 32768,
+            "compat": {
+              "thinkingFormat": "qwen"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "bailian/qwen3.5-plus"
+      },
+      "models": {
+        "bailian/qwen3-coder-next": {
+        },
+        "bailian/qwen3.5-plus": {
+        },
+        "bailian/qwen3-coder-plus": {
+        },
+        "bailian/qwen3-max-2026-01-23": {
+        },
+        "bailian/kimi-k2.5": {
+        },
+        "bailian/MiniMax-M2.5": {
+        },
+        "bailian/glm-4.7": {
+        }
+      },
+      "memorySearch": {
+        "enabled": false
+      },
+      "compaction": {
+        "mode": "safeguard"
+      }
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "cto",
+        "name": "cto",
+        "workspace": "/home/ubuntu/.openclaw/workspace-cto",
+        "agentDir": "/home/ubuntu/.openclaw/agents/cto/agent",
+        "model": "bailian/kimi-k2.5"
+      },
+      {
+        "id": "reviewer",
+        "name": "Code Reviewer",
+        "model": "bailian/qwen3.5-plus"
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "feishu",
+        "accountId": "DevMate"
+      }
+    },
+    {
+      "agentId": "cto",
+      "match": {
+        "channel": "feishu",
+        "accountId": "CTO"
+      }
+    }
+  ],
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "threadBindings": {
+        "enabled": true,
+        "spawnAcpSessions": true,
+        "label": "OpenCode"
+      },
+      "webchat": {
+        "threadBindings": {
+          "enabled": true,
+          "spawnAcpSessions": true
+        }
+      },
+      "connectionMode": "websocket",
+      "renderMode": "auto",
+      "typingIndicator": true,
+      "domain": "feishu",
+      "defaultAccount": "DevMate",
+      "streaming": "true",
+      "markdown": {
+        "mode": "native",
+        "tableMode": "simple"
+      },
+      "replyInThread": "enabled",
+      "resolveSenderNames": true,
+      "accounts": {
+        "DevMate": {
+          "appId": "cli_a94fd7fbd3799cbb",
+          "appSecret": "FCgyQNPnBMT9h1KuASmJncEcZRjkJTu7",
+          "botName": "DevMate",
+          "groupPolicy": "open",
+          "dmPolicy": "open",
+          "requireMention": false,
+          "allowFrom": [
+            "*"
+          ]
+        },
+        "CTO": {
+          "appId": "cli_a9466f0759bbdcd1",
+          "appSecret": "SIXtJaZY5XF5V7LQqcMdGwfWC5N8ACRC",
+          "botName": "CTO",
+          "groupPolicy": "open",
+          "dmPolicy": "open",
+          "requireMention": true,
+          "allowFrom": [
+            "*"
+          ]
+        },
+        "default": {
+          "groupPolicy": "open",
+          "dmPolicy": "open",
+          "requireMention": true,
+          "allowFrom": [
+            "*"
+          ]
+        }
+      }
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "lan",
+    "controlUi": {
+      "allowedOrigins": [
+        "http://localhost:18789",
+        "http://127.0.0.1:18789",
+        "http://0.0.0.1:18789"
+      ]
+    },
+    "auth": {
+      "mode": "token",
+      "token": "0cccbedfb661cefb0cea5ad3b866b75d1106fdcdccc12fdd",
+      "password": "0cccbedfb661cefb0cea5ad3b866b75d1106fdcdccc12fdd"
+    }
+  },
+  "skills": {
+    "load": {
+      "extraDirs": [
+        "~/.agents/skills",
+        "/workspace/acf-workflow/skills"
+      ]
+    }
+  },
+  "plugins": {
+    "entries": {
+      "acpx": {
+        "enabled": true,
+        "config": {
+          "permissionMode": "approve-all",
+          "nonInteractivePermissions": "deny"
+        }
+      },
+      "feishu": {
+        "enabled": true
+      }
+    }
+  },
+  "tools": {
+    "profile": "full",
+    "exec": {
+      "ask": "off",
+      "security": "full",
+      "host": "gateway"
+    }
+  }
+}

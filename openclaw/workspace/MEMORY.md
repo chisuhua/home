@@ -11,7 +11,8 @@
 | 群聊/会话 ID | 绑定项目 | 激活模式 | 项目记忆路径 | 绑定时间 |
 |-------------|---------|---------|-------------|----------|
 | `chat:oc_db7e1318695cae65010c5a563471d681` | **PTX-EMU** | PTX-EMU 专家模式 | `~/.openclaw/workspace-project/PTX-EMU/session-memory.md` | 2026-04-02 |
-| `chat:oc_4f9dc3f24cd00a878f759118577aae4f` | **CppHDL** | CppHDL 专家模式 | `~/.openclaw/workspace-project/CppHDL/session-memory.md` | 2026-04-03 |
+| `chat:oc_4f9dc3f24cd00a878f759118577aae4f` | **AgentCore** | AgentCore 专家模式 | `~/.openclaw/workspace-project/AgentCore/session-memory.md` | 2026-04-04 |
+| `chat:oc_fb2f4d1b53f1637f11f41116d7328de6` | **TaskRunner** | 通用任务模式 | `~/.openclaw/workspace-project/TaskRunner/session-memory.md` | 2026-04-04 |
 
 ---
 
