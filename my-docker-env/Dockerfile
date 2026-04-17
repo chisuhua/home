@@ -88,10 +88,9 @@ RUN ~/.bun/bin/bun cache clean && \
     ~/.bun/bin/bun install -g oh-my-opencode@latest --force && \
     ~/.bun/bin/bun install -g @ission/openspec@latest --force && \
     ~/.bun/bin/bun install -g @anthropic-ai/claude-code@latest --force && \
-    ~/.bun/bin/bun install -g openclaw@latest --force && \
-    ~/.bun/bin/bun install -g @larksuiteoapi/node-sdk@latest --force && \
-    npm install -g pnpm@latest --force
-
+    npm install -g pnpm@latest --force && \
+    ~/.bun/bin/bun cache clean && \
+    curl -fsSL https://openclaw.bot/install.sh | bash
 
 #RUN mkdir -p ~/.opencode && \
 #    echo '{\n  \"ui\": \"cli\",\n  \"providers\": {\n    \"claude\": false,\n    \"gemini\": false,\n    \"copilot\": false\n  }\n}' > ~/.opencode/config.json
@@ -107,14 +106,14 @@ RUN mkdir -p ~/.local/bin && \
 
 ENV PATH="/home/${USERNAME}/.local/bin:/home/${USERNAME}/.bun/bin:/home/${USERNAME}/venv/bin:/home/${USERNAME}/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-EXPOSE 8080
+EXPOSE 8001
 EXPOSE 18789
 EXPOSE 50080
 
 
 RUN python3 -m venv $HOME/venv && \
     $HOME/venv/bin/pip install --upgrade pip && \
-    $HOME/venv/bin/pip install compiledb && \
+    $HOME/venv/bin/pip install compiledb PyMuPDF python-docx requests beautifulsoup4 pdfplumber openpyxl && \
     $HOME/venv/bin/pip cache purge
 
 WORKDIR /workspace

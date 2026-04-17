@@ -22,15 +22,12 @@ echo "🦊 启动所有服务..."
 
 # 1. 启动 OpenClaw Gateway (端口 18789)
 echo "   [1/3] 启动 OpenClaw..."
-#docker exec $CONTAINER tmux kill-session -t openclaw 2>/dev/null || true
-#docker exec -d $CONTAINER tmux new -d -s openclaw "openclaw gateway"
 docker exec -it $CONTAINER tmux new -s openclaw "openclaw gateway"
-#docker exec -it $CONTAINER tmux new -s openclaw "openclaw gateway; exec bash"
-#docker exec -d $CONTAINER sh -c "tmux new -s openclaw -d 'openclaw gateway start' || (tmux kill-session -t openclaw 2>/dev/null; tmux new -s openclaw 'openclaw gateway start')"
+sleep 1
 
 # 2. 启动 Code-Server (使用统一 token 密码认证)
 echo "   [2/3] 启动 Code-Server..."
-docker exec -d $CONTAINER tmux new -d -s code-server "PASSWORD=$AUTH_TOKEN code-server --bind-addr 0.0.0.0:8080 --auth none"
+docker exec -d $CONTAINER tmux new -d -s code-server "PASSWORD=$AUTH_TOKEN code-server --bind-addr 0.0.0.0:8001 --auth none"
 
 # 3. 启动 OpenCode Server (使用统一 token 认证)
 echo "   [3/3] 启动 OpenCode..."
@@ -47,7 +44,7 @@ echo "   ┌─────────────┬────────�
 echo "   │ 服务        │ 访问链接                                                     │"
 echo "   ├─────────────┼────────────────────────────────────────────────────────────┤"
 echo "   │ OpenClaw    │ http://localhost:18789#token=$AUTH_TOKEN                   │"
-echo "   │ Code-Server │ http://localhost:8080/?password=$AUTH_TOKEN                │"
+echo "   │ Code-Server │ http://localhost:8001/?password=$AUTH_TOKEN                │"
 echo "   │ OpenCode    │ http://opencode:$AUTH_TOKEN@localhost:50080                │"
 echo "   └─────────────┴────────────────────────────────────────────────────────────┘"
 echo ""

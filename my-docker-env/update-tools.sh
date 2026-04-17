@@ -7,8 +7,8 @@ set -e
 echo "🔄 更新全局工具到最新版本..."
 
 # 先清理缓存，确保获取最新版本
-echo "🧹 清理缓存..."
-~/.bun/bin/bun cache clean
+#echo "🧹 清理缓存..."
+#~/.bun/bin/bun cache clean
 
 # 更新 bun 全局包（使用 --force 强制重新获取）
 echo "📦 更新 opencode-ai..."
@@ -18,19 +18,22 @@ echo "📦 更新 oh-my-opencode..."
 ~/.bun/bin/bun install -g oh-my-opencode@latest --force
 
 echo "📦 更新 @ission/openspec..."
-~/.bun/bin/bun install -g @ission/openspec@latest --force
+#~/.bun/bin/bun install -g @ission/openspec@latest --force
+~/.bun/bin/bun install -g openspec@latest --force
 
 echo "📦 更新 @anthropic-ai/claude-code..."
 ~/.bun/bin/bun install -g @anthropic-ai/claude-code@latest --force
 
 echo "📦 更新 openclaw..."
-~/.bun/bin/bun install -g openclaw@latest --force
+#~/.bun/bin/bun install -g openclaw@latest --force
 
-echo "📦 更新 @larksuiteoapi/node-sdk..."
-~/.bun/bin/bun install -g @larksuiteoapi/node-sdk@latest --force
+#echo "📦 更新 @larksuiteoapi/node-sdk..."
+#~/.bun/bin/bun install -g @larksuiteoapi/node-sdk@latest --force
 
 echo "📦 更新 pnpm..."
 npm install -g pnpm@latest --force
+curl -fsSL https://openclaw.bot/install.sh | bash
+
 
 # 显示版本信息
 echo ""
