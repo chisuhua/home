@@ -187,7 +187,7 @@ project: C++ Hybrid Development
 9. **Librarian** 生成变更摘要文档 `docs/migration/modernize_001.md`
 10. **Sisyphus** 汇总结果，提示用户审查高风险修改
 
-**总耗时**：~5 分钟（并行加速）  
+**总耗时**：~5 分钟（并行加速）
 **总成本**：~$0.08（主要使用 MiniMax）
 
 ## 工作流 2：紧急调试（Critical Debugging）
@@ -203,7 +203,7 @@ project: C++ Hybrid Development
 6. **Atlas** 快速验证修复（编译 + 单元测试）
 7. **Quick** 生成单行解释给用户："第 145 行的 conn 指针已在第 80 行释放，建议改为 shared_ptr"
 
-**总耗时**：~2 分钟  
+**总耗时**：~2 分钟
 **总成本**：~$0.05（使用 MiniMax-M2.7 深度分析）
 
 ## 工作流 3：架构分析（Architecture Analysis）
@@ -217,8 +217,62 @@ project: C++ Hybrid Development
 4. **Librarian** 读取图表（vision 能力），生成文字版架构文档 `docs/architecture/overview.md`
 5. **Sisyphus** 向用户展示图表和文档摘要
 
-**总耗时**：~3 分钟（依赖预生成索引）  
+**总耗时**：~3 分钟（依赖预生成索引）
 **总成本**：~$0.03（主要使用 Explore 索引，Prometheus 轻量分析）
+
+---
+
+# TaskRunner 项目文档速查表
+
+## 项目结构说明
+
+```
+TaskRunner/
+└── UsrLinuxEmu → ../UsrLinuxEmu/     # 符号链接（两级访问）
+    └── docs/                          # UsrLinuxEmu canonical 文档
+        ├── ADR-015-gpu-ioctl-unification.md
+        ├── ADR-016-gpu-memory-domain.md
+        ├── ADR-017-gpfifo-queue-abstraction.md
+        ├── ADR.md
+        └── 05-advanced/
+            └── gpu_driver_architecture.md
+```
+
+**重要原则**: UsrLinuxEmu（驱动实现者）定义 canonical 接口，TaskRunner 通过符号链接访问。**禁止在 TaskRunner 目录下创建/修改 UsrLinuxEmu 的文档副本**。
+
+## UsrLinuxEmu 文档速查表（TaskRunner 开发者必读）
+
+| 文档路径 | 说明 | 使用场景 |
+|---------|------|---------|
+| `TaskRunner/UsrLinuxEmu/docs/ADR.md` | ADR 索引 | 查看所有架构决策记录 |
+| `TaskRunner/UsrLinuxEmu/docs/ADR-015-gpu-ioctl-unification.md` | **GPU IOCTL 统一** | 必读 — System C 是 canonical 接口 |
+| `TaskRunner/UsrLinuxEmu/docs/ADR-016-gpu-memory-domain.md` | Memory Domain 模型 | 使用 `GPU_IOCTL_ALLOC_BO` 时参考 |
+| `TaskRunner/UsrLinuxEmu/docs/ADR-017-gpfifo-queue-abstraction.md` | GPFIFO/Queue 抽象 | Phase 2 多队列开发参考 |
+| `TaskRunner/UsrLinuxEmu/docs/05-advanced/gpu_driver_architecture.md` | GPU 驱动架构文档 | 理解 UsrLinuxEmu 整体架构 |
+| `TaskRunner/UsrLinuxEmu/docs/00_UsrLinuxEmu_Interface/DOC-01-ioctl-api-spec.md` | IOCTL API 规格 | 旧版接口参考（已废弃 System A/B） |
+| `TaskRunner/UsrLinuxEmu/docs/02-core/architecture.md` | UsrLinuxEmu 核心架构 | 理解 VFS/插件/设备抽象 |
+| `TaskRunner/UsrLinuxEmu/docs/06-reference/api-reference.md` | API 参考 | UsrLinuxEmu 内部 API 查阅 |
+
+## 快速访问路径
+
+```bash
+# 从 TaskRunner 访问 UsrLinuxEmu 文档
+cat TaskRunner/UsrLinuxEmu/docs/ADR-015-gpu-ioctl-unification.md
+
+# 查看 canonical 接口头文件
+cat TaskRunner/UsrLinuxEmu/plugins/gpu_driver/shared/gpu_ioctl.h
+```
+
+## 符号链接验证
+
+```bash
+# 验证符号链接是否正常
+if [ ! -L "TaskRunner/UsrLinuxEmu" ]; then
+    echo "❌ 符号链接断裂！"
+    exit 1
+fi
+echo "✅ UsrLinuxEmu 符号链接正常"
+```
 
 ---
 
