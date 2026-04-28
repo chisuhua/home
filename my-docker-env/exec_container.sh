@@ -1,2 +1,2 @@
-name=aidev2
-docker exec -it $name bash
+name=openclaw
+docker exec --user ubuntu -it $name bash

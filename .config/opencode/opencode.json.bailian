@@ -1,0 +1,358 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "snapshot": false,
+  "plugin": [
+    "oh-my-openagent",
+    "opencode-supermemory",
+    "opencode-pty",
+    "@zenobius/opencode-skillful"
+  ],
+  "instructions": [
+    "~/.config/opencode/agents/AGENTS.md",
+    "~/.config/opencode/plugins/shell-strategy/shell_strategy.md"
+  ],
+  "permission": {
+    "read": "allow",
+    "edit": "allow",
+    "bash": "allow",
+    "grep": "allow",
+    "glob": "allow",
+    "list": "allow",
+    "lsp": "allow",
+    "skill": "allow",
+    "todowrite": "allow",
+    "todoread": "allow",
+    "question": "allow",
+    "webfetch": "allow",
+    "websearch": "allow"
+  },
+  "model": "minimax/MiniMax-M2.7",
+  "small_model": "bailian-coding-plan/qwen3-coder-plus",
+  "default_agent": "sisyphus",
+  "agent": {
+    "sisyphus": {
+      "description": "主编排器 - 复杂决策与路由（最强推理能力）— 代码质量 95 分",
+      "provider_chain": [
+        "bailian-coding-plan/qwen3.6-plus",
+        "bailian-coding-plan/qwen3.5-plus",
+        "bailian-coding-plan/qwen3.5-flash",
+        "minimax/MiniMax-M2.7",
+        "bailian-coding-plan/qwen3-coder-plus"
+      ],
+      "constraints": {
+        "temperature": 0.1,
+        "max_tokens": 32768
+      }
+    },
+    "prometheus": {
+      "description": "规划师 - 架构分析与计划生成（长上下文理解）— 质量优先",
+      "provider_chain": [
+        "bailian-coding-plan/qwen3.5-plus",
+        "bailian-coding-plan/qwen3.6-plus",
+        "minimax/MiniMax-M2.7",
+        "bailian-coding-plan/qwen3-coder-plus"
+      ],
+      "constraints": {
+        "temperature": 0.3,
+        "max_tokens": 65536
+      }
+    },
+    "atlas": {
+      "description": "执行者 - 批量重构与代码生成（高输出 token）— 速度优先 (1.82s)",
+      "provider_chain": [
+        "minimax/MiniMax-M2.7",
+        "bailian-coding-plan/qwen3-coder-plus",
+        "bailian-coding-plan/qwen3-max",
+        "bailian-coding-plan/MiniMax-M2.5"
+      ],
+      "constraints": {
+        "temperature": 0.3,
+        "max_tokens": 65536
+      }
+    },
+    "hephaestus": {
+      "description": "深度工作者 - 复杂 C++ 实现与调试 — 双模型交叉审查 (qwen3-coder-plus 88 分 + MiniMax-M2.7 92 分)",
+      "provider_chain": [
+        "minimax/MiniMax-M2.7",
+        "bailian-coding-plan/qwen3-coder-plus",
+        "bailian-coding-plan/qwen3.5-plus",
+        "bailian-coding-plan/qwen3-coder-next"
+      ],
+      "constraints": {
+        "temperature": 0.1,
+        "max_tokens": 65536
+      }
+    },
+    "explore": {
+      "description": "代码搜索 - 快速定位与轻量分析 — 最快响应 (1.10s qwen3-max / 1.82s qwen3-coder-next)",
+      "provider_chain": [
+        "bailian-coding-plan/qwen3-max",
+        "bailian-coding-plan/qwen3-coder-plus",
+        "bailian-coding-plan/qwen3-max-2026-01-23",
+        "bailian-coding-plan/kimi-k2.5"
+      ],
+      "constraints": {
+        "temperature": 0.1,
+        "max_tokens": 16384
+      }
+    },
+    "librarian": {
+      "description": "文档专家 - API 理解与注释生成 — kimi-k2.5 文档理解最佳 (82 分)",
+      "provider_chain": [
+        "bailian-coding-plan/kimi-k2.5",
+        "bailian-coding-plan/qwen3-coder-plus",
+        "bailian-coding-plan/qwen3.6-plus"
+      ],
+      "constraints": {
+        "temperature": 0.4,
+        "max_tokens": 32768
+      }
+    },
+    "quick": {
+      "description": "快速查询/补全（低成本、低延迟）— 最低延迟 (1.10s qwen3-max)",
+      "provider_chain": [
+        "bailian-coding-plan/qwen3-max",
+        "bailian-coding-plan/qwen3-coder-plus",
+        "bailian-coding-plan/qwen3-max-2026-01-23"
+      ],
+      "constraints": {
+        "temperature": 0.5,
+        "max_tokens": 4096
+      }
+    }
+  },
+  "watcher": {
+    "ignore": [
+      "**/node_modules/**",
+      "**/build/**",
+      "**/.git/**",
+      "**/*.log",
+      "**/*.bak",
+      "**/__pycache__/**",
+      "**/*.pyc",
+      "**/venv/**",
+      "**/.venv/**",
+      "**/dist/**",
+      "**/out/**"
+    ]
+  },
+  "provider": {
+    "kimi-code": {
+      "npm": "@ai-sdk/anthropic",
+      "name": "kimi-code",
+      "options": {
+        "baseURL": "https://api.kimi.com/coding/v1",
+        "apiKey": "sk-kimi-EoeCdgjLAcXJdUeq9vovLSWhOkitEKzWbEgN1CHhJtnmKQgfQxjkbmyJjhgw4idT"
+      },
+      "models": {
+        "kimi-for-coding-thinking": {
+          "name": "kimi-for-coding-thinking",
+          "contextWindow": 262144,
+          "maxTokens": 32768,
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8192
+            }
+          }
+        },
+        "kimi-for-coding": {
+          "name": "kimi-for-coding",
+          "contextWindow": 262144,
+          "maxTokens": 32768
+        }
+      }
+    },
+    "minimax": {
+      "npm": "@ai-sdk/anthropic",
+      "options": {
+        "baseURL": "https://api.minimaxi.com/anthropic/v1",
+        "apiKey": "sk-cp-9kxXVZxjL8WgTODQD5tbNYgAQdop7_FMDfqQYp59LNMcswWTTa_onzrWykHSD1nUcrVrf8qDtJ4fzOkXYfTcLhJdbySCbM0-pjGmLshKBwuQRh0wUnjoIjw"
+      },
+      "models": {
+        "MiniMax-M2.7": {
+          "name": "MiniMax-M2.7"
+        }
+      }
+    },
+    "bailian-coding-plan": {
+      "npm": "@ai-sdk/anthropic",
+      "name": "Model Studio Coding Plan",
+      "options": {
+        "baseURL": "https://coding.dashscope.aliyuncs.com/apps/anthropic/v1",
+        "apiKey": "sk-sp-e0fb34a4c65a429fbd9e5c263a4d6f2e"
+      },
+      "models": {
+        "qwen3.6-plus": {
+            "name": "Qwen3.6 Plus",
+            "modalities": {
+                "input": ["text", "image"],
+                "output": ["text"]
+            },
+            "options": {
+                "thinking": {
+                    "type": "enabled",
+                    "budgetTokens": 8192
+                }
+            },
+            "limit": {
+                "context": 1000000,
+                "output": 65536
+            }
+        },
+        "qwen3.5-plus": {
+          "name": "Qwen3.5 Plus",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8192
+            }
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 65536
+          }
+        },
+        "qwen3-max-2026-01-23": {
+          "name": "Qwen3 Max 2026-01-23",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
+        },
+        "qwen3-coder-next": {
+          "name": "Qwen3 Coder Next",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 65536
+          }
+        },
+        "qwen3-coder-plus": {
+          "name": "Qwen3 Coder Plus",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 65536
+          }
+        },
+        "MiniMax-M2.5": {
+          "name": "MiniMax M2.5",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8192
+            }
+          },
+          "limit": {
+            "context": 196608,
+            "output": 24576
+          }
+        },
+        "glm-5": {
+          "name": "GLM-5",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8192
+            }
+          },
+          "limit": {
+            "context": 202752,
+            "output": 16384
+          }
+        },
+        "glm-4.7": {
+          "name": "GLM-4.7",
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8192
+            }
+          },
+          "limit": {
+            "context": 202752,
+            "output": 16384
+          }
+        },
+        "kimi-k2.5": {
+          "name": "Kimi K2.5",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8192
+            }
+          },
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
+        }
+      }
+    }
+  }
+}

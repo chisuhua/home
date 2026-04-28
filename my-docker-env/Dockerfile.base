@@ -1,0 +1,122 @@
+FROM nvidia/cuda:13.0.2-devel-ubuntu24.04 AS base
+
+# 设置时区 & 非交互式安装
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=Asia/Shanghai \
+    LANG=C.UTF-8 \
+    PYTHONUNBUFFERED=1 \
+    NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
+
+RUN sed -i 's|http://.*.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list && \
+    sed -i 's|http://security.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list
+
+
+# 【修改点 1】安装系统基础工具
+# 新增了: cmake-curses-gui clang lldb lld clangd
+# 移除了末尾重复的 default-jdk 安装，统一在这里处理
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    apt-get update && \
+    apt-get install -y \
+        curl wget git vim nano htop tree \
+        build-essential cmake cmake-curses-gui g++ gdb valgrind \
+        clang lldb lld clangd \
+        python3 python3-pip python3-venv python3-full \
+        tmux unzip zip \
+        libssl-dev \
+        ca-certificates gnupg \
+        pkg-config libx11-dev libxkbfile-dev libsecret-1-dev \
+        sqlite3 jq \
+        default-jdk \
+        sudo ripgrep \
+        ccache && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && \
+    sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg  && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && \
+    apt-get install -y nodejs && \
+    apt-get install -y gh && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz && \
+    tar -C /opt -xzf nvim-linux-x86_64.tar.gz && \
+    ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim && \
+    ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/vim && \
+    rm nvim-linux-x86_64.tar.gz
+
+RUN curl -fsSL --retry 5 --retry-delay 5 https://code-server.dev/install.sh | sh 
+
+# 切换到普通用户
+ARG USERNAME=ubuntu
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+RUN usermod -aG sudo ubuntu
+RUN echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    echo 'Defaults:ubuntu !requiretty' >> /etc/sudoers
+
+USER $USERNAME
+WORKDIR /home/$USERNAME
+
+RUN python3 -m venv $HOME/venv && \
+    $HOME/venv/bin/pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple && \
+    $HOME/venv/bin/pip install compiledb PyMuPDF python-docx requests beautifulsoup4 pdfplumber openpyxl -i https://pypi.tuna.tsinghua.edu.cn/simple && \
+    $HOME/venv/bin/pip cache purge
+
+RUN curl -fsSL https://bun.sh/install | bash
+
+RUN mkdir -p /home/${USERNAME}/.npm-global && \
+    npm config set prefix "/home/${USERNAME}/.npm-global"
+
+ENV PATH="/home/${USERNAME}/.local/bin:/home/${USERNAME}/.bun/bin:/home/${USERNAME}/venv/bin:/home/${USERNAME}/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+WORKDIR /workspace
+
+CMD ["tail", "-f", "/dev/null"]
+
+
+FROM base AS app
+
+ARG USERNAME=ubuntu
+ENV NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
+
+# https://github.com/anomalyco/opencode
+# https://github.com/code-yeongyu/oh-my-opencode
+# https://github.com/anthropics/claude-code/releases
+# 
+# 【缓存破坏机制】确保 @latest 包能真正更新：
+# 1. 使用 ARG CACHE_BUST 构建参数，需要更新时改变值：docker build --build-arg CACHE_BUST=$(date +%Y%m%d)
+# 2. 安装前清理 bun 缓存
+# 3. 使用 --force 强制重新获取
+#
+# 用法：
+#   - 自动更新：docker build --build-arg CACHE_BUST=$(date +%Y%m%d) -t my-dev-env .
+#   - 强制更新：docker build --no-cache -t my-dev-env .
+#
+ARG CACHE_BUST=1
+
+RUN ~/.bun/bin/bun install -g opencode-ai@latest --force && \
+    ~/.bun/bin/bun install -g oh-my-opencode@latest --force && \
+    ~/.bun/bin/bun install -g @anthropic-ai/claude-code@latest --force 
+
+ENV PNPM_HOME="/home/${USERNAME}/.npm-global/bin"
+RUN npm install -g pnpm@latest && \
+    pnpm add -g openclaw@latest --registry=https://registry.npmmirror.com
+
+#RUN mkdir -p ~/.ssh && \
+#    ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts && \
+#    chmod 600 ~/.ssh/known_hosts
+
+
+RUN mkdir -p ~/.local/bin && \
+    ln -sf ~/.bun/bin/opencode ~/.local/bin/opencode 2>/dev/null || true && \
+    ln -sf ~/.bun/bin/claude ~/.local/bin/claude 2>/dev/null || true
+
+
+
+EXPOSE 8001 18789 50080
+
+
+CMD ["tail", "-f", "/dev/null"]
+

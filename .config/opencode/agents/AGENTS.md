@@ -154,11 +154,11 @@ project: C++ Hybrid Development
 
 | 场景 | 策略 | 模型选择 | 预估成本 |
 |------|------|---------|---------|
-| **快速查询**（< 50K context） | 直接回答，无委派 | Quick（glm-4.7） | ~$0.001 |
-| **单文件修改**（50K-100K） | 加载 Skill，单次调用 | Atlas（minimax-m2.5） | ~$0.01-0.02 |
-| **中等重构**（100K-200K，3-5 文件） | 并行 Atlas，批量处理 | Atlas（minimax-m2.5）× 3 | ~$0.03-0.05 |
-| **复杂分析**（> 200K） | 分片处理，Prometheus 规划 | Prometheus（kimi-k2.5） | ~$0.05-0.10 |
-| **深度优化**（模板元编程） | Hephaestus 专注处理 | Hephaestus（qwen3-coder-plus） | ~$0.08-0.15 |
+| **快速查询**（< 50K context） | 直接回答，无委派 | Quick（qwen3.5-flash） | ~$0.001 |
+| **单文件修改**（50K-100K） | 加载 Skill，单次调用 | Atlas（minimax-m2.7） | ~$0.01-0.02 |
+| **中等重构**（100K-200K，3-5 文件） | 并行 Atlas，批量处理 | Atlas（MiniMax-m2.7）× 3 | ~$0.03-0.05 |
+| **复杂分析**（> 200K） | 分片处理，Prometheus 规划 | Prometheus（MiniMax-M2.7） | ~$0.05-0.10 |
+| **深度优化**（模板元编程） | Hephaestus 专注处理 | Hephaestus（MiniMax-M2.7） | ~$0.08-0.15 |
 
 **成本控制规则**：
 - 上下文 > 300K 时必须分片（Sisyphus 强制执行）
@@ -179,7 +179,7 @@ project: C++ Hybrid Development
 3. **Prometheus** 输出计划 `plans/modernize_001.json`（标记 5 个文件，其中 2 个为高风险）
 4. **Sisyphus** 委派 **Atlas** 执行计划
 5. **Atlas** 并行处理 3 个低风险文件（加载 `cpp-modernize` skill）：
-   - 使用 minimax-m2.5 生成修改
+   - 使用 MiniMax-M2.7 生成修改
    - 每个文件执行 clang-tidy + 编译验证
 6. **Atlas** 将 2 个高风险文件委派给 **Hephaestus**（涉及多态删除）
 7. **Hephaestus** 详细分析所有权，生成安全重构方案（含自定义删除器）
@@ -204,7 +204,7 @@ project: C++ Hybrid Development
 7. **Quick** 生成单行解释给用户："第 145 行的 conn 指针已在第 80 行释放，建议改为 shared_ptr"
 
 **总耗时**：~2 分钟  
-**总成本**：~$0.05（使用 qwen3-coder-plus 深度分析）
+**总成本**：~$0.05（使用 MiniMax-M2.7 深度分析）
 
 ## 工作流 3：架构分析（Architecture Analysis）
 

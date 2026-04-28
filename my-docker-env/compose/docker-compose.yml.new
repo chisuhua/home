@@ -35,7 +35,6 @@ services:
       # 工作空间
       - ~/workspace:/workspace:rw
       - /mnt/nas/project:/workspace/project:rw
-    #command: ["tail", "-f", "/dev/null"]
     command: ["openclaw", "gateway", "start"]
     deploy:
       resources:
@@ -45,12 +44,6 @@ services:
         reservations:
           memory: "512m"
           cpus: "0.25"
-
-  # ============================================
-  # PKGM-Manager（用户 Agent 管理）
-  # ============================================
-  # PKGM-Manager 运行在 openclaw 容器内（作为 Agent 实例）
-  # 通过 gateway config.patch 注册
 
   # ============================================
   # PKGM-Web 前端（Next.js）
@@ -64,15 +57,16 @@ services:
     ports:
       - "127.0.0.1:3001:3001"
     volumes:
-      # 只读挂载所有用户目录
       - /mnt/nas/project/PKGM/users:/workspace/project/PKGM/users:ro
     env_file:
-      - ./.env  # JWT_SECRET
+      - ./.env
     environment:
       - NODE_ENV=production
       - PORT=3001
       - PKGM_USERS_DIR=/workspace/project/PKGM/users
       - MULTI_USER=true
+      - INDEXER_HOST=pkgm-indexer
+      - INDEXER_PORT=3004
     depends_on:
       - openclaw
     networks:
@@ -82,7 +76,6 @@ services:
         limits:
           memory: "512m"
           cpus: "1.0"
-
 
   # ============================================
   # PKGM-Web Indexer（索引服务）
@@ -94,15 +87,15 @@ services:
     container_name: pkgm-indexer
     restart: unless-stopped
     volumes:
-      # 读写挂载用户目录（与 OpenClaw 共享 NAS）
       - /mnt/nas/project/PKGM/users:/workspace/project/PKGM/users:rw
     env_file:
-      - ./.env  # JWT_SECRET（可选，如果 Indexer 需要验证）
+      - ./.env
     environment:
       - NODE_ENV=production
       - PKGM_USERS_DIR=/workspace/project/PKGM/users
       - WEB_HOST=pkgm-web
       - WEB_PORT=3001
+      - INDEXER_PORT=3004
       - MULTI_USER=true
     depends_on:
       - openclaw
@@ -118,4 +111,3 @@ services:
 networks:
   pkgm-net:
     driver: bridge
-

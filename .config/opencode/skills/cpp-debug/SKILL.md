@@ -39,7 +39,38 @@ skills_required: ["cpp-modernize"]  # 如果修复涉及指针修改，依赖 mo
 - 建议运行：`valgrind --leak-check=full ./program`
 - 或 AddressSanitizer: 编译时添加 `-fsanitize=address`
 
-### 步骤 3: 修复与验证
+### 步骤 3: CppHDL 特定问题
+
+**CppHDL ch_module 生命周期错误**
+
+若遇到以下错误或现象，可能是 `ch_module` 使用不当：
+- `"Child component has been destroyed unexpectedly in io()!"`
+- `"Error: No active parent Component found when creating ch_module!"`
+- `sim.tick()` 挂起或 SIGSEGV
+
+**诊断步骤**：
+1. 检查 `ch_module` 是否在 `Component::describe()` 内部调用
+2. 确认不是在 TEST_CASE 或 main() 中直接调用
+3. 测试嵌套组件（Pipeline + ITCM + DTCM）需要 PipelineTop 包装
+
+**正确模式**：
+```cpp
+// ✅ ch_device 用于测试
+TEST_CASE("test", "[unit]") {
+    ch::ch_device<MyTop> top;
+    Simulator sim(top.context());
+    sim.tick();
+}
+
+// ✅ ch_module 用于组件内部
+class MyTop : public ch::Component {
+    void describe() override {
+        ch::ch_module<Child> child{"child"};
+    }
+};
+```
+
+### 步骤 4: 修复与验证
 - 生成最小可复现测试用例
 - 应用修复后，必须在 valgrind/ASan 下零错误
 - 对于并发问题，建议使用 ThreadSanitizer (`-fsanitize=thread`)
