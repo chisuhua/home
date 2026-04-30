@@ -4,6 +4,7 @@
     "@zenobius/opencode-skillful": "^1.2.5",
     "opencode-ai": "^1.3.0",
     "opencode-pty": "^0.2.3",
-    "opencode-supermemory": "^2.0.4"
+    "opencode-supermemory": "^2.0.4",
+    "superpowers": "github:obra/superpowers"
   }
 }
