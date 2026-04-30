@@ -33,9 +33,11 @@ tasks:
 
 ## 群聊列表
 
-| 群聊名称 | Chat ID | 状态 |
-|---------|---------|------|
-| PTX-EMU | oc_1a4d6efab29f92943a9ad7ee1660a307 | ✅ 已配置 |
+| 群聊名称 | Chat ID | 绑定项目 | 状态 |
+|---------|---------|---------|------|
+| PTX-EMU | oc_1a4d6efab29f92943a9ad7ee1660a307 | PTX-EMU | ✅ 已配置 |
+| TaskRunner | oc_6f95fc3117bd54c5b5c7aa8b53481e65 | TaskRunner | ✅ 已配置 |
+| UsrLinuxEmu | oc_e476c24a1ba06dfa5ca9ed2a2f0156f4 | UsrLinuxEmu | ✅ 已配置 |
 
 ---
 

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.31",
-    "lastTouchedAt": "2026-04-02T09:06:31.816Z"
+    "lastTouchedVersion": "2026.4.15",
+    "lastTouchedAt": "2026-04-21T04:11:34.186Z"
   },
   "wizard": {
-    "lastRunAt": "2026-04-02T09:06:31.680Z",
-    "lastRunVersion": "2026.3.31",
+    "lastRunAt": "2026-04-08T09:41:12.190Z",
+    "lastRunVersion": "2026.4.8",
     "lastRunCommand": "doctor",
     "lastRunMode": "local"
   },
@@ -25,50 +25,59 @@
     "defaultAgent": "opencode",
     "allowedAgents": [
       "opencode",
-      "claude",
-      "codex"
+      "claude"
     ],
-    "maxConcurrentSessions": 4
+    "maxConcurrentSessions": 6
   },
   "models": {
     "mode": "merge",
     "providers": {
-      "bailian": {
-        "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
-        "apiKey": "sk-sp-e0fb34a4c65a429fbd9e5c263a4d6f2e",
-        "api": "openai-completions",
+      "minimax": {
+        "baseUrl": "https://api.minimaxi.com/anthropic",
+        "apiKey": "XXX",
+        "api": "anthropic-messages",
         "models": [
           {
-            "id": "qwen3.5-plus",
-            "name": "qwen3.5-plus",
-            "reasoning": false,
+            "id": "MiniMax-M2.7",
+            "name": "MiniMax-M2.7",
+            "contextWindow": 204800,
+            "maxTokens": 65536
+          },
+          {
+            "id": "MiniMax-M2.7",
+            "name": "MiniMax M2.7",
+            "reasoning": true,
             "input": [
               "text",
               "image"
             ],
             "cost": {
-              "input": 0,
-              "output": 0,
-              "cacheRead": 0,
-              "cacheWrite": 0
+              "input": 0.3,
+              "output": 1.2,
+              "cacheRead": 0.06,
+              "cacheWrite": 0.375
             },
-            "contextWindow": 1000000,
-            "maxTokens": 65536,
-            "compat": {
-              "thinkingFormat": "qwen"
-            }
-          },
+            "contextWindow": 204800,
+            "maxTokens": 131072
+          }
+        ],
+        "authHeader": true
+      },
+      "bailian": {
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "apiKey": "XXX",
+        "api": "openai-completions",
+        "models": [
           {
-            "id": "qwen3-max-2026-01-23",
-            "name": "qwen3-max-2026-01-23",
+            "id": "qwen3.5-flash",
+            "name": "qwen3.5-flash",
             "reasoning": false,
-            "input": ["text"],
-            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
-            "contextWindow": 262144,
-            "maxTokens": 65536,
-            "compat": {
-              "thinkingFormat": "qwen"
-            }
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 65536
           },
           {
             "id": "qwen3-coder-next",
@@ -77,83 +86,8 @@
             "input": [
               "text"
             ],
-            "cost": {
-              "input": 0,
-              "output": 0,
-              "cacheRead": 0,
-              "cacheWrite": 0
-            },
             "contextWindow": 262144,
             "maxTokens": 65536
-          },
-          {
-            "id": "qwen3-coder-plus",
-            "name": "qwen3-coder-plus",
-            "reasoning": false,
-            "input": [
-              "text"
-            ],
-            "cost": {
-              "input": 0,
-              "output": 0,
-              "cacheRead": 0,
-              "cacheWrite": 0
-            },
-            "contextWindow": 1000000,
-            "maxTokens": 65536
-          },
-          {
-            "id": "MiniMax-M2.5",
-            "name": "MiniMax-M2.5",
-            "reasoning": false,
-            "input": ["text"],
-            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
-            "contextWindow": 196608,
-            "maxTokens": 32768
-          },
-          {
-            "id": "glm-5",
-            "name": "glm-5",
-            "reasoning": false,
-            "input": ["text"],
-            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
-            "contextWindow": 202752,
-            "maxTokens": 16384,
-            "compat": {
-              "thinkingFormat": "qwen"
-            }
-          },
-          {
-            "id": "glm-4.7",
-            "name": "glm-4.7",
-            "reasoning": false,
-            "input": ["text"],
-            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
-            "contextWindow": 202752,
-            "maxTokens": 16384,
-            "compat": {
-              "thinkingFormat": "qwen"
-            }
-          },
-          {
-            "id": "kimi-k2.5",
-            "name": "kimi-k2.5",
-            "reasoning": false,
-            "input": [
-              "text",
-              "image"
-            ],
-            "cost": {
-              "input": 0,
-              "output": 0,
-              "cacheRead": 0,
-              "cacheWrite": 0
-            },
-            "contextWindow": 262144,
-            "maxTokens": 32768,
-            "compat": {
-              "thinkingFormat": "qwen"
-            }
           }
         ]
       }
@@ -162,9 +96,26 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "bailian/qwen3.5-plus"
+        "primary": "minimax/MiniMax-M2.7",
+        "fallbacks": [
+          "bailian/qwen3.6-plus",
+          "bailian/qwen3.5-plus",
+          "bailian/qwen3.5-flash",
+          "minimax/MiniMax-M2.7",
+          "bailian/qwen3-max-2026-01-23",
+          "bailian/qwen3-coder-next",
+          "bailian/qwen3-coder-plus",
+          "bailian/MiniMax-M2.5",
+          "bailian/glm-5",
+          "bailian/glm-4.7",
+          "bailian/kimi-k2.5"
+        ]
       },
       "models": {
+        "minimax/MiniMax-M2.7": {
+          "alias": "Minimax"
+        },
+        "bailian/qwen3.6-plus": {},
         "bailian/qwen3.5-plus": {},
         "bailian/qwen3-max-2026-01-23": {},
         "bailian/qwen3-coder-next": {},
@@ -190,12 +141,32 @@
         "name": "cto",
         "workspace": "/home/ubuntu/.openclaw/workspace-cto",
         "agentDir": "/home/ubuntu/.openclaw/agents/cto/agent",
-        "model": "bailian/kimi-k2.5"
+        "model": "bailian/qwen3.6-plus"
       },
       {
         "id": "reviewer",
         "name": "Code Reviewer",
         "model": "bailian/qwen3.5-plus"
+      },
+      {
+        "id": "opencode",
+        "name": "opencode",
+        "agentDir": "/home/ubuntu/.openclaw/agents/opencode/agent",
+        "runtime": {
+          "type": "acp",
+          "acp": {
+            "agent": "opencode",
+            "backend": "acpx",
+            "mode": "persistent",
+            "cwd": "/home/ubuntu/.openclaw/workspace-opencode"
+          }
+        }
+      },
+      {
+        "id": "pkgm-manager",
+        "name": "pkgm-manager",
+        "workspace": "/workspace/project/PKGM/manager",
+        "agentDir": "/home/ubuntu/.openclaw/agents/pkgm-manager/agent"
       }
     ]
   },
@@ -224,34 +195,16 @@
   "channels": {
     "feishu": {
       "enabled": true,
-      "threadBindings": {
-        "enabled": true,
-        "spawnAcpSessions": true,
-        "label": "OpenCode"
-      },
-      "webchat": {
-        "threadBindings": {
-          "enabled": true,
-          "spawnAcpSessions": true
-        }
-      },
-      "connectionMode": "websocket",
-      "renderMode": "auto",
-      "typingIndicator": true,
       "domain": "feishu",
       "defaultAccount": "DevMate",
-      "streaming": "true",
-      "markdown": {
-        "mode": "native",
-        "tableMode": "simple"
-      },
-      "replyInThread": "enabled",
-      "resolveSenderNames": true,
+      "streaming": true,
       "accounts": {
         "DevMate": {
+          "enabled": true,
+          "name": "DevMate",
           "appId": "cli_a94fd7fbd3799cbb",
           "appSecret": "FCgyQNPnBMT9h1KuASmJncEcZRjkJTu7",
-          "botName": "DevMate",
+          "domain": "feishu",
           "groupPolicy": "open",
           "dmPolicy": "open",
           "requireMention": false,
@@ -260,12 +213,14 @@
           ]
         },
         "CTO": {
+          "name": "CTO",
+          "enabled": true,
           "appId": "cli_a9466f0759bbdcd1",
           "appSecret": "SIXtJaZY5XF5V7LQqcMdGwfWC5N8ACRC",
-          "botName": "CTO",
+          "domain": "feishu",
           "groupPolicy": "open",
           "dmPolicy": "open",
-          "requireMention": true,
+          "requireMention": false,
           "allowFrom": [
             "*"
           ]
@@ -289,13 +244,14 @@
       "allowedOrigins": [
         "http://localhost:18789",
         "http://127.0.0.1:18789",
-        "http://0.0.0.1:18789"
-      ]
+        "http://47.100.102.207:18789",
+        "https://claw.hydraskill.com"
+      ],
+      "dangerouslyDisableDeviceAuth": true
     },
     "auth": {
       "mode": "token",
-      "token": "0cccbedfb661cefb0cea5ad3b866b75d1106fdcdccc12fdd",
-      "password": "0cccbedfb661cefb0cea5ad3b866b75d1106fdcdccc12fdd"
+      "token": "0cccbedfb661cefb0cea5ad3b866b75d1106fdcdccc12fdd"
     }
   },
   "skills": {
@@ -304,10 +260,33 @@
         "~/.agents/skills",
         "/workspace/acf-workflow/skills"
       ]
+    },
+    "install": {
+      "nodeManager": "pnpm"
+    },
+    "entries": {
+      "weather": {
+        "enabled": false
+      },
+      "healthcheck": {
+        "enabled": false
+      },
+      "coding-agent": {
+        "enabled": false
+      },
+      "tavily": {
+        "apiKey": "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"
+      },
+      "tavily-search": {
+        "apiKey": "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"
+      }
     }
   },
   "plugins": {
     "entries": {
+      "feishu": {
+        "enabled": true
+      },
       "acpx": {
         "enabled": true,
         "config": {
@@ -315,8 +294,36 @@
           "nonInteractivePermissions": "deny"
         }
       },
-      "feishu": {
-        "enabled": true
+      "minimax": {
+        "enabled": true,
+        "config": {
+          "webSearch": {
+            "region": "cn"
+          }
+        }
+      },
+      "tavily": {
+        "enabled": true,
+        "config": {
+          "webSearch": {
+            "apiKey": "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"
+          }
+        }
+      }
+    },
+    "load": {
+      "paths": [
+        "/home/ubuntu/.npm-global/bin/global/5/.pnpm/openclaw@2026.4.15_@emnapi+core@1.10.0_@emnapi+runtime@1.10.0_@napi-rs+canvas@0.1.99_@t_4f8e0c9bb61d14c7228165243d7f6933/node_modules/openclaw/dist/extensions/acpx",
+        "/home/ubuntu/.local/share/pnpm/global/5/.pnpm/openclaw@2026.4.15_@emnapi+core@1.10.0_@emnapi+runtime@1.10.0_@napi-rs+canvas@0.1.99_@t_4f8e0c9bb61d14c7228165243d7f6933/node_modules/openclaw/dist/extensions/acpx"
+      ]
+    },
+    "installs": {
+      "acpx": {
+        "source": "path",
+        "spec": "acpx",
+        "sourcePath": "/home/ubuntu/.local/share/pnpm/global/5/.pnpm/openclaw@2026.4.15_@emnapi+core@1.10.0_@emnapi+runtime@1.10.0_@napi-rs+canvas@0.1.99_@t_4f8e0c9bb61d14c7228165243d7f6933/node_modules/openclaw/dist/extensions/acpx",
+        "installPath": "/home/ubuntu/.local/share/pnpm/global/5/.pnpm/openclaw@2026.4.15_@emnapi+core@1.10.0_@emnapi+runtime@1.10.0_@napi-rs+canvas@0.1.99_@t_4f8e0c9bb61d14c7228165243d7f6933/node_modules/openclaw/dist/extensions/acpx",
+        "installedAt": "2026-04-21T04:11:27.871Z"
       }
     }
   },
@@ -326,6 +333,32 @@
       "ask": "off",
       "security": "full",
       "host": "gateway"
+    },
+    "web": {
+      "search": {
+        "provider": "tavily",
+        "enabled": true,
+        "openaiCodex": {}
+      },
+      "fetch": {
+        "enabled": true
+      }
+    }
+  },
+  "auth": {
+    "profiles": {
+      "minimax:cn": {
+        "provider": "minimax",
+        "mode": "api_key"
+      }
+    }
+  },
+  "session": {
+    "maintenance": {
+      "mode": "enforce",
+      "pruneAfter": "5d",
+      "maxEntries": 30,
+      "rotateBytes": "10mb"
     }
   }
 }

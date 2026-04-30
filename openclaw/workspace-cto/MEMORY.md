@@ -4,6 +4,10 @@
 | 群聊/会话 ID | 绑定项目 | 激活模式 | 绑定时间 |
 |-------------|---------|---------|----------|
 | `chat:oc_db7e1318695cae65010c5a563471d681` | **PTX-EMU** | PTX-EMU 专家模式 | 2026-04-02 |
+| `chat:oc_6f95fc3117bd54c5b5c7aa8b53481e65` | **TaskRunner** | TaskRunner 模式 | 2026-04-11 |
+| `chat:oc_e476c24a1ba06dfa5ca9ed2a2f0156f4` | **UsrLinuxEmu** | UsrLinuxEmu 专家模式 | 2026-04-11 |
+| `chat:oc_bc05fc0ff12e5c816c216cb999e0d1d6` | **MyNotes** | Wiki 生成器 (01_Wiki ← 02_System 指令) | 2026-04-13 |
+| （无群聊，webchat/TUI 直连） | **PKGM** | PKGM 架构设计模式 | 2026-04-14 |
 
 ---
 

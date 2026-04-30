@@ -6,15 +6,13 @@
   },
   "defaults": {
     "security": "full",
-    "ask": "on-miss",
-    "askFallback": "allow",
+    "ask": "off",
     "autoAllowSkills": true
   },
   "agents": {
     "main": {
       "security": "full",
       "ask": "off",
-      "askFallback": "allow",
       "autoAllowSkills": true
     }
   }

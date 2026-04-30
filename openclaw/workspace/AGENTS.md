@@ -34,7 +34,7 @@
 
 ---
 
-## 0.1 OpenCode 多轮对话原则
+## 0.1 OpenCode 多轮对话原则（强制）
 
 **背景**：Feishu 群聊环境下 ACP `thread: true` 不可用，需用 `subagent + steer`。
 
@@ -46,9 +46,10 @@
 4. 重复 steer 直到任务完成
 ```
 
-**执行纪律**：
-- 多轮迭代任务 → 用 `subagent + steer`
-- 单次交付任务 → 用 `sessions_spawn(acp)`
+**执行纪律**（2026-04-07 更新）：
+- ✅ **所有编码任务** → 必须用 `subagent + steer` 多轮对话逐步推进
+- ❌ 禁止：直接在当前会话中编写代码
+- ❌ 禁止：一次性给完整需求，必须分轮次明确边界
 
 📋 **详细示例**：`/workspace/acf-workflow/docs/acf-subagent-driver.md`
 
@@ -484,12 +485,6 @@ A) 性能优先  B) 可读性优先  C) 快速验证
 |------|----------|
 | `docs/acf-workflow.md` | `/workspace/acf-workflow/docs/acf-workflow.md` |
 | `docs/acf-subagent-driver.md` | `/workspace/acf-workflow/docs/acf-subagent-driver.md` |
-
-### 内部文档
-| 文档 | 位置 |
-|------|------|
-| 飞书消息格式 | `docs/feishu-message-format.md` |
-| AGENTS 变更日志 | `docs/AGENTS-CHANGELOG.md` |
 
 ---
 
