@@ -228,3 +228,25 @@ project: C++ Hybrid Development
 - `plans/{plan_id}.json`：Prometheus 生成的执行计划
 - `plans/dependency_{plan_id}.mmd`：Mermaid 依赖图
 - `plans/{plan_id}.migration_guide.md`：Hephaestus 生成的迁移指南
+
+---
+
+## 已注册 Skills（ obra/superpowers）
+
+以下 skills 已通过 `opencode.json` 配置自动加载，位于：
+`/home/ubuntu/.cache/opencode/packages/superpowers@git+https:/github.com/obra/superpowers.git/node_modules/superpowers/skills`
+
+| Skill | 用途 |
+|-------|------|
+| `superpowers/brainstorming` | 创意设计工作流（功能/组件开发前必用） |
+| `superpowers/test-driven-development` | TDD 测试驱动开发 |
+| `superpowers/receiving-code-review` | 代码审查反馈处理 |
+| `superpowers/writing-plans` | 生成详细实施计划 |
+| `superpowers/verification-before-completion` | 完成前 QA 验证 |
+| `superpowers/systematic-debugging` | 系统化调试流程 |
+| `superpowers/dispatching-parallel-agents` | 并行任务分发 |
+| `superpowers/subagent-driven-development` | 子代理驱动开发 |
+| `superpowers/executing-plans` | 执行带检查点的计划 |
+| `superpowers/finishing-a-development-branch` | 分支完成与 PR 决策 |
+| `superpowers/using-git-worktrees` | Git worktree 隔离 |
+| `superpowers/writing-skills` | 创建/编辑 skills |

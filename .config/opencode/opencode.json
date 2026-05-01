@@ -12,14 +12,13 @@
     }
   },
   "plugin": [
-    "oh-my-openagent",
     "opencode-supermemory",
     "opencode-pty",
     "@zenobius/opencode-skillful",
-    "superpowers@git+https://github.com/obra/superpowers.git"
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "oh-my-openagent"
   ],
-  "instructions": [
-  ],
+  "instructions": [],
   "permission": {
     "read": "allow",
     "edit": "allow",
