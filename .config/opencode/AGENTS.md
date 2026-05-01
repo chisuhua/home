@@ -31,6 +31,74 @@ project: C++ Hybrid Development
   - 或使用 `git stash push -m "auto-backup-{timestamp}"`
   - 重构失败时自动执行 `git stash pop` 回滚
 
+## TDD 开发流程（强制）
+
+所有**功能实现**和**缺陷修复**任务必须遵循 Superpowers TDD 流程：
+
+### 三阶段流程
+
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  1. 测试先行  │ → │  2. 实现代码  │ → │  3. 代码审查  │
+│  Write Test │    │  Implement  │    │  Code Review │
+└─────────────┘    └─────────────┘    └─────────────┘
+```
+
+### 阶段说明
+
+| 阶段 | 产物 | 验证方式 |
+|------|------|---------|
+| **1. 测试先行** | 编写失败的测试用例（RED） | `ctest --output-on-failure` 确认测试失败 |
+| **2. 实现代码** | 编写通过测试的实现（GREEN） | `ctest` 确认测试通过 |
+| **3. 代码审查** | Review 检查（REFACTOR） | `clang-tidy` + `clang-format` 质量门禁 |
+
+### 强制规则
+
+- **禁止跳过测试**：任何功能实现或 bugfix 都必须先写测试
+- **测试必须先失败**：测试用例最初必须处于 FAIL 状态，证明它确实在检验目标行为
+- **实现后必须全通过**：所有测试通过后才能认为任务完成
+- **必须加载 TDD Skill**：使用 `skill(test-driven-development)` 获取详细指导
+
+### 触发关键词
+
+当用户输入包含以下关键词时，**必须**使用 TDD 流程：
+
+| 关键词 | 任务类型 | 示例 |
+|--------|---------|------|
+| `implement`, `add`, `create`, `实现`, `添加`, `新增` | 新功能 | "实现用户认证模块" |
+| `fix`, `修复`, `bug` | 缺陷修复 | "修复登录崩溃问题" |
+| `feature`, `功能` | 功能开发 | "添加缓存功能" |
+
+### 执行示例
+
+```
+用户："实现一个函数计算斐波那契数列"
+
+1. 测试先行 → 编写测试用例
+   test_fibonacci(0) → expected: 0, FAIL
+   test_fibonacci(1) → expected: 1, FAIL
+   test_fibonacci(6) → expected: 8, FAIL
+
+2. 实现代码 → 最小化实现使测试通过
+   fib(n) { return n < 2 ? n : fib(n-1) + fib(n-2); }
+   → 所有测试 PASS
+
+3. 代码审查 → 质量检查
+   → clang-tidy clean
+   → clang-format applied
+   → 性能/边界情况评估
+```
+
+### 异常情况
+
+以下情况**可跳过** TDD（但需注明原因）：
+- 纯配置文件修改
+- 已有测试覆盖的 trivial typo 修复
+- 文档类任务
+- 探索性研究任务
+
+---
+
 ## 项目结构感知
 - **优先读取**：
   1. `compile_commands.json`（编译数据库，确保 AST 准确）

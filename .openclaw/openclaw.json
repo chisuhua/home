@@ -1,0 +1,354 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.4.15",
+    "lastTouchedAt": "2026-04-21T04:11:34.186Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-04-08T09:41:12.190Z",
+    "lastRunVersion": "2026.4.8",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "ui": {
+    "seamColor": "#00D4FF",
+    "assistant": {
+      "name": "DevMate",
+      "avatar": "🦊"
+    }
+  },
+  "acp": {
+    "enabled": true,
+    "dispatch": {
+      "enabled": true
+    },
+    "backend": "acpx",
+    "defaultAgent": "opencode",
+    "allowedAgents": [
+      "opencode",
+      "claude"
+    ],
+    "maxConcurrentSessions": 6
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "minimax": {
+        "baseUrl": "https://api.minimaxi.com/anthropic",
+        "apiKey": "{env:MINIMAX_API_KEY}",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "MiniMax-M2.7",
+            "name": "MiniMax-M2.7",
+            "contextWindow": 204800,
+            "maxTokens": 65536
+          },
+          {
+            "id": "MiniMax-M2.7",
+            "name": "MiniMax M2.7",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.3,
+              "output": 1.2,
+              "cacheRead": 0.06,
+              "cacheWrite": 0.375
+            },
+            "contextWindow": 204800,
+            "maxTokens": 131072
+          }
+        ],
+        "authHeader": true
+      },
+      "bailian": {
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "apiKey": "{env:DASHSCOPE_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.5-flash",
+            "name": "qwen3.5-flash",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 65536
+          },
+          {
+            "id": "qwen3-coder-next",
+            "name": "qwen3-coder-next",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "maxTokens": 65536
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "minimax/MiniMax-M2.7",
+        "fallbacks": [
+          "bailian/qwen3.6-plus",
+          "bailian/qwen3.5-plus",
+          "bailian/qwen3.5-flash",
+          "minimax/MiniMax-M2.7",
+          "bailian/qwen3-max-2026-01-23",
+          "bailian/qwen3-coder-next",
+          "bailian/qwen3-coder-plus",
+          "bailian/MiniMax-M2.5",
+          "bailian/glm-5",
+          "bailian/glm-4.7",
+          "bailian/kimi-k2.5"
+        ]
+      },
+      "models": {
+        "minimax/MiniMax-M2.7": {
+          "alias": "Minimax"
+        },
+        "bailian/qwen3.6-plus": {},
+        "bailian/qwen3.5-plus": {},
+        "bailian/qwen3-max-2026-01-23": {},
+        "bailian/qwen3-coder-next": {},
+        "bailian/qwen3-coder-plus": {},
+        "bailian/MiniMax-M2.5": {},
+        "bailian/glm-5": {},
+        "bailian/glm-4.7": {},
+        "bailian/kimi-k2.5": {}
+      },
+      "memorySearch": {
+        "enabled": false
+      },
+      "compaction": {
+        "mode": "safeguard"
+      }
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "cto",
+        "name": "cto",
+        "workspace": "/home/ubuntu/.openclaw/workspace-cto",
+        "agentDir": "/home/ubuntu/.openclaw/agents/cto/agent",
+        "model": "bailian/qwen3.6-plus"
+      },
+      {
+        "id": "reviewer",
+        "name": "Code Reviewer",
+        "model": "bailian/qwen3.5-plus"
+      },
+      {
+        "id": "opencode",
+        "name": "opencode",
+        "agentDir": "/home/ubuntu/.openclaw/agents/opencode/agent",
+        "runtime": {
+          "type": "acp",
+          "acp": {
+            "agent": "opencode",
+            "backend": "acpx",
+            "mode": "persistent",
+            "cwd": "/home/ubuntu/.openclaw/workspace-opencode"
+          }
+        }
+      },
+      {
+        "id": "pkgm-manager",
+        "name": "pkgm-manager",
+        "workspace": "/workspace/project/PKGM/manager",
+        "agentDir": "/home/ubuntu/.openclaw/agents/pkgm-manager/agent"
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "feishu",
+        "accountId": "DevMate"
+      }
+    },
+    {
+      "agentId": "cto",
+      "match": {
+        "channel": "feishu",
+        "accountId": "CTO"
+      }
+    }
+  ],
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "domain": "feishu",
+      "defaultAccount": "DevMate",
+      "streaming": true,
+      "accounts": {
+        "DevMate": {
+          "enabled": true,
+          "name": "DevMate",
+          "appId": "cli_a94fd7fbd3799cbb",
+          "appSecret": "FCgyQNPnBMT9h1KuASmJncEcZRjkJTu7",
+          "domain": "feishu",
+          "groupPolicy": "open",
+          "dmPolicy": "open",
+          "requireMention": false,
+          "allowFrom": [
+            "*"
+          ]
+        },
+        "CTO": {
+          "name": "CTO",
+          "enabled": true,
+          "appId": "cli_a9466f0759bbdcd1",
+          "appSecret": "SIXtJaZY5XF5V7LQqcMdGwfWC5N8ACRC",
+          "domain": "feishu",
+          "groupPolicy": "open",
+          "dmPolicy": "open",
+          "requireMention": false,
+          "allowFrom": [
+            "*"
+          ]
+        },
+        "default": {
+          "groupPolicy": "open",
+          "dmPolicy": "open",
+          "requireMention": true,
+          "allowFrom": [
+            "*"
+          ]
+        }
+      }
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "lan",
+    "controlUi": {
+      "allowedOrigins": [
+        "http://localhost:18789",
+        "http://127.0.0.1:18789",
+        "http://47.100.102.207:18789",
+        "https://claw.hydraskill.com"
+      ],
+      "dangerouslyDisableDeviceAuth": true
+    },
+    "auth": {
+      "mode": "token",
+      "token": "0cccbedfb661cefb0cea5ad3b866b75d1106fdcdccc12fdd"
+    }
+  },
+  "skills": {
+    "load": {
+      "extraDirs": [
+        "~/.agents/skills",
+        "/workspace/acf-workflow/skills"
+      ]
+    },
+    "install": {
+      "nodeManager": "pnpm"
+    },
+    "entries": {
+      "weather": {
+        "enabled": false
+      },
+      "healthcheck": {
+        "enabled": false
+      },
+      "coding-agent": {
+        "enabled": false
+      },
+      "tavily": {
+        "apiKey": "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"
+      },
+      "tavily-search": {
+        "apiKey": "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"
+      }
+    }
+  },
+  "tools": {
+    "profile": "full",
+    "exec": {
+      "ask": "off",
+      "security": "full",
+      "host": "gateway"
+    },
+    "web": {
+      "search": {
+        "provider": "tavily",
+        "enabled": true,
+        "openaiCodex": {}
+      },
+      "fetch": {
+        "enabled": true
+      }
+    }
+  },
+  "auth": {
+    "profiles": {
+      "minimax:cn": {
+        "provider": "minimax",
+        "mode": "api_key"
+      }
+    }
+  },
+  "session": {
+    "maintenance": {
+      "mode": "enforce",
+      "pruneAfter": "5d",
+      "maxEntries": 30,
+      "rotateBytes": "10mb"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "feishu": {
+        "enabled": true
+      },
+      "acpx": {
+        "enabled": true,
+        "config": {
+          "permissionMode": "approve-all",
+          "nonInteractivePermissions": "deny"
+        }
+      },
+      "minimax": {
+        "enabled": true,
+        "config": {
+          "webSearch": {
+            "region": "cn"
+          }
+        }
+      },
+      "tavily": {
+        "enabled": true,
+        "config": {
+          "webSearch": {
+            "apiKey": "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"
+          }
+        }
+      }
+    },
+    "load": {
+      "paths": [
+        "/home/ubuntu/.local/share/pnpm/global/5/.pnpm/openclaw@2026.4.15_@emnapi+core@1.10.0_@emnapi+runtime@1.10.0_@napi-rs+canvas@0.1.99_@t_4f8e0c9bb61d14c7228165243d7f6933/node_modules/openclaw/dist/extensions/acpx"
+      ]
+    }
+  }
+}
