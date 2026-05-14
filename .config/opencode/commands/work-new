@@ -1,0 +1,168 @@
+---
+description: 创建 OpenSpec worktree 并进入
+---
+
+# /work-new - 创建 worktree 并进入
+
+在主分支执行，创建 change 的 worktree 并自动进入。
+
+## 上下文注入
+
+当执行此命令时，系统自动注入：
+
+**命令目的**：为主分支上已规划好的 change 创建隔离的执行环境。
+
+**前置条件**：
+- change 通过 `/opsx-propose` 和 `/opsx-plan` 生成
+- plan 文件已通过 `/opsx-plan` commit 到 git
+
+**Git 操作规范**：
+```bash
+# 创建 branch 基于 main
+git branch openspec/<name> main
+
+# 创建 worktree
+git worktree add .zcf/<name>-wt openspec/<name>
+
+# 进入 worktree
+cd .zcf/<name>-wt
+git checkout openspec/<name>
+
+# 验证
+git branch --show-current  # 应显示: openspec/<name>
+```
+
+**Worktree 结构**：
+```
+worktree 目录结构与 main 一致，plan 文件在创建时已包含在 branch 中。
+不需要额外的符号链接。
+```
+
+**错误处理**：
+- branch 已存在 → 使用 existing branch
+- worktree 已存在 → 报错并提示移除
+- 计划文件不存在 → 提示先执行 /opsx-plan
+
+---
+
+## 语法
+
+```
+/work-new <change-name>
+```
+
+## 执行步骤
+
+### 1. 验证前置条件
+
+```bash
+# 检查 change 存在
+openspec status --change <name> --json
+
+# 检查计划文件存在（通过 git）
+git show openspec/<name>:.sisyphus/plans/<name>.md > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "❌ 计划文件不存在，请先执行 /opsx-plan <name>"
+    exit 1
+fi
+```
+
+### 2. 检查当前在主分支
+
+```bash
+CURRENT_BRANCH=$(git branch --show-current)
+if [ "$CURRENT_BRANCH" != "main" ] && [ "$CURRENT_BRANCH" != "master" ]; then
+    echo "⚠️ 警告：当前不在主分支 ($CURRENT_BRANCH)"
+    echo "建议切换到 main/master 后执行"
+fi
+```
+
+### 3. 创建 branch（如果不存在）
+
+```bash
+if git branch -a | grep -q "^  openspec/<name>$"; then
+    echo "使用现有 branch: openspec/<name>"
+else
+    git branch openspec/<name> main
+    echo "创建新 branch: openspec/<name>"
+fi
+```
+
+### 4. 创建 worktree
+
+```bash
+# 检查 worktree 是否已存在
+if [ -d ".zcf/<name>-wt" ]; then
+    echo "❌ Worktree 已存在: .zcf/<name>-wt"
+    echo "请先移除：/work-remove <name>"
+    exit 1
+fi
+
+git worktree add .zcf/<name>-wt openspec/<name>
+```
+
+### 5. 验证
+
+```bash
+cd .zcf/<name>-wt
+git checkout openspec/<name>
+
+echo "✅ Worktree 创建成功"
+echo "Change: <name>"
+echo "Branch: $(git branch --show-current)"
+echo "Path: $(pwd)"
+echo ""
+echo "计划文件已通过 git 共享。"
+echo ""
+echo "下一步：/work-start"
+```
+
+## 工作目录结构
+
+```
+/workspace/
+├── CppHDL/                    ← 主仓库 (main)
+│   ├── openspec/changes/       ← 共享 artifacts (已 git commit)
+│   ├── .sisyphus/plans/        ← 共享计划 (已 git commit)
+│   │   └── <name>.md
+│   └── .zcf/                   ← worktrees 父目录
+│       └── <name>-wt/          ← worktree
+│           ├── (与 main 相同文件结构)
+│           ├── .sisyphus/plans/<name>.md  ← 来自 branch
+│           └── [change files]
+```
+
+**关键**：不需要符号链接。worktree 基于 `openspec/<name>` branch 创建，该 branch 包含主分支 commit 的所有文件（包括 plans）。
+
+## 注意事项
+
+- 创建后当前会话已进入 worktree 目录
+- 后续命令（/work-start, /work-done）在 worktree 中执行
+- 不要在主分支执行这些命令
+- 计划文件通过 git branch 共享，而非符号链接
+
+## 示例
+
+```bash
+# 在主分支
+/work-new add-axi4-dma
+# 输出：已进入 worktree
+
+/work-start
+# 开始执行任务...
+
+/work-done
+# 完成并返回主分支
+```
+
+## Guardrails
+
+1. **必须在主分支执行** - 检测当前 branch 是 main/master
+2. **change 必须存在** - 验证 openspec status
+3. **计划必须存在** - 通过 git 验证（/opsx-plan 已 commit）
+4. **worktree 不能已存在** - 防止重复创建
+
+## 依赖
+
+- `git`
+- `openspec` CLI（仅用于验证）

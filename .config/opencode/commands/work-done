@@ -1,0 +1,316 @@
+---
+description: 检查状态并完成 change
+---
+
+# /work-done - 检查状态并完成
+
+在 worktree 或主分支执行，检查完成状态并完成 change。
+
+## 上下文注入
+
+当执行此命令时，系统自动注入：
+
+**命令目的**：检查任务完成状态，在适当情况下完成 archive 或 merge+archive+cleanup。
+
+**Git 操作规范（并行模式）**：
+```bash
+# 切换到 main
+git checkout main
+
+# 合并 change branch
+git merge openspec/<name>
+
+# 如果有冲突，提示解决后继续
+
+# Archive
+/opsx-archive <name>
+
+# 删除 branch
+git branch -d openspec/<name>
+
+# 清理 worktree
+git worktree remove .zcf/<name>-wt
+```
+
+**串行模式检查**：
+```bash
+# 检查完成度
+PROGRESS=$(openspec instructions apply --change <name> --json | jq '.progress')
+COMPLETE=$(echo "$PROGRESS" | jq '.complete')
+TOTAL=$(echo "$PROGRESS" | jq '.total')
+
+if [ "$COMPLETE" -eq "$TOTAL" ]; then
+    # 全部完成，可以 archive
+else
+    # 部分完成，不允许 archive，提示继续
+fi
+```
+
+---
+
+## 两种模式
+
+### 模式 A: 串行执行（主分支）
+
+```
+/work-start 执行完成后...
+       ↓
+/work-done
+       ↓
+检查完成状态
+       ↓
+全部完成 → 提示 archive
+未完成 → 提示继续或创建接续 change
+```
+
+### 模式 B: 并行执行（worktree）
+
+```
+/work-start 执行完成后...
+       ↓
+/work-done
+       ↓
+检查完成状态
+       ↓
+全部完成 → merge + archive + 清理 worktree
+部分完成 → 给出选项
+```
+
+## 自动识别模式
+
+```bash
+CURRENT=$(git branch --show-current 2>/dev/null || echo "")
+if echo "$CURRENT" | grep -q '^openspec/'; then
+    MODE="parallel"
+    CHANGE_NAME=$(echo "$CURRENT" | sed 's/^openspec\///')
+    WORKTREE_PATH=$(git worktree list | grep "$(pwd)" | awk '{print $1}')
+else
+    MODE="serial"
+fi
+```
+
+## 执行流程
+
+### 1. 确定 change 名称和模式
+
+### 2. 获取完成状态
+
+```bash
+APPLY_RESULT=$(openspec instructions apply --change "$CHANGE_NAME" --json 2>&1)
+if [ $? -ne 0 ]; then
+    echo "❌ 无法获取状态: $APPLY_RESULT"
+    exit 1
+fi
+
+PROGRESS=$(echo "$APPLY_RESULT" | jq '.progress')
+STATE=$(echo "$APPLY_RESULT" | jq -r '.state')
+COMPLETE=$(echo "$PROGRESS" | jq '.complete')
+TOTAL=$(echo "$PROGRESS" | jq '.total')
+REMAINING=$((TOTAL - COMPLETE))
+```
+
+### 3. 输出状态报告
+
+```
+## Change 状态
+
+Change: $CHANGE_NAME
+Mode: $MODE
+Progress: $COMPLETE/$TOTAL tasks ($REMAINING remaining)
+State: $STATE
+
+### 已完成任务
+$(openspec instructions apply --change "$CHANGE_NAME" --json | jq -r '.tasks[] | select(.done) | "- [x] \(.description)"')
+
+### 剩余任务
+$(openspec instructions apply --change "$CHANGE_NAME" --json | jq -r '.tasks[] | select(.done == false) | "- [ ] \(.description)"')
+```
+
+---
+
+## 模式 A: 串行执行
+
+### 后续操作
+
+**如果全部完成 ($COMPLETE -eq $TOTAL)**:
+```
+✅ 所有任务已完成！
+
+建议立即 archive：
+  /opsx-archive $CHANGE_NAME
+
+执行后，change 将移至 openspec/changes/archive/
+```
+
+**如果部分完成 ($COMPLETE -lt $TOTAL)**:
+```
+⚠️ 部分完成 ($COMPLETE/$TOTAL tasks)
+
+已完成的进度已保存到 tasks.md。
+
+建议选择：
+1. 继续执行 - /work-start $CHANGE_NAME
+2. 创建接续变更 - /opsx-propose $CHANGE_NAME-continue
+3. 手动归档 - /opsx-archive $CHANGE_NAME
+
+当前 change 保留在 active，随时可以继续。
+```
+
+**如果 state 为 all_done 但 COMPLETE < TOTAL**:
+```
+⚠️ 状态不一致
+
+CLI 报告 all_done，但实际完成 $COMPLETE/$TOTAL tasks。
+
+建议重新检查 tasks.md 内容或重新执行 /opsx-plan。
+```
+
+---
+
+## 模式 B: 并行执行（worktree）
+
+### 显示确认信息
+
+```
+即将完成 change: $CHANGE_NAME
+
+当前状态：
+- Progress: $COMPLETE/$TOTAL tasks
+- Branch: $CURRENT
+- Worktree: $WORKTREE_PATH
+
+操作：
+1. git checkout main
+2. git merge $CURRENT  (合并代码)
+3. /opsx-archive $CHANGE_NAME  (归档 change)
+4. git branch -d $CURRENT  (删除 branch)
+5. git worktree remove $WORKTREE_PATH  (清理 worktree)
+
+确认？ [y/N]
+```
+
+### 确认后执行
+
+#### 4a. 检查未提交的更改
+
+```bash
+git status --porcelain
+if [ -n "$(git status --porcelain)" ]; then
+    echo "⚠️ Worktree 有未提交的更改"
+    echo "请先 commit 或 stash："
+    echo "  git add -A && git commit -m 'WIP: <CHANGE_NAME>'"
+    exit 1
+fi
+```
+
+#### 4b. 切换到 main
+
+```bash
+git checkout main
+```
+
+#### 4c. 合并代码
+
+```bash
+git merge "$CURRENT"
+if [ $? -ne 0 ]; then
+    echo "⚠️ 合并冲突"
+    echo ""
+    echo "请手动解决冲突后，继续执行："
+    echo "  git add <resolved-files>"
+    echo "  git commit -m 'Merge change $CHANGE_NAME'"
+    echo "  # 然后继续执行 /work-done 后续步骤"
+    exit 1
+fi
+```
+
+#### 4d. Archive change
+
+```bash
+/opsx-archive "$CHANGE_NAME"
+```
+
+#### 4e. 删除 branch
+
+```bash
+git branch -d "$CURRENT"
+```
+
+#### 4f. 清理 worktree
+
+```bash
+git worktree remove "$WORKTREE_PATH"
+```
+
+### 5. 输出结果
+
+```
+✅ Change 已完成并合并到 main
+
+Change: $CHANGE_NAME
+Branch: 已删除
+Worktree: 已清理
+
+归档位置：openspec/changes/archive/$CHANGE_NAME/
+```
+
+---
+
+## 部分完成处理（模式 B）
+
+如果只完成部分任务：
+
+```
+⚠️ 部分完成 ($COMPLETE/$TOTAL tasks)
+
+选择：
+1. archive anyway - 保存部分进度（不可恢复）
+2. remove worktree - 只清理 worktree，保留 branch
+3. cancel - 什么都不做
+
+选择：1/2/3
+```
+
+### 选项 1: archive anyway
+
+```bash
+/opsx-archive "$CHANGE_NAME"
+# 继续删除 branch 和 worktree
+```
+
+### 选项 2: remove worktree
+
+```bash
+git worktree remove "$WORKTREE_PATH"
+# 保留 branch 和 active change
+# 下次可以 /work-new 重新进入
+```
+
+---
+
+## --force 标志
+
+```bash
+/work-done --force <CHANGE_NAME>
+```
+
+跳过确认提示，直接执行所有操作。
+
+---
+
+## Guardrails
+
+1. **Change 存在检查** - change 必须存在
+2. **状态报告** - 总是显示当前状态
+3. **模式选择** - 根据当前位置自动选择
+4. **未提交检查** - 阻止有未提交更改的 merge
+5. **串行模式完成度检查** - 未完成不允许 archive
+
+---
+
+## 与 /opsx-archive 的关系
+
+| 场景 | /work-done | /opsx-archive |
+|------|-----------|---------------|
+| 串行执行 | ✅ 检查 + 提示 archive | 直接 archive |
+| 并行执行 | ✅ merge + archive + 清理 | 需要手动处理 |

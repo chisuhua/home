@@ -1,0 +1,181 @@
+---
+description: 在 worktree 或主分支执行 OpenSpec change
+---
+
+# /work-start - 执行 change
+
+在 worktree 或主分支执行 change。
+
+## 上下文注入
+
+当执行此命令时，系统自动注入：
+
+**命令目的**：按计划执行 change 的任务，完成后更新 tasks.md。
+
+**关键路径**：
+- 计划文件：`.sisyphus/plans/<change-name>.md`
+- 任务状态：`openspec/changes/<change-name>/tasks.md`
+- 验证命令：`cmake --build build` 和 `ctest`
+
+**工具调用**：
+```bash
+# 获取状态
+openspec instructions apply --change <name> --json
+
+# 解析
+jq -r '.state'              # blocked/ready/all_done
+jq -r '.progress.complete'  # 完成数
+jq -r '.progress.total'     # 总数
+
+# 更新 tasks.md
+sed -i 's/- \[ \]<描述>/- [x] <描述>/' openspec/changes/<name>/tasks.md
+```
+
+**错误恢复**：
+- 如果 OpenSpec 调用失败 → 显示错误 + 建议检查 change 存在
+- 如果计划文件不存在 → 提示先执行 /opsx-plan
+
+---
+
+## 两种模式
+
+### 模式 A: 串行执行（主分支）
+
+```
+/work-start <name>  # 参数指定 change
+       ↓
+执行计划
+       ↓
+/work-done           # 检查状态，提示 archive
+```
+
+### 模式 B: 并行执行（worktree）
+
+```
+/work-new <name>     # 创建 worktree
+       ↓
+/work-start          # 无需参数，从 branch 识别
+       ↓
+/work-done           # 合并 + archive + 清理
+```
+
+## 自动识别模式
+
+```bash
+# 检查当前 branch 是否为 openspec/* 格式
+CURRENT=$(git branch --show-current 2>/dev/null || echo "")
+if echo "$CURRENT" | grep -q '^openspec/'; then
+    # 模式 B: worktree
+    CHANGE_NAME=$(echo "$CURRENT" | sed 's/^openspec\///')
+    MODE="parallel"
+else
+    # 模式 A: 串行 - 需要参数
+    if [ -z "$1" ]; then
+        echo "❌ 串行模式需要 change 名称参数"
+        echo "用法: /work-start <change-name>"
+        openspec list --json
+        exit 1
+    fi
+    CHANGE_NAME="$1"
+    MODE="serial"
+fi
+```
+
+## 执行流程
+
+### 1. 确定 change 名称（已在上一步完成）
+
+### 2. 验证前置条件
+
+```bash
+# 检查 change 存在
+openspec status --change "$CHANGE_NAME" --json > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "❌ Change 不存在: $CHANGE_NAME"
+    echo "请先执行 /opsx-propose $CHANGE_NAME"
+    exit 1
+fi
+
+# 检查计划文件存在
+if [ ! -f ".sisyphus/plans/$CHANGE_NAME.md" ]; then
+    echo "❌ 计划文件不存在: .sisyphus/plans/$CHANGE_NAME.md"
+    echo "请先执行 /opsx-plan $CHANGE_NAME"
+    exit 1
+fi
+```
+
+### 3. 获取 OpenSpec 状态
+
+```bash
+APPLY_RESULT=$(openspec instructions apply --change "$CHANGE_NAME" --json 2>&1)
+if [ $? -ne 0 ]; then
+    echo "❌ OpenSpec 调用失败"
+    echo "$APPLY_RESULT"
+    exit 1
+fi
+
+STATE=$(echo "$APPLY_RESULT" | jq -r '.state')
+```
+
+### 4. State 分支处理
+
+**blocked**:
+```
+❌ 无法执行：缺少 artifacts
+
+请先补全：
+- proposal.md
+- specs/*.md
+- design.md
+- tasks.md
+
+建议：/opsx-propose 或 /opsx-continue-change
+```
+
+**all_done**:
+```
+✅ 所有任务已完成！
+
+Change: $CHANGE_NAME
+Progress: N/N tasks complete
+
+建议：/work-done
+```
+
+**ready**: 继续执行
+
+### 5. 调用 /start-work
+
+使用 Prometheus 执行计划。
+
+### 6. 输出汇总
+
+```
+## 执行结果
+
+Change: $CHANGE_NAME
+Mode: $MODE
+Progress: N/M tasks complete
+
+下一步：
+  /work-done  - 检查完成状态
+```
+
+---
+
+## Guardrails
+
+1. **参数检查** - 串行模式必须提供 change 名称
+2. **前置条件** - change 和计划文件必须存在
+3. **State 检查** - `blocked` 时不执行
+4. **自动模式识别** - 可靠地识别串行/并行模式
+
+---
+
+## 与其他命令的关系
+
+| 命令 | 关系 |
+|------|------|
+| `/opsx-plan` | 前置：生成计划 |
+| `/work-new` | 前置（并行模式）：创建 worktree |
+| `/work-done` | 后置：完成并清理 |

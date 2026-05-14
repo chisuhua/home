@@ -1,0 +1,289 @@
+---
+description: 查看 change 状态和执行情况
+---
+
+# /work-status - 查看任务状态
+
+检查 change 的当前状态，给出执行建议。
+
+## 上下文注入
+
+当执行此命令时，系统自动注入：
+
+**命令目的**：提供 change 的完整状态概览，识别问题并给出建议。
+
+**工具调用规范**：
+```bash
+# 获取状态
+openspec status --change <name> --json
+openspec instructions apply --change <name> --json
+
+# 解析
+jq '.progress.complete'   # 完成数（数字）
+jq '.progress.total'      # 总数（数字）
+jq '.progress.remaining'  # 剩余数
+jq '.state'               # blocked/ready/all_done
+jq '.tasks[].done'        # 每任务完成状态
+jq '.tasks[].description' # 每任务描述
+
+# 读取 tasks.md 实际内容
+cat openspec/changes/<name>/tasks.md
+
+# 检查 git 状态
+git status --porcelain
+git log --oneline -1
+```
+
+**常见问题检测**：
+- CLI progress 与实际 tasks.md 不一致
+- worktree 有未提交的更改
+- 计划文件比 tasks.md 旧
+
+---
+
+## 语法
+
+```
+/work-status [change-name]
+```
+
+或不带参数，列出所有 active changes 的状态。
+
+## 自动识别
+
+```bash
+CURRENT=$(git branch --show-current 2>/dev/null || echo "")
+if echo "$CURRENT" | grep -q '^openspec/'; then
+    # 从 branch 提取 change
+    CHANGE_NAME=$(echo "$CURRENT" | sed 's/^openspec\///')
+    IN_WORKTREE=true
+else
+    IN_WORKTREE=false
+fi
+```
+
+## 执行流程
+
+### 1. 确定 change 名称
+
+### 2. 获取状态
+
+```bash
+STATUS_RESULT=$(openspec status --change "$CHANGE_NAME" --json 2>&1)
+if [ $? -ne 0 ]; then
+    echo "❌ 无法获取 change 状态"
+    echo "$STATUS_RESULT"
+    exit 1
+fi
+
+APPLY_RESULT=$(openspec instructions apply --change "$CHANGE_NAME" --json 2>&1)
+if [ $? -ne 0 ]; then
+    echo "❌ 无法获取 apply 状态"
+    echo "$APPLY_RESULT"
+    exit 1
+fi
+```
+
+### 3. 解析数据
+
+```bash
+STATE=$(echo "$APPLY_RESULT" | jq -r '.state')
+COMPLETE=$(echo "$APPLY_RESULT" | jq '.progress.complete')
+TOTAL=$(echo "$APPLY_RESULT" | jq '.progress.total')
+REMAINING=$(echo "$APPLY_RESULT" | jq '.progress.remaining')
+```
+
+### 4. 检测问题
+
+```bash
+# 检查 tasks.md 实际完成数
+ACTUAL_DONE=$(grep -c "\- \[x\]" openspec/changes/"$CHANGE_NAME"/tasks.md 2>/dev/null || echo "0")
+
+# 检查不同步
+if [ "$COMPLETE" != "$ACTUAL_DONE" ]; then
+    SYNC_WARNING="⚠️ 状态不同步！CLI: $COMPLETE, 实际: $ACTUAL_DONE"
+else
+    SYNC_WARNING=""
+fi
+
+# 检查 worktree 未提交
+if [ "$IN_WORKTREE" = true ]; then
+    UNCOMMITTED=$(git status --porcelain | wc -l)
+    if [ "$UNCOMMITTED" -gt 0 ]; then
+        UNCOMMITTED_WARNING="⚠️ Worktree 有 $UNCOMMITTED 个未提交的文件"
+    fi
+fi
+```
+
+### 5. 输出状态报告
+
+```
+## /work-status - $CHANGE_NAME
+
+### 执行状态
+Progress: $COMPLETE/$TOTAL tasks ($REMAINING remaining)
+State: $STATE
+
+$SYNC_WARNING
+$UNCOMMITTED_WARNING
+
+### 已完成任务
+$(echo "$APPLY_RESULT" | jq -r ".tasks[] | select(.done == true) | \"- [x] \\(.description)\"")
+$([ -z "$SYNC_WARNING" ] && echo "" || echo "$SYNC_WARNING")
+
+### 剩余任务
+$(echo "$APPLY_RESULT" | jq -r ".tasks[] | select(.done == false) | \"- [ ] \\(.description)\"")
+```
+
+---
+
+## 状态建议
+
+### all_done
+
+```
+✅ 所有任务已完成！
+
+建议操作：
+  /work-done  - 完成并归档（worktree 模式）
+  或
+  /opsx-archive $CHANGE_NAME  - 归档（串行模式）
+```
+
+### ready（有部分完成）
+
+```
+🔄 执行中
+
+建议操作：
+  /work-start  - 继续执行剩余任务
+```
+
+### ready（未开始）
+
+```
+⏳ 尚未开始
+
+建议操作：
+  /work-start  - 开始执行
+```
+
+### blocked
+
+```
+❌ 无法执行：缺少 artifacts
+
+缺失：
+- proposal.md
+- specs/*.md
+- design.md
+- tasks.md
+
+建议操作：
+  /opsx-propose $CHANGE_NAME  - 补全 artifacts
+```
+
+---
+
+## 问题检测详情
+
+### 问题 1: tasks.md 不同步
+
+```bash
+CLI_PROGRESS=$(echo "$APPLY_RESULT" | jq '.progress.complete')
+ACTUAL=$(grep -c "\- \[x\]" openspec/changes/"$CHANGE_NAME"/tasks.md)
+
+echo "⚠️ 状态不同步"
+echo "  CLI 报告: $CLI_PROGRESS"
+echo "  实际 tasks.md: $ACTUAL"
+echo ""
+echo "建议：重新检查 tasks.md 或执行 /opsx-plan 刷新"
+```
+
+### 问题 2: worktree 有未提交更改
+
+```bash
+echo "⚠️ Worktree 有未提交的更改"
+git status --short
+echo ""
+echo "建议：先 commit 再继续"
+echo "  git add -A && git commit -m 'WIP: $CHANGE_NAME'"
+```
+
+### 问题 3: 计划文件过期
+
+```bash
+PLAN_TIME=$(stat -c %Y .sisyphus/plans/"$CHANGE_NAME".md 2>/dev/null || echo "0")
+TASKS_TIME=$(stat -c %Y openspec/changes/"$CHANGE_NAME"/tasks.md 2>/dev/null || echo "0")
+
+if [ "$TASKS_TIME" -gt "$PLAN_TIME" ]; then
+    echo "⚠️ tasks.md 比计划文件新"
+    echo "建议：/opsx-plan $CHANGE_NAME 重新生成计划"
+fi
+```
+
+---
+
+## 列出所有 changes 的状态
+
+如果不带参数：
+
+```bash
+echo "Active Changes:"
+openspec list --json | jq -r '.[] | "\(.)"'
+echo ""
+
+for CHANGE in $(openspec list --json | jq -r '.[] | @base64'); do
+    CHANGE_NAME=$(echo "$CHANGE" | base64 -d)
+    APPLY=$(openspec instructions apply --change "$CHANGE_NAME" --json 2>/dev/null)
+    if [ $? -eq 0 ]; then
+        PROGRESS=$(echo "$APPLY" | jq '.progress')
+        STATE=$(echo "$APPLY" | jq -r '.state')
+        echo "├── $CHANGE_NAME ($PROGRESS.complete/$PROGRESS.total) - $STATE"
+    fi
+done
+```
+
+---
+
+## 输出格式
+
+### 正常状态
+
+```
+## /work-status
+
+Change: add-axi4-dma
+Progress: 4/7 tasks (57%)
+State: ready
+
+✅ 可继续 /work-start
+```
+
+### 需要干预
+
+```
+## /work-status
+
+Change: add-axi4-dma
+Progress: 4/7 tasks (57%)
+State: ready
+
+⚠️ 检测到问题：
+1. tasks.md 与 CLI 状态不同步 (CLI: 4, 实际: 3)
+2. worktree 有未提交的更改
+
+建议操作：
+1. /work-start 继续（忽略警告）
+2. /work-done 完成当前部分
+3. 手动同步状态
+```
+
+---
+
+## Guardrails
+
+1. **Change 存在检查** - change 必须存在
+2. **自动模式识别** - 根据当前位置自动识别
+3. **问题检测** - 检测状态不同步、代码未同步等常见问题
+4. **JSON 解析安全** - 处理 OpenSpec CLI 输出失败的情况

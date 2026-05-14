@@ -1,0 +1,123 @@
+---
+description: 列出所有 worktrees 及其状态
+---
+
+# /work-list - 列出 worktrees
+
+显示所有 OpenSpec worktrees 及其状态。
+
+## 语法
+
+```
+/work-list [--verbose]
+/work-list -v
+```
+
+## 输出格式
+
+### 普通模式
+
+```
+OpenSpec Worktrees:
+┌─────────────────────┬────────────────────────────────┬───────────────────────┐
+│ Change              │ Path                           │ Branch                 │
+├─────────────────────┼────────────────────────────────┼────────────────────────┤
+│ add-axi4-dma         │ /workspace/project/.zcf/...   │ openspec/add-axi4-dma │
+│ add-spi-ctrl        │ /workspace/project/.zcf/...   │ openspec/add-spi-ctrl  │
+└─────────────────────┴────────────────────────────────┴────────────────────────┘
+
+Active Changes (未完成):
+├── add-axi4-dma    (3/7 tasks complete)
+└── add-spi-ctrl    (1/5 tasks complete)
+```
+
+### Verbose 模式
+
+```
+OpenSpec Worktrees:
+┌─────────────────────┬────────────────────────────────┬───────────────────────┬────────────────┐
+│ Change              │ Path                           │ Branch                 │ Status         │
+├─────────────────────┼────────────────────────────────┼────────────────────────┼────────────────┤
+│ add-axi4-dma         │ /workspace/project/.zcf/...   │ openspec/add-axi4-dma │ 🔄 4/7 (57%)   │
+│ add-spi-ctrl        │ /workspace/project/.zcf/...   │ openspec/add-spi-ctrl  │ ⏳ 0/3 (0%)    │
+└─────────────────────┴────────────────────────────────┴────────────────────────┴────────────────┘
+
+Active Changes 详情:
+├── add-axi4-dma
+│   └── Progress: 4/7 tasks (57%)
+│   ├── 已完成: 实现 AXI4 Lite 接口, 添加 DMA 控制器, 实现内存映射, 添加中断支持
+│   └── 剩余: 实现数据传输, 添加错误处理, 编写测试用例
+│
+├── add-spi-ctrl
+│   └── Progress: 1/3 tasks (33%)
+│   ├── 已完成: 实现 SPI 寄存器
+│   └── 剩余: 实现数据传输, 添加测试用例
+│
+└── fix-memory-leak (已 archive)
+    └── 归档于: 2024-05-10
+```
+
+## 实现方式
+
+### 1. 列出 worktrees
+
+```bash
+git worktree list
+```
+
+### 2. 获取 active changes
+
+```bash
+openspec list --json
+```
+
+### 3. 获取每个 change 的详细状态
+
+```bash
+openspec instructions apply --change <CHANGE_NAME> --json
+```
+
+解析：
+- `progress`: { total, complete, remaining }
+- `state`: blocked / ready / all_done
+
+## 信息来源
+
+- `git worktree list` - worktree 路径和 branch
+- `openspec list --json` - change 名称
+- `openspec instructions apply --change <NAME> --json` - 详细进度
+
+## 示例
+
+```bash
+$ /work-list
+
+OpenSpec Worktrees:
+┌─────────────────────┬────────────────────────────────┬───────────────────────┐
+│ Change              │ Path                           │ Branch                 │
+├─────────────────────┼────────────────────────────────┼────────────────────────┤
+│ add-axi4-dma         │ /workspace/project/.zcf/add-axi4-dma-wt │ openspec/add-axi4-dma │
+└─────────────────────┴────────────────────────────────┴────────────────────────┘
+
+Active Changes:
+└── add-axi4-dma    (4/7 tasks complete)
+
+$ /work-list -v
+
+OpenSpec Worktrees:
+┌─────────────────────┬────────────────────────────────┬───────────────────────┬────────────────┐
+│ Change              │ Path                           │ Branch                 │ Status         │
+├─────────────────────┼────────────────────────────────┼────────────────────────┼────────────────┤
+│ add-axi4-dma         │ /workspace/project/.zcf/add-axi4-dma-wt │ openspec/add-axi4-dma │ 🔄 4/7 (57%)   │
+└─────────────────────┴────────────────────────────────┴────────────────────────┴────────────────┘
+
+Active Changes 详情:
+├── add-axi4-dma
+│   └── Progress: 4/7 tasks (57%)
+│   ├── 已完成: 实现 AXI4 Lite 接口, 添加 DMA 控制器, 实现内存映射, 添加中断支持
+│   └── 剩余: 实现数据传输, 添加错误处理, 编写测试用例
+
+建议操作：
+  /work-start add-axi4-dma  - 继续执行
+  /work-done add-axi4-dma   - 检查并完成
+```
