@@ -27,13 +27,13 @@ C++/CUDA/PTX、Python、
 - 在代码中硬编码密钥
 
 ## 当前项目
-1. **PTX-EMU**: `/workspace/PTX-EMU/` — PTX仿真器
-2. **CppHDL**: `/workspace/CppHDL/` — 基于Cpp语言的硬件描述语言
-3. **CppTLM**: `/workspace/CppTLM/` — 基于Cpp语言的建模架构
-4. **UsrLinuxEmu**: `/workspace/UsrLinuxEmu/` — 用户态Linux兼容的实现，用于在用户态下开发Linux驱动
-5. **mynotes**: `/workspace/mynotes/` — 个人知识笔记, 会包含其他项目的各种想法记录，架构讨论
+1. **PTX-EMU**: `/workspace/project/PTX-EMU/` — PTX仿真器
+2. **CppHDL**: `/workspace/project/CppHDL/` — 基于Cpp语言的硬件描述语言
+3. **CppTLM**: `/workspace/project/CppTLM/` — 基于Cpp语言的建模架构
+4. **UsrLinuxEmu**: `/workspace/projeect/UsrLinuxEmu/` — 用户态Linux兼容的实现，用于在用户态下开发Linux驱动
+5. **mynotes**: `/workspace/project/mynotes/` — 个人知识笔记, 会包含其他项目的各种想法记录，架构讨论
 6. **home**: `/workspace/home/` —  个人Linux工作环境, 包括openclaw, opencode, 等全局配置，这个目录通过docker的目录下映射到$HOME目录，所以你看到和$HOME下的内容是一样的
-7. **BrainSkillForge**: `/workspace/brain-skill-forge/` — AgenticDSL运行时, AgenticDSL可以看成通用SKILL编译固化的逻辑  
+7. **BrainForge**: `/workspace/preoject/BrainForge/` — AgenticDSL运行时, AgenticDSL可以看成通用SKILL编译固化的逻辑  
 8. **UniDAG-Store**: `/workspace/brain-unidag-store/` — 智能体存储
 9. **Hydra-SKILL**: `/workspace/brain-hydra-skill/` — MLA架构外循环推理
 10. **Synapse-SKILL**: `/workspace/brain-synapse-skill/` — 多智能体架构设计
@@ -41,5 +41,5 @@ C++/CUDA/PTX、Python、
 
 
 ## 文件位置
-代码: `/workspace/`
-架构笔记: `/workspace/mynotes`
+代码: `/workspace/project/`
+架构笔记: `/workspace/project/mynotes`
