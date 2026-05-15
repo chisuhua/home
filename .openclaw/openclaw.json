@@ -1,11 +1,11 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.4.15",
-    "lastTouchedAt": "2026-04-21T04:11:34.186Z"
+    "lastTouchedVersion": "2026.4.27",
+    "lastTouchedAt": "2026-05-14T17:12:27.842Z"
   },
   "wizard": {
-    "lastRunAt": "2026-04-08T09:41:12.190Z",
-    "lastRunVersion": "2026.4.8",
+    "lastRunAt": "2026-05-14T17:12:27.623Z",
+    "lastRunVersion": "2026.4.27",
     "lastRunCommand": "doctor",
     "lastRunMode": "local"
   },
@@ -46,7 +46,7 @@
           {
             "id": "MiniMax-M2.7",
             "name": "MiniMax M2.7",
-            "reasoning": true,
+            "reasoning": false,
             "input": [
               "text",
               "image"
@@ -240,6 +240,7 @@
     "port": 18789,
     "mode": "local",
     "bind": "lan",
+    "trustedProxies": ["127.0.0.1", "::1", "47.100.102.207"],
     "controlUi": {
       "allowedOrigins": [
         "http://localhost:18789",
@@ -257,8 +258,7 @@
   "skills": {
     "load": {
       "extraDirs": [
-        "~/.agents/skills",
-        "/workspace/acf-workflow/skills"
+        "~/.openclaw/skills"
       ]
     },
     "install": {
@@ -312,8 +312,7 @@
     "maintenance": {
       "mode": "enforce",
       "pruneAfter": "5d",
-      "maxEntries": 30,
-      "rotateBytes": "10mb"
+      "maxEntries": 30
     }
   },
   "plugins": {
@@ -346,9 +345,7 @@
       }
     },
     "load": {
-      "paths": [
-        "/home/ubuntu/.local/share/pnpm/global/5/.pnpm/openclaw@2026.4.15_@emnapi+core@1.10.0_@emnapi+runtime@1.10.0_@napi-rs+canvas@0.1.99_@t_4f8e0c9bb61d14c7228165243d7f6933/node_modules/openclaw/dist/extensions/acpx"
-      ]
+      "paths": []
     }
   }
 }
