@@ -1,7 +1,7 @@
 {
   "meta": {
     "lastTouchedVersion": "2026.4.27",
-    "lastTouchedAt": "2026-05-14T17:12:27.842Z"
+    "lastTouchedAt": "2026-05-15T19:11:58.902Z"
   },
   "wizard": {
     "lastRunAt": "2026-05-14T17:12:27.623Z",
@@ -90,6 +90,41 @@
             "maxTokens": 65536
           }
         ]
+      },
+      "deepseek": {
+        "baseUrl": "https://api.deepseek.com",
+        "apiKey": "${DEEPSEEK_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "deepseek-v4-flash",
+            "name": "deepseek-v4-flash",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 65536
+          }
+        ],
+        "authHeader": true
+      },
+      "kimi": {
+        "baseUrl": "https://api.kimi.com/coding/v1",
+        "apiKey": "${KIMI_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "kimi-for-coding",
+            "name": "kimi-for-coding",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "maxTokens": 32768
+          }
+        ],
+        "authHeader": true
       }
     }
   },
@@ -144,11 +179,6 @@
         "model": "bailian/qwen3.6-plus"
       },
       {
-        "id": "reviewer",
-        "name": "Code Reviewer",
-        "model": "bailian/qwen3.5-plus"
-      },
-      {
         "id": "opencode",
         "name": "opencode",
         "agentDir": "/home/ubuntu/.openclaw/agents/opencode/agent",
@@ -167,6 +197,36 @@
         "name": "pkgm-manager",
         "workspace": "/workspace/project/PKGM/manager",
         "agentDir": "/home/ubuntu/.openclaw/agents/pkgm-manager/agent"
+      },
+      {
+        "id": "pm",
+        "name": "PM Agent",
+        "workspace": "/home/ubuntu/.openclaw/workspace-pm",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      {
+        "id": "architect",
+        "name": "Architect Agent",
+        "workspace": "/home/ubuntu/.openclaw/workspace-architect",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      {
+        "id": "reviewer",
+        "name": "Reviewer",
+        "workspace": "/home/ubuntu/.openclaw/workspace-reviewer",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      {
+        "id": "researcher",
+        "name": "Researcher",
+        "workspace": "/home/ubuntu/.openclaw/workspace-researcher",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      {
+        "id": "librarian",
+        "name": "Librarian",
+        "workspace": "/home/ubuntu/.openclaw/workspace-librarian",
+        "model": "minimax/MiniMax-M2.7"
       }
     ]
   },
@@ -240,7 +300,11 @@
     "port": 18789,
     "mode": "local",
     "bind": "lan",
-    "trustedProxies": ["127.0.0.1", "::1", "47.100.102.207"],
+    "trustedProxies": [
+      "127.0.0.1",
+      "::1",
+      "47.100.102.207"
+    ],
     "controlUi": {
       "allowedOrigins": [
         "http://localhost:18789",
@@ -342,6 +406,9 @@
             "apiKey": "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"
           }
         }
+      },
+      "deepseek": {
+        "enabled": true
       }
     },
     "load": {
