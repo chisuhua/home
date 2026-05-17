@@ -1,11 +1,11 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.4.27",
-    "lastTouchedAt": "2026-05-15T19:11:58.902Z"
+    "lastTouchedVersion": "2026.5.12",
+    "lastTouchedAt": "2026-05-17T06:23:50.536Z"
   },
   "wizard": {
-    "lastRunAt": "2026-05-14T17:12:27.623Z",
-    "lastRunVersion": "2026.4.27",
+    "lastRunAt": "2026-05-17T06:22:27.326Z",
+    "lastRunVersion": "2026.5.12",
     "lastRunCommand": "doctor",
     "lastRunMode": "local"
   },
@@ -176,7 +176,7 @@
         "name": "cto",
         "workspace": "/home/ubuntu/.openclaw/workspace-cto",
         "agentDir": "/home/ubuntu/.openclaw/agents/cto/agent",
-        "model": "bailian/qwen3.6-plus"
+        "model": "minimax/MiniMax-M2.7"
       },
       {
         "id": "opencode",
@@ -208,13 +208,13 @@
         "id": "architect",
         "name": "Architect Agent",
         "workspace": "/home/ubuntu/.openclaw/workspace-architect",
-        "model": "deepseek/deepseek-v4-flash"
+        "model": "kimi/kimi-for-coding"
       },
       {
         "id": "reviewer",
         "name": "Reviewer",
         "workspace": "/home/ubuntu/.openclaw/workspace-reviewer",
-        "model": "deepseek/deepseek-v4-flash"
+        "model": "kimi/kimi-for-coding"
       },
       {
         "id": "researcher",
@@ -226,7 +226,7 @@
         "id": "librarian",
         "name": "Librarian",
         "workspace": "/home/ubuntu/.openclaw/workspace-librarian",
-        "model": "minimax/MiniMax-M2.7"
+        "model": "deepseek/deepseek-v4-flash"
       }
     ]
   },
@@ -343,6 +343,126 @@
       },
       "tavily-search": {
         "apiKey": "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"
+      },
+      "1password": {
+        "enabled": false
+      },
+      "apple-notes": {
+        "enabled": false
+      },
+      "apple-reminders": {
+        "enabled": false
+      },
+      "bear-notes": {
+        "enabled": false
+      },
+      "blogwatcher": {
+        "enabled": false
+      },
+      "blucli": {
+        "enabled": false
+      },
+      "camsnap": {
+        "enabled": false
+      },
+      "clawhub": {
+        "enabled": false
+      },
+      "discord": {
+        "enabled": false
+      },
+      "eightctl": {
+        "enabled": false
+      },
+      "gemini": {
+        "enabled": false
+      },
+      "gifgrep": {
+        "enabled": false
+      },
+      "gog": {
+        "enabled": false
+      },
+      "goplaces": {
+        "enabled": false
+      },
+      "himalaya": {
+        "enabled": false
+      },
+      "imsg": {
+        "enabled": false
+      },
+      "mcporter": {
+        "enabled": false
+      },
+      "model-usage": {
+        "enabled": false
+      },
+      "nano-pdf": {
+        "enabled": false
+      },
+      "notion": {
+        "enabled": false
+      },
+      "obsidian": {
+        "enabled": false
+      },
+      "openai-whisper": {
+        "enabled": false
+      },
+      "openai-whisper-api": {
+        "enabled": false
+      },
+      "openhue": {
+        "enabled": false
+      },
+      "oracle": {
+        "enabled": false
+      },
+      "ordercli": {
+        "enabled": false
+      },
+      "peekaboo": {
+        "enabled": false
+      },
+      "sag": {
+        "enabled": false
+      },
+      "sherpa-onnx-tts": {
+        "enabled": false
+      },
+      "slack": {
+        "enabled": false
+      },
+      "songsee": {
+        "enabled": false
+      },
+      "sonoscli": {
+        "enabled": false
+      },
+      "spotify-player": {
+        "enabled": false
+      },
+      "summarize": {
+        "enabled": false
+      },
+      "things-mac": {
+        "enabled": false
+      },
+      "trello": {
+        "enabled": false
+      },
+      "video-frames": {
+        "enabled": false
+      },
+      "voice-call": {
+        "enabled": false
+      },
+      "wacli": {
+        "enabled": false
+      },
+      "xurl": {
+        "enabled": false
       }
     }
   },
@@ -413,6 +533,11 @@
     },
     "load": {
       "paths": []
+    }
+  },
+  "messages": {
+    "groupChat": {
+      "visibleReplies": "message_tool"
     }
   }
 }

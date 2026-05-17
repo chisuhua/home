@@ -1,0 +1,44 @@
+{
+  "schema": "acpx.session.v1",
+  "acpx_record_id": "agent:opencode:acp:92841f32-51c6-41dd-a797-7980f1d47118:oneshot:03ae64b6-b1bb-4e73-9bbc-09d62523b6be",
+  "acp_session_id": "ses_225d4cdc6ffezT342l5aJaV7OT",
+  "agent_command": "npx -y opencode-ai acp",
+  "cwd": "/workspace/project/PKGM-Web",
+  "name": "agent:opencode:acp:92841f32-51c6-41dd-a797-7980f1d47118",
+  "created_at": "2026-04-29T16:56:10.571Z",
+  "last_used_at": "2026-04-29T16:56:10.571Z",
+  "last_seq": 0,
+  "event_log": {
+    "active_path": "/home/ubuntu/.acpx/sessions/agent%3Aopencode%3Aacp%3A92841f32-51c6-41dd-a797-7980f1d47118%3Aoneshot%3A03ae64b6-b1bb-4e73-9bbc-09d62523b6be.stream.ndjson",
+    "segment_count": 5,
+    "max_segment_bytes": 67108864,
+    "max_segments": 5,
+    "last_write_error": null
+  },
+  "closed": false,
+  "pid": 472672,
+  "agent_started_at": "2026-04-29T16:53:15.508Z",
+  "protocol_version": 1,
+  "agent_capabilities": {
+    "loadSession": true,
+    "mcpCapabilities": {
+      "http": true,
+      "sse": true
+    },
+    "promptCapabilities": {
+      "embeddedContext": true,
+      "image": true
+    },
+    "sessionCapabilities": {
+      "fork": {},
+      "list": {},
+      "resume": {}
+    }
+  },
+  "title": null,
+  "messages": [],
+  "updated_at": "2026-04-29T16:56:10.571Z",
+  "cumulative_token_usage": {},
+  "request_token_usage": {},
+  "acpx": {}
+}
