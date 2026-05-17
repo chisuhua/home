@@ -33,7 +33,7 @@
     "websearch": "allow"
   },
   "model": "minimax/MiniMax-M2.7",
-  "small_model": "alibaba-cn/qwen3.5-flash",
+  "small_model": "minimax/MiniMax-M2.7",
   "default_agent": "sisyphus",
   "watcher": {
     "ignore": [
@@ -55,13 +55,14 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "DeepSeek",
       "options": {
-        "baseURL": "https://api.deepseek.com"
+        "baseURL": "https://api.deepseek.com",
+        "apiKey": "{env:DEEPSEEK_API_KEY}"
       },
       "models": {
         "deepseek-v4-pro": {
           "name": "deepseek-v4-pro",
-          "contextWindow": 128000,
-          "maxTokens": 8192,
+          "contextWindow": 1000000,
+          "maxTokens": 32768,
           "options": {
             "thinking": {
               "type": "enabled",
@@ -71,8 +72,8 @@
         },
         "deepseek-v4-flash": {
           "name": "deepseek-v4-flash",
-          "contextWindow": 128000,
-          "maxTokens": 8192
+          "contextWindow": 1000000,
+          "maxTokens": 32768
         }
       }
     },

@@ -1,71 +1,58 @@
 -- ~/.config/nvim/lua/plugins.lua
 return {
-  -- 🔧 插件管理器 UI（可选）
-  -- { "folke/lazy.nvim", cmd = "Lazy" },
-    -- 🎨 主题
-{
-  "catppuccin/nvim",
-  name = "catppuccin",
-  priority = 1000, -- 高优先级确保尽早加载 colorscheme
-  config = function()
-    require("catppuccin").setup({
-      flavour = "mocha", -- 👈 默认就是 mocha，不依赖环境变量
-      color_overrides = {
-         mocha = {
-           mauve = "#89dceb", -- 青色（类似 sky）
-         }
-      },
-      background = {
-        light = "latte",
-        dark = "mocha",
-      },
-      transparent_background = true,
-      term_colors = true,
-      dim_inactive = {
-        enabled = false,
-        shade = "dark",
-        percentage = 0.15,
-      },
-      no_italic = false,
-      no_bold = false,
-      styles = {
-        comments = { "italic" },
-        conditionals = { "italic" },
-        loops = {},
-        functions = { "bold" },
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-        operators = {},
-      },
-      color_overrides = {},
-      custom_highlights = {},
-    })
-
-    vim.cmd.colorscheme("catppuccin")
-  end,
+  -- 🎨 主题
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha",
+        color_overrides = {
+          mocha = {
+            mauve = "#89dceb",
+          },
+        },
+        background = {
+          light = "latte",
+          dark = "mocha",
+        },
+        transparent_background = true,
+        term_colors = true,
+        dim_inactive = {
+          enabled = false,
+          shade = "dark",
+          percentage = 0.15,
+        },
+        no_italic = false,
+        no_bold = false,
+        styles = {
+          comments = { "italic" },
+          conditionals = { "italic" },
+          loops = {},
+          functions = { "bold" },
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+        },
+        custom_highlights = {},
+      })
+      vim.cmd.colorscheme("catppuccin")
+    end,
   },
+
+  -- 🍪 瑞士军刀 UI 组件
   {
     "folke/snacks.nvim",
-    event = "VeryLazy", -- 可选：延迟加载
+    event = "VeryLazy",
     opts = {
-      -- 可选配置，按需启用组件
       bigfile = { enabled = true },
-      dashboard = { 
-        enabled = false,
-        content = {
-          { "🚀 Quick Actions", "" },
-          { "  Find File", "<C-p>", icon = "", desc = "Find files using Telescope" },
-          { "󰈚  Recent Files", "<leader>fr", icon = "󰈚", desc = "Open recent files" },
-          { "  Find Word", "<leader>/", icon = "", desc = "Search current word" },
-          { "", "" },
-          { "  Sessions", "<leader>fs", icon = "", desc = "Manage sessions" },
-        }
-      },
+      dashboard = { enabled = false },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
@@ -73,152 +60,36 @@ return {
       smooth = { enabled = true },
       words = { enabled = true },
       picker = { enabled = true },
-      -- 更多选项见 https://github.com/folke/snacks.nvim#-usage
     },
   },
-{
-  "akinsho/toggleterm.nvim",
-  version = "*",
-  config = true,
-},
-	{
-	  "numToStr/Comment.nvim",
-	  event = "VeryLazy",
-	  config = true,
-	},
-  -- 🧠 AI 补全
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   event = "InsertEnter",
-  --   config = function()
-  --     require("copilot").setup({
-  --       suggestion = {
-  --         enabled = false,
-  --         auto_trigger = true,
-  --         debounce = 75,
-  --         -- keymap = { accept = "<C-l>" },
-  --       },
-  --       panel = { enabled = false },
-  --     })
-  --   end,
-  -- },
-  -- 🌳 文件树
-  -- {
-  --   "nvim-tree/nvim-tree.lua",
-  -- lazy = false,
-  -- dependencies = { "nvim-tree/nvim-web-devicons" },
-  -- config = function()
-  --   require("nvim-tree").setup({})  -- ← 必须有这一行！
-  -- end,
-  -- keys = { { "e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle file tree" } }
-  -- },
+
+  -- ⌨️ 终端
   {
-  "nvim-neo-tree/neo-tree.nvim",
-  lazy = false,
-  version = "v3.x",  -- 👈 关键：锁定 v3 分支（包含 3.30+）
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
-    "nvim-tree/nvim-web-devicons", -- optional
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    config = true,
   },
-  config = function()
-    require("neo-tree").setup({
-      -- 你的配置
-    })
-  end,
-  },
+
+  -- 💬 注释
   {
-    "GeorgesAlkhouri/nvim-aider",
-    cmd = "Aider",
-    -- Example key mappings for common actions:
-    keys = {
-      { "<leader>a/", "<cmd>Aider toggle<cr>", desc = "Toggle Aider" },
-      { "<leader>as", "<cmd>Aider send<cr>", desc = "Send to Aider", mode = { "n", "v" } },
-      { "<leader>ac", "<cmd>Aider command<cr>", desc = "Aider Commands" },
-      { "<leader>ab", "<cmd>Aider buffer<cr>", desc = "Send Buffer" },
-      { "<leader>a+", "<cmd>Aider add<cr>", desc = "Add File" },
-      { "<leader>a-", "<cmd>Aider drop<cr>", desc = "Drop File" },
-      { "<leader>ar", "<cmd>Aider add readonly<cr>", desc = "Add Read-Only" },
-      { "<leader>aR", "<cmd>Aider reset<cr>", desc = "Reset Session" },
-      -- Example nvim-tree.lua integration if needed
-      -- { "<leader>a+", "<cmd>AiderTreeAddFile<cr>", desc = "Add File from Tree to Aider", ft = "NvimTree" },
-      -- { "<leader>a-", "<cmd>AiderTreeDropFile<cr>", desc = "Drop File from Tree from Aider", ft = "NvimTree" },
-    },
+    "numToStr/Comment.nvim",
+    event = "VeryLazy",
+    config = true,
+  },
+
+  -- 📁 文件树
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    lazy = false,
+    version = "v3.x",
     dependencies = {
-      { "folke/snacks.nvim", version = ">=2.24.0" },
-      --- The below dependencies are optional
-      "catppuccin/nvim",
-      "nvim-tree/nvim-tree.lua",
-      --- Neo-tree integration
-      {
-        "nvim-neo-tree/neo-tree.nvim",
-        opts = function(_, opts)
-          -- Example mapping configuration (already set by default)
-          -- opts.window = {
-          --   mappings = {
-          --     ["+"] = { "nvim_aider_add", desc = "add to aider" },
-          --     ["-"] = { "nvim_aider_drop", desc = "drop from aider" }
-          --     ["="] = { "nvim_aider_add_read_only", desc = "add read-only to aider" }
-          --   }
-          -- }
-          require("nvim_aider.neo_tree").setup(opts)
-        end,
-      },
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons",
     },
     config = function()
-      require("nvim_aider").setup({
-      -- Command that executes Aider
-      aider_cmd = "aider",
-      -- Command line arguments passed to aider
-      args = {
-        "--model", "deepseek", "--api-key", "deepseek=sk-8fcbc9a1063c45d792b2903fa31baa1a",
-        "--pretty",
-        "--stream",
-        "--chat-history-file", "aider_session.log"
-      },
-      -- Automatically reload buffers changed by Aider (requires vim.o.autoread = true)
-      auto_reload = true,
-      notifications = true,
-      }) 
+      require("neo-tree").setup({})
     end,
-  },
-  {
-  "NickvanDyke/opencode.nvim",
-	  dependencies = {
-	    -- Recommended for `ask()` and `select()`.
-	    -- Required for `snacks` provider.
-	    ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
-	    { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
-	  },
-	  config = function()
-	    ---@type opencode.Opts
-	    vim.g.opencode_opts = {
-	      -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
-	    }
-
-	    -- Required for `opts.events.reload`.
-	    vim.o.autoread = true
-
-	    -- Recommended/example keymaps.
-      vim.keymap.set("n", "<leader>oq", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode.."})
-      vim.keymap.set("n", "<leader>os", function() require("opencode").select() end, { desc = "Select opencode action with -" })
-	    -- vim.keymap.set({ "n", "x" }, "<C-a>", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode…" })
-	    vim.keymap.set({ "n", "x" }, "<C-x>", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
-	    -- vim.keymap.set({ "n", "t" }, "<C-.>", function() require("opencode").toggle() end,                          { desc = "Toggle opencode" })
-
-	    vim.keymap.set({ "n", "x" }, "go",  function() return require("opencode").operator("@this ") end,        { desc = "Add range to opencode", expr = true })
-	    vim.keymap.set("n",          "gl", function() return require("opencode").operator("@this ") .. "_" end, { desc = "Add line to opencode", expr = true })
-
-      vim.keymap.set("n", "<leader>ao", function() require("opencode").toggle() end, { desc = "Toggle opencode panel" })
-
-
-	    vim.keymap.set("n", "<S-C-u>", function() require("opencode").command("session.half.page.up") end,   { desc = "Scroll opencode up" })
-	    vim.keymap.set("n", "<S-C-d>", function() require("opencode").command("session.half.page.down") end, { desc = "Scroll opencode down" })
-
-	    -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o…".
-	    -- vim.keymap.set("n", "+", "<C-a>", { desc = "Increment under cursor", noremap = true })
-	    -- vim.keymap.set("n", "-", "<C-x>", { desc = "Decrement under cursor", noremap = true })
-	  end,
   },
 
   -- 🔍 模糊查找
@@ -226,24 +97,16 @@ return {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-frecency.nvim", -- 可选：高频文件
+      "nvim-telescope/telescope-frecency.nvim",
     },
     cmd = "Telescope",
     keys = {
-      { "<C-p>", "<cmd>Telescope frecency<cr>", desc = "Find frequent/recent files (VS Code style)" },
+      { "<C-p>", "<cmd>Telescope frecency<cr>", desc = "Find frequent/recent files" },
       { "<C-t>", "<cmd>Telescope lsp_workspace_symbols<cr>", desc = "Workspace symbols" },
-      { "<leader>fF", "<cmd>Telescope find_all_files<cr>", desc = "Find all files" },
-      { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
-      { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
-      { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-      { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
     },
     config = function()
       local telescope = require("telescope")
       local actions = require("telescope.actions")
-
-      -- 自动检测是否安装 fd，若未安装则回退到 find
-      local has_fd, _ = pcall(require, "telescope.utils")
       local use_fd = vim.fn.executable("fd") == 1
 
       telescope.setup({
@@ -272,18 +135,11 @@ return {
             "rg", "--color=never", "--no-heading", "--with-filename",
             "--line-number", "--column", "--smart-case"
           },
-          -- 使用 fd 提升速度（如果可用）
           find_command = use_fd and { "fd", "--type", "f", "--hidden", "--follow", "--exclude", ".git" } or nil,
         },
         pickers = {
           find_files = {
-            -- 即使不用 frecency，find_files 也受益于 fd
             find_command = use_fd and { "fd", "--type", "f", "--hidden", "--follow", "--exclude", ".git", "--exclude", "node_modules" } or nil,
-          },
-          find_files_all = {
-            find_command = use_fd and { "fd", "--type", "f", "--hidden", "--follow" } or nil,
-            -- 显式清空 ignore_patterns（覆盖 defaults）
-            file_ignore_patterns = {},
           },
           frecency = {
             show_scores = false,
@@ -291,60 +147,72 @@ return {
             ignore_patterns = { "%.git/", "node_modules/" },
           },
         },
-        extensions = {
-          frecency = {
-            show_scores = false,
-            show_unindexed = true,
-          }
-        }
       })
       require("telescope").load_extension("frecency")
     end,
   },
 
-  -- 🧩 LSP + DAP + Mason
+  -- 🔨 CMake
   {
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
+    "Civitasv/cmake-tools.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("cmake-tools").setup({
+        cmake_command = "cmake",
+        cmake_build_directory = "build",
+        cmake_build_type = "Debug",
+        cmake_variants = {
+          debug = { ["-DCMAKE_BUILD_TYPE"] = "Debug" },
+          release = { ["-DCMAKE_BUILD_TYPE"] = "Release" },
+        },
+      })
+    end,
   },
-  config = function()
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    require("mason").setup()
-    require("mason-lspconfig").setup({
-      ensure_installed = { "clangd" },
-      handlers = {
-        -- 全局默认 handler
-        function(server_name)
-          require("lspconfig")[server_name].setup({ capabilities = capabilities })
-        end,
-        -- clangd 特定配置
-        clangd = function()
-          require("lspconfig").clangd.setup({
-            capabilities = capabilities,
-            cmd = { "clangd", "--background-index", "--header-insertion=iwyu", "--suggest-missing-includes"},
-            init_options = {
-              clangd = {
-                hints = { parameters = true, deducedTypes = true }
-              }
-            }
-          })
-        end,
-      },
-    })
-  end,
-  }, 
-  -- 💡 补全引擎
+  -- 🧩 LSP + Mason
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+    },
+    config = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "clangd", "cmake" },
+        handlers = {
+          function(server_name)
+            require("lspconfig")[server_name].setup({ capabilities = capabilities })
+          end,
+          clangd = function()
+            require("lspconfig").clangd.setup({
+              capabilities = capabilities,
+              cmd = {
+                "clangd", "--background-index",
+                "--header-insertion=iwyu",
+                "--suggest-missing-includes",
+                "--compile-commands-dir=build",
+              },
+              init_options = {
+                clangd = { hints = { parameters = true, deducedTypes = true } },
+                compilationDatabasePath = "build",
+              },
+            })
+          end,
+        },
+      })
+    end,
+  },
+
+  -- 💡 补全引擎（无 copilot）
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
-      "zbirenbaum/copilot-cmp",
       "L3MON4D3/LuaSnip",
     },
     config = function()
@@ -363,17 +231,13 @@ return {
               fallback()
             end
           end, { "i", "s" }),
-          ["<C-e>"] = cmp.mapping.complete(),  -- 按 Ctrl+E 唤出补全菜单
-          ["<C-@>"] = cmp.mapping(function()
-            cmp.complete({ config = { sources = { { name = "copilot" } } } })
-          end),
+          ["<C-e>"] = cmp.mapping.complete(),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
           { name = "path" },
-          { name = "copilot" , group_index = 2},
         }),
       })
     end,
@@ -393,6 +257,8 @@ return {
       })
     end,
   },
+
+  -- 🐞 调试
   {
     "mfussenegger/nvim-dap",
     dependencies = {
@@ -408,8 +274,9 @@ return {
 
       local codelldb_path = vim.fn.expand("~/.vscode-server/extensions/vadimcn.vscode-lldb-1.12.1/adapter/codelldb")
       local lldb_lib_path = vim.fn.expand("~/.vscode-server/extensions/vadimcn.vscode-lldb-1.12.1/lldb/lib")
+      local has_codelldb = vim.fn.executable(codelldb_path) == 1
 
-      if vim.fn.executable(codelldb_path) == 1 then
+      if has_codelldb then
         dap.adapters.lldb = {
           type = "executable",
           command = codelldb_path,
@@ -419,64 +286,40 @@ return {
             },
           },
         }
-      else
-        vim.notify("❌ codelldb not found at: " .. codelldb_path, vim.log.levels.ERROR)
       end
 
-      require("dap.ext.vscode").load_launchjs()
+      dap.configurations.cpp = {
+        {
+          name = "Debug CMake Target",
+          type = "lldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+        },
+        {
+          name = "Debug CMake (gdb)",
+          type = "cppdbg",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          setupCommands = {
+            { text = "-enable-pretty-printing", description = "Enable pretty-printing" },
+          },
+        },
+      }
 
       dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
       dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
       dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
-
     end,
-    keys = {
-      { "<F5>", "<cmd>lua require'dap'.continue()<cr>", desc = "Debug: Start/Continue" },
-      { "<F10>", "<cmd>lua require'dap'.step_over()<cr>", desc = "Debug: Step Over" },
-      { "<F11>", "<cmd>lua require'dap'.step_into()<cr>", desc = "Debug: Step Into" },
-      { "<F12>", "<cmd>lua require'dap'.step_out()<cr>", desc = "Debug: Step Out" },
-      { "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", desc = "Debug: Toggle Breakpoint" },
-    },
   },
 
-  -- 🐞 调试
-  -- {
-  --   "mfussenegger/nvim-dap",
-  --   dependencies = {
-  --     "rcarriga/nvim-dap-ui",
-  --     "theHamsta/nvim-dap-virtual-text",
-  --     "mxsdev/nvim-dap-vscode-js",
-  --   },
-  --   config = function()
-  --     local dap = require("dap")
-  --     local dapui = require("dapui")
-  --     require("dap.ext.vscode").load_launchjs()
-  --     dapui.setup()
-  --     dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
-  --
-  --     dap.adapters.codelldb = {
-  --       type = "server",
-  --       port = "${port}",
-  --       executable = { command = "codelldb", args = { "--port", "${port}" } },
-  --     }
-  --     dap.adapters.cpp = {
-  --       type = "executable",
-  --       command = "/usr/bin/gdb",  -- 或 "gdb"
-  --       args = { "--interpreter=dap" },             -- 关键：启用 DAP 模式
-  --     }
-  --     dap.configurations.cpp = {
-  --     }
-  --     dap.configurations.c = dap.configurations.cpp
-  --   end,
-  --   keys = {
-  --     { "<F5>", "<cmd>lua require'dap'.continue()<cr>", desc = "Debug: Start/Continue" },
-  --     { "<F10>", "<cmd>lua require'dap'.step_over()<cr>", desc = "Debug: Step Over" },
-  --     { "<F11>", "<cmd>lua require'dap'.step_into()<cr>", desc = "Debug: Step Into" },
-  --     { "<F12>", "<cmd>lua require'dap'.step_out()<cr>", desc = "Debug: Step Out" },
-  --     { "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", desc = "Debug: Toggle Breakpoint" },
-  --   },
-  -- },
-  --
   -- 🌲 Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
@@ -484,7 +327,7 @@ return {
     event = "VeryLazy",
     config = function()
       require("nvim-treesitter.config").setup({
-        ensure_installed = { "c", "cpp", "cmake", "bash"},
+        ensure_installed = { "c", "cpp", "cmake", "bash" },
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
@@ -512,59 +355,41 @@ return {
       })
     end,
   },
+
   -- 📊 Git 集成
-{
-  "tpope/vim-fugitive",
-  event = "VeryLazy", -- 或 "BufRead"，按需触发
-},
-{
-  "lewis6991/gitsigns.nvim",
-  event = "BufRead",
-  config = function()
-    require("gitsigns").setup({
-      on_attach = function(bufnr)
-        local map = function(mode, l, r, desc)
-          vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
-        end
-
-        -- Hunk 操作
-        map("n", "<leader>gs", require("gitsigns").stage_hunk, "Stage hunk")
-        map("n", "<leader>gr", require("gitsigns").reset_hunk, "Reset hunk")
-        map("n", "<leader>gS", require("gitsigns").stage_buffer, "Stage buffer")
-        map("n", "<leader>gR", require("gitsigns").reset_buffer, "Reset buffer")
-
-        -- 预览
-        map("n", "<leader>gp", require("gitsigns").preview_hunk, "Preview hunk")
-        map("n", "<leader>gi", require("gitsigns").preview_hunk_inline, "Preview hunk inline")
-
-        -- 导航（智能兼容 diff 模式）
-        map("n", "]c", function()
-          if vim.wo.diff then return vim.cmd.normal({ "]c", bang = true }) end
-          require("gitsigns").nav_hunk("next")
-        end, "Next hunk")
-        map("n", "[c", function()
-          if vim.wo.diff then return vim.cmd.normal({ "[c", bang = true }) end
-          require("gitsigns").nav_hunk("prev")
-        end, "Prev hunk")
-
-        -- 文本对象
-        map({ "o", "x" }, "ih", require("gitsigns").select_hunk, "Select inner hunk")
-        map({ "o", "x" }, "ah", function()
-          require("gitsigns").select_hunk({ include_headers = true })
-        end, "Select a hunk")
-
-        -- Quickfix
-        map("n", "<leader>gq", require("gitsigns").setqflist, "Set quickfix list")
-      end,
-
-      -- 可选：启用行号高亮、符号列等（按需开启）
-      signcolumn = true,  -- 在 sign column 显示 + ~ _
-      numhl = false,      -- 是否高亮行号（绿色/红色）
-      linehl = false,     -- 是否高亮整行背景
-      word_diff = false,  -- 是否启用单词级差异
-    })
-  end,
-},
+  {
+    "tpope/vim-fugitive",
+    event = "VeryLazy",
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "BufRead",
+    config = function()
+      require("gitsigns").setup({
+        on_attach = function(bufnr)
+          local map = function(mode, l, r, desc)
+            vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+          end
+          map("n", "]c", function()
+            if vim.wo.diff then return vim.cmd.normal({ "]c", bang = true }) end
+            require("gitsigns").nav_hunk("next")
+          end, "Next hunk")
+          map("n", "[c", function()
+            if vim.wo.diff then return vim.cmd.normal({ "[c", bang = true }) end
+            require("gitsigns").nav_hunk("prev")
+          end, "Prev hunk")
+          map({ "o", "x" }, "ih", require("gitsigns").select_hunk, "Select inner hunk")
+          map({ "o", "x" }, "ah", function()
+            require("gitsigns").select_hunk({ include_headers = true })
+          end, "Select a hunk")
+        end,
+        signcolumn = true,
+        numhl = false,
+        linehl = false,
+        word_diff = false,
+      })
+    end,
+  },
   {
     "sindrets/diffview.nvim",
     dependencies = "nvim-lua/plenary.nvim",
@@ -573,29 +398,15 @@ return {
       require("diffview").setup({
         keymaps = {
           view = {
-          ["q"] = "<cmd>DiffviewClose<CR>", -- 确保 q 能退出
-          ["<tab>"] = "select_next_entry",  -- 使用 tab 切换文件
-          ["<s-tab>"] = "select_prev_entry",
+            ["q"] = "<cmd>DiffviewClose<CR>",
+            ["<tab>"] = "select_next_entry",
+            ["<s-tab>"] = "select_prev_entry",
           },
           file_panel = {
             ["j"] = "next_entry",
             ["k"] = "prev_entry",
-            ["o"] = "open_entry", 
-          }
-          -- disable_defaults = true, -- 👈 确保不禁用默认
-          -- file_panel = {
-          --   -- ✅ 使用 actions 函数，不是字符串！
-          --   { "n", "s", actions.toggle_stage_entry, { desc = "Stage/Unstage hunk" } },
-          --   { "n", "S", actions.stage_all,           { desc = "Stage all" } },
-          --   { "n", "U", actions.unstage_all,         { desc = "Unstage all" } },
-          --   { "n", "r", actions.restore_entry,       { desc = "Restore file" } },
-          --   { "n", "q", actions.close,               { desc = "Close panel" } },
-          -- },
-          -- -- 如果你想在 diff 文件内容窗口也用 s/r，加到 view:
-          -- view = {
-          --   { "n", "s", actions.toggle_stage_entry, { desc = "Stage hunk (in view)" } },
-          --   { "n", "r", actions.restore_entry,      { desc = "Revert hunk (in view)" } },
-          -- }
+            ["o"] = "open_entry",
+          },
         },
       })
     end,
@@ -607,160 +418,372 @@ return {
       vim.g.gitblame_enabled = 0
     end,
   },
+
+  -- 🔖 书签
   {
-  "kkharji/sqlite.lua",
-  -- 通常作为依赖自动加载，但如果你要显式使用，可以加 lazy = false
-  -- lazy = false, -- 可选：立即加载（一般不需要）
+    "LintaoAmons/bookmarks.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "kkharji/sqlite.lua" },
+    event = "VeryLazy",
+    config = function()
+      require("bookmarks").setup({
+        sign = "🔖",
+        hl = {
+          name = "BookmarkSign",
+          line = "CursorLine",
+        },
+        center_on_jump = true,
+        persist = true,
+      })
+    end,
   },
+
+  -- 🔖 文本高亮标记（vim-mark）
+{
+  "ZiYang-oyxy/vim-mark.nvim",
+  opts = {
+    mark_only = true,
+    keymaps = { preset = "none" },
+    ui = {
+      search_progress_display = "statusline",
+    },
+  },
+},
+
+  -- 📋 剪贴板（osc52 支持远程）
   {
-  "LintaoAmons/bookmarks.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
-  event = "VeryLazy", -- 按需加载，启动时不立即加载
-  config = function()
-    require("bookmarks").setup({
-      -- 可选：自定义符号（默认是 '●'）
-      -- sign = "", -- 你可以用其他图标，比如 "🔖"、"📌"、"◆" 等
-      sign = "🔖",
-      -- 自定义高亮组（可选）
-      hl = {
-        name = "BookmarkSign", -- 用于 sign column 的高亮
-        line = "CursorLine",   -- 书签行的高亮（可设为 nil 禁用）
+    "ojroques/nvim-osc52",
+    event = "VeryLazy",
+    config = function()
+      require("osc52").setup({
+        max_length = 100000,
+        silent = true,
+      })
+    end,
+  },
+
+  -- 🔎 搜索高亮 lens
+  {
+    "kevinhwang91/nvim-hlslens",
+    event = "VeryLazy",
+    config = function()
+      require("hlslens").setup({})
+    end,
+  },
+
+  {
+  "nickjvandyke/opencode.nvim",
+  version = "*", -- Latest stable release
+  dependencies = {
+    {
+      -- `snacks.nvim` integration is recommended, but optional
+      ---@module "snacks" <- Loads `snacks.nvim` types for configuration intellisense
+      "folke/snacks.nvim",
+      optional = true,
+      opts = {
+        input = {}, -- Enhances `ask()`
+        picker = { -- Enhances `select()`
+          actions = {
+            opencode_send = function(...) return require("opencode").snacks_picker_send(...) end,
+          },
+          win = {
+            input = {
+              keys = {
+                ["<a-a>"] = { "opencode_send", mode = { "n", "i" } },
+              },
+            },
+          },
+        },
       },
-      -- 是否在跳转后自动居中
-      center_on_jump = true,
-      -- 是否记住书签（跨会话持久化）
-      persist = true,
-      -- 书签保存路径（默认在 stdpath("data") 下）
-      -- data_dir = vim.fn.stdpath("data") .. "/bookmarks",
-    })
-  end,
-},
-{
-  "inkarkat/vim-mark",
-  event = "VeryLazy", -- 或根据需要改为 "BufRead" 等
-  keys = {
-    { "m*", mode = "n", desc = "Mark word under cursor" },
-    { "mm", mode = "n", desc = "Mark current line" },
-    { "<leader>mc", mode = "n", desc = "Clear all marks" },
-    { "<leader>mn", mode = "n", desc = "Next mark" },
-    { "<leader>mp", mode = "n", desc = "Previous mark" },
+    },
   },
   config = function()
-    -- 可选：自定义高亮颜色（需确保你的 colorscheme 支持）
-    vim.cmd([[ highlight MarkedWord ctermbg=yellow guibg=yellow ]])
-    -- 如果你想禁用自动高亮当前词（默认行为），可以设置：
-    -- vim.g.mark_enable_default_mappings = 0
+    ---@type opencode.Opts
+    vim.g.opencode_opts = {
+    }
+
+    vim.o.autoread = true
   end,
 },
-{
-  'ojroques/nvim-osc52',
-  event = 'VeryLazy',
-  config = function()
-    require('osc52').setup({
-      max_length = 100000,  -- 最大拷贝字符数（iTerm2 默认限制）
-      silent = true,
-    })
-  end,
-},
-{
-  "kevinhwang91/nvim-hlslens",
-  event = "VeryLazy",
-  config = true
-},
--- 🔑 快捷键提示
+
 {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  init = function()
-    vim.o.timeout = true
-    vim.o.timeoutlen = 300  -- 保持 300ms 响应速度
-  end,
+  opts = {
+    expand = 1,
+    show_guide = true,
+    sort = { "group", "alphanum" },
+    layout = {
+      width = { max = 80 },
+      spacing = 3,
+    },
+    win = {
+      border = "rounded",
+    },
+  },
+  keys = {
+    {
+      "<leader>?",
+      function()
+        require("which-key").show({ global = false })
+      end,
+      desc = "Buffer Local Keymaps (which-key)",
+    },
+  },
   config = function()
     local wk = require("which-key")
-    wk.setup({
-      -- 可选：增强视觉体验
-      -- icons = { group = "", separator = "" },
-      -- layout = { spacing = 4 },
-    })
 
-    -- ✅ 第一步：注册所有主分组（含新增的 window 分组）
+    -- 注册分组（只定义 name，不定义具体操作，这样按下去会显示子菜单）
     wk.register({
-      c = { name = "+Code" },       -- LSP/代码操作
-      g = { name = "+Git" },        -- Git 集成
-      f = { name = "+Find" },       -- 模糊查找
-      d = { name = "+Debug" },      -- 调试
-      s = { name = "+Symbols" },    -- 符号导航
-      a = { name = "+AI" },         -- AI 工具
-      t = { name = "+Tabs" },       -- 标签页
-      w = { name = "+Window" },     -- 窗口管理分组
-      b = { name = "+Buffers" },    -- 缓冲区管理
-      m = { name = "+bookmarks" },  -- mark管理
+      f = { name = "+Find" },
+      g = { name = "+Git" },
+      c = { name = "+Code" },
+      d = { name = "+Debug" },
+      w = { name = "+Window" },
+      b = { name = "+Buffers" },
+      m = { name = "+Marks" },
+      t = { name = "+Terminal" },
+      s = { name = "+Symbols" },
+      q = { name = "+Quickfix" },
+      e = { name = "+Explore" },
+      o = { name = "+OpenCode" },
+      ["/"] = { name = "+Comment" },
+      n = { name = "+Search" },
+      k = { name = "+CMake" },
+      u = { name = "+UI" },
     }, { prefix = "<leader>" })
 
+    -- 具体操作映射（嵌套在分组下）
     wk.register({
-      -- 核心操作
-      ["<leader>q"] = { "<cmd>q<cr>", "Quit" },
-      -- ["<leader>e"] = { "<cmd>NvimTreeToggle<cr>", "Toggle file tree" },
-      ["<leader>e"] = { "<cmd>Neotree<cr>", "Toggle file tree" },
+      -- Quit
+      ["<leader>qq"] = { "<cmd>q<cr>", "Quit" },
 
-      ["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action (Fix)" },
-      ["<leader>cp"] = {
-        function()
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i", true, false, true), "n", false)
-          require("cmp").complete()
-        end,
-        "Insert & trigger completion"
-      },
-      ["<leader>]d"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next Diagnostic" },
-      ["<leader>[d"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
-      
-      -- ✅ 窗口管理（必须归属到 <leader>w 分组）
+      -- Window
       ["<leader>wv"] = { "<C-w>v", "Split vertical" },
       ["<leader>ws"] = { "<C-w>s", "Split horizontal" },
       ["<leader>wc"] = { "<C-w>c", "Close window" },
       ["<leader>w="] = { "<C-w>=", "Equalize sizes" },
-      
-      -- 缓冲区管理
-      ["<leader>bb"] = { "<cmd>Telescope buffers<cr>", "Switch buffer" },
+
+      -- Buffer
       ["<leader>bd"] = { "<cmd>bd<cr>", "Close buffer" },
 
-      -- ✅ Bookmarks 命令（归属到 <leader>m 分组）
+      -- Explore (Neotree)
+      ["<leader>e"]  = { "<cmd>Neotree<cr>", "Toggle file tree" },
+
+      -- Quickfix
+      ["<leader>qc"] = { "<cmd>lua require('telescope.builtin').quickfix()<cr>", "Quickfix" },
+      ["<leader>ql"] = { "<cmd>lua require('telescope.builtin').loclist()<cr>", "Loclist" },
+
+      -- Code
+      ["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+      ["<leader>cD"] = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Go to definition" },
+      ["<leader>cR"] = { "<cmd>lua vim.lsp.buf.references()<cr>", "Find references" },
+      ["<leader>cT"] = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Go to type definition" },
+      ["<leader>ci"] = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "Go to implementation" },
+      ["<leader>ch"] = { "<cmd>ClangdSwitchSourceHeader<cr>", "Switch source/header" },
+      ["<leader>c]d"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next Diagnostic" },
+      ["<leader>c[d"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
+
+      -- Git (gitsigns)
+      ["<leader>gs"] = { require("gitsigns").stage_hunk, "Stage hunk" },
+      ["<leader>gr"] = { require("gitsigns").reset_hunk, "Reset hunk" },
+      ["<leader>gS"] = { require("gitsigns").stage_buffer, "Stage buffer" },
+      ["<leader>gR"] = { require("gitsigns").reset_buffer, "Reset buffer" },
+      ["<leader>gp"] = { require("gitsigns").preview_hunk, "Preview hunk" },
+      ["<leader>gi"] = { require("gitsigns").preview_hunk_inline, "Preview inline" },
+      ["<leader>gq"] = { require("gitsigns").setqflist, "Quickfix hunks" },
+      ["<leader>gd"] = { "<cmd>DiffviewOpen<cr>", "Diff view" },
+      ["<leader>gh"] = { "<cmd>DiffviewFileHistory %<cr>", "File history" },
+      ["<leader>gb"] = { "<cmd>GitBlameToggle<cr>", "Git blame" },
+
+      -- Find (Telescope)
+      ["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find files" },
+      ["<leader>fF"] = { "<cmd>Telescope find_all_files<cr>", "Find all files" },
+      ["<leader>fg"] = { "<cmd>Telescope live_grep<cr>", "Live grep" },
+      ["<leader>fb"] = { "<cmd>Telescope buffers<cr>", "Buffers" },
+      ["<leader>fh"] = { "<cmd>Telescope help_tags<cr>", "Help" },
+
+      -- Tabs
+      ["<leader>tn"] = { "<cmd>tabnew<cr>", "New tab" },
+      ["<leader>tc"] = { "<cmd>tabclose<cr>", "Close tab" },
+      ["<leader>to"] = { "<cmd>tabonly<cr>", "Close other tabs" },
+      ["<leader>t["] = { "<cmd>tabprevious<cr>", "Prev tab" },
+      ["<leader>t]"] = { "<cmd>tabnext<cr>", "Next tab" },
+      ["<leader>ta"] = { "<cmd>ToggleTerm direction=float<cr>", "Terminal" },
+
+      -- Debug
+      ["<leader>db"] = { "<cmd>lua require('dap').toggle_breakpoint()<cr>", "Toggle Breakpoint" },
+      ["<leader>dB"] = { "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Condition: '))<cr>", "Conditional breakpoint" },
+      ["<leader>dC"] = { "<cmd>lua require('dap').run_to_cursor()<cr>", "Run to cursor" },
+      ["<leader>dk"] = { "<cmd>lua require('dap').clear_breakpoints()<cr>", "Clear breakpoints" },
+      ["<leader>dl"] = { "<cmd>lua require('dap').list_breakpoints()<cr>", "List breakpoints" },
+      ["<leader>dr"] = { "<cmd>lua require('dap').repl.open()<cr>", "Open REPL" },
+
+      -- Marks (bookmarks.nvim)
       ["<leader>ma"] = { "<cmd>BookmarksAdd<cr>", "Add bookmark" },
       ["<leader>md"] = { "<cmd>BookmarksDelete<cr>", "Delete bookmark" },
       ["<leader>ml"] = { "<cmd>BookmarksList<cr>", "List bookmarks" },
       ["<leader>mn"] = { "<cmd>BookmarksNext<cr>", "Next bookmark" },
       ["<leader>mp"] = { "<cmd>BookmarksPrev<cr>", "Previous bookmark" },
 
-      
-      -- 保留原有符号/调试等命令
+      -- Marks (vim-mark.nvim)
+      ["<leader>mm"] = { "<cmd>MarkToggle<cr>", "Toggle mark" },
+      ["<leader>m,"] = { "<cmd>MarkSet<cr>", "Set next mark" },
+      ["<leader>mj"] = { "<cmd>MarkNavNext<cr>", "Next mark" },
+      ["<leader>mk"] = { "<cmd>MarkNavPrev<cr>", "Prev mark" },
+      ["<leader>mc"] = { "<cmd>MarkClear<cr>", "Clear marks" },
+
+      -- Symbols
+      ["<leader>s:"] = { "<cmd>lua require('telescope.builtin').lsp_document_symbols({ symbol_type = { 'Class', 'Function', 'Struct' } })<cr>", "Doc symbols (filtered)" },
       ["<leader>sw"] = { "<cmd>lua vim.lsp.buf.workspace_symbol()<cr>", "Workspace symbols" },
       ["<leader>sd"] = { "<cmd>lua vim.lsp.buf.document_symbol()<cr>", "Document symbols" },
       ["<leader>st"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Doc symbols (TS)" },
       ["<leader>sT"] = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace symbols (TS)" },
-      -- ["<leader>gd"] = { "<cmd>DiffviewOpen<cr>", "Git diff" },
-      -- ["<leader>gh"] = { "<cmd>DiffviewFileHistory %<cr>", "File history" },
-      -- ["<leader>gb"] = { "<cmd>GitBlameToggle<cr>", "Git blame" },
-      ["<leader>ta"] = { "<cmd>ToggleTerm direction=float<cr>", "terminal" },
-      ["<leader>tn"] = { "<cmd>tabnew<cr>", "New tab" },
-      ["<leader>tc"] = { "<cmd>tabclose<cr>", "Close tab" },
-      ["<leader>to"] = { "<cmd>tabonly<cr>", "Close other tabs" },
-      ["<leader>t["] = { "<cmd>tabprevious<cr>", "Prev tab" },
-      ["<leader>t]"] = { "<cmd>tabnext<cr>", "Next tab" },
-g = {
-  name = "+Git",
-  s = { "<cmd>lua require('gitsigns').stage_hunk()<cr>", "Stage hunk" },
-  r = { "<cmd>lua require('gitsigns').reset_hunk()<cr>", "Reset hunk" },
-  S = { "<cmd>lua require('gitsigns').stage_buffer()<cr>", "Stage buffer" },
-  R = { "<cmd>lua require('gitsigns').reset_buffer()<cr>", "Reset buffer" },
-  p = { "<cmd>lua require('gitsigns').preview_hunk()<cr>", "Preview hunk" },
-  i = { "<cmd>lua require('gitsigns').preview_hunk_inline()<cr>", "Preview inline" },
-  q = { "<cmd>lua require('gitsigns').setqflist()<cr>", "Quickfix hunks" },
-  d = { "<cmd>DiffviewOpen<cr>", "Diff view" },
-  h = { "<cmd>DiffviewFileHistory %<cr>", "File history" },
-  b = { "<cmd>GitBlameToggle<cr>", "Git blame" },
-},
 
+      -- OpenCode
+      ["<leader>oa"] = { function() require("opencode").ask("@this: ", { submit = true }) end, "Ask opencode" },
+      ["<leader>ox"] = { function() require("opencode").select() end, "Execute action" },
+      ["<leader>o."] = { function() require("opencode").toggle() end, "Toggle opencode" },
+      ["<leader>og"] = { function() return require("opencode").operator("@this ") end, "Add range", expr = true },
+      ["<leader>oG"] = { function() return require("opencode").operator("@this ") .. "_" end, "Add line", expr = true },
+      ["<leader>ou"] = { function() require("opencode").command("session.half.page.up") end, "Scroll up" },
+      ["<leader>od"] = { function() require("opencode").command("session.half.page.down") end, "Scroll down" },
+
+      -- Comment
+      ["<leader>/"] = { function() require("Comment.api").toggle.linewise.current() end, "Toggle comment" },
+      ["<leader>c/"] = { function() require("Comment.api").toggle.blockwise.current() end, "Toggle block comment" },
+
+      -- Search (hlslens)
+      ["<leader>n"] = { function() require("hlslens").start() end, "Search lens next" },
+      ["<leader>N"] = { function() require("hlslens").start(true) end, "Search lens prev" },
+
+      -- CMake
+      ["<leader>kk"] = { "<cmd>CMakeKill<cr>", "Kill CMake server" },
+      ["<leader>kr"] = { "<cmd>CMakeReset<cr>", "Reset CMake" },
+      ["<leader>kc"] = { "<cmd>CMakeClean<cr>", "Clean CMake" },
+      ["<leader>kd"] = { "<cmd>CMakeDebug<cr>", "Debug CMake" },
+      ["<leader>ks"] = { "<cmd>CMakeShowTargets<cr>", "Show targets" },
+
+      -- UI (snacks.nvim)
+      ["<leader>ub"] = { function() require("snacks").toggle("picker") end, "Toggle picker" },
+      ["<leader>un"] = { function() require("snacks").toggle("notifier") end, "Toggle notifier" },
+      ["<leader>uw"] = { function() require("snacks").toggle("words") end, "Toggle words" },
     })
   end,
-},
+}
+
+  -- 🔑 which-key 快捷键提示
+--   {
+--     "folke/which-key.nvim",
+--     event = "VeryLazy",
+--     init = function()
+--       vim.o.timeout = true
+--       vim.o.timeoutlen = 300
+--     end,
+--     config = function()
+--       local wk = require("which-key")
+--       wk.setup({
+--         show_guide = true,
+--         expand = 0,
+--         sort = { "group", "alphanum" },
+--         layout = {
+--           width = { max = 80 },
+--           spacing = 3,
+--         },
+--         win = {
+--           border = "rounded",
+--         },
+--       })
+--
+--       wk.register({
+--         c = { name = "+Code" },
+--         g = { name = "+Git" },
+--         f = { name = "+Find" },
+--         d = { name = "+Debug" },
+--         s = { name = "+Symbols" },
+--         t = { name = "+Tabs" },
+--         w = { name = "+Window" },
+--         b = { name = "+Buffers" },
+--         m = { name = "+Marks/Bookmarks" },
+--         q = { name = "+Quickfix" },
+--
+--         ["<leader>qq"] = { "<cmd>q<cr>", "Quit" },
+--
+--         ["<leader>qc"] = { "<cmd>lua require('telescope.builtin').quickfix()<cr>", "Quickfix" },
+--         ["<leader>ql"] = { "<cmd>lua require('telescope.builtin').loclist()<cr>", "Loclist" },
+--         ["<leader>e"]  = { "<cmd>Neotree<cr>", "Toggle file tree" },
+--
+--         ["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+--         ["<leader>cp"] = {
+--           function()
+--             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i", true, false, true), "n", false)
+--             require("cmp").complete()
+--           end,
+--           "Insert & trigger completion"
+--         },
+--         ["<leader>cD"] = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Go to definition" },
+--         ["<leader>cR"] = { "<cmd>lua vim.lsp.buf.references()<cr>", "Find references" },
+--         ["<leader>cT"] = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Go to type definition" },
+--         ["<leader>ci"] = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "Go to implementation" },
+--         ["<leader>ch"] = { "<cmd>ClangdSwitchSourceHeader<cr>", "Switch source/header" },
+--         ["<leader>c]d"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next Diagnostic" },
+--         ["<leader>c[d"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
+--
+--         ["<leader>wv"] = { "<C-w>v", "Split vertical" },
+--         ["<leader>ws"] = { "<C-w>s", "Split horizontal" },
+--         ["<leader>wc"] = { "<C-w>c", "Close window" },
+--         ["<leader>w="] = { "<C-w>=", "Equalize sizes" },
+--
+--         ["<leader>bd"] = { "<cmd>bd<cr>", "Close buffer" },
+--
+--         ["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find files" },
+--         ["<leader>fF"] = { "<cmd>Telescope find_all_files<cr>", "Find all files" },
+--         ["<leader>fg"] = { "<cmd>Telescope live_grep<cr>", "Live grep" },
+--         ["<leader>fb"] = { "<cmd>Telescope buffers<cr>", "Buffers" },
+--         ["<leader>fh"] = { "<cmd>Telescope help_tags<cr>", "Help" },
+--
+--         ["<leader>ma"] = { "<cmd>BookmarksAdd<cr>", "Add bookmark" },
+--         ["<leader>md"] = { "<cmd>BookmarksDelete<cr>", "Delete bookmark" },
+--         ["<leader>ml"] = { "<cmd>BookmarksList<cr>", "List bookmarks" },
+--         ["<leader>mn"] = { "<cmd>BookmarksNext<cr>", "Next bookmark" },
+--         ["<leader>mp"] = { "<cmd>BookmarksPrev<cr>", "Previous bookmark" },
+--
+--         ["<leader>mm"] = { "<cmd>MarkToggle<cr>", "Toggle mark" },
+--         ["<leader>m,"] = { "<cmd>MarkSet<cr>", "Set next mark" },
+--         ["<leader>mj"] = { "<cmd>MarkNavNext<cr>", "Next mark" },
+--         ["<leader>mk"] = { "<cmd>MarkNavPrev<cr>", "Prev mark" },
+--         ["<leader>mc"] = { "<cmd>MarkClear<cr>", "Clear marks" },
+--
+--         ["<leader>s:"] = { "<cmd>lua require('telescope.builtin').lsp_document_symbols({ symbol_type = { 'Class', 'Function', 'Struct' } })<cr>", "Document symbols (filtered)" },
+--         ["<leader>sw"] = { "<cmd>lua vim.lsp.buf.workspace_symbol()<cr>", "Workspace symbols" },
+--         ["<leader>sd"] = { "<cmd>lua vim.lsp.buf.document_symbol()<cr>", "Document symbols" },
+--         ["<leader>st"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Doc symbols (TS)" },
+--         ["<leader>sT"] = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace symbols (TS)" },
+--
+--         ["<leader>ta"] = { "<cmd>ToggleTerm direction=float<cr>", "Terminal" },
+--         ["<leader>tn"] = { "<cmd>tabnew<cr>", "New tab" },
+--         ["<leader>tc"] = { "<cmd>tabclose<cr>", "Close tab" },
+--         ["<leader>to"] = { "<cmd>tabonly<cr>", "Close other tabs" },
+--         ["<leader>t["] = { "<cmd>tabprevious<cr>", "Prev tab" },
+--         ["<leader>t]"] = { "<cmd>tabnext<cr>", "Next tab" },
+--
+--         ["<leader>dB"] = { "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Condition: '))<cr>", "Conditional breakpoint" },
+--         ["<leader>dC"] = { "<cmd>lua require('dap').run_to_cursor()<cr>", "Run to cursor" },
+--         ["<leader>db"] = { "<cmd>lua require('dap').toggle_breakpoint()<cr>", "Toggle Breakpoint" },
+--         ["<leader>dk"] = { "<cmd>lua require('dap').clear_breakpoints()<cr>", "Clear breakpoints" },
+--         ["<leader>dl"] = { "<cmd>lua require('dap').list_breakpoints()<cr>", "List breakpoints" },
+--         ["<leader>dr"] = { "<cmd>lua require('dap').repl.open()<cr>", "Open REPL" },
+--
+--         ["<leader>gs"] = { "<cmd>lua require('gitsigns').stage_hunk()<cr>", "Stage hunk" },
+--         ["<leader>gr"] = { "<cmd>lua require('gitsigns').reset_hunk()<cr>", "Reset hunk" },
+--         ["<leader>gS"] = { "<cmd>lua require('gitsigns').stage_buffer()<cr>", "Stage buffer" },
+--         ["<leader>gR"] = { "<cmd>lua require('gitsigns').reset_buffer()<cr>", "Reset buffer" },
+--         ["<leader>gp"] = { "<cmd>lua require('gitsigns').preview_hunk()<cr>", "Preview hunk" },
+--         ["<leader>gi"] = { "<cmd>lua require('gitsigns').preview_hunk_inline()<cr>", "Preview inline" },
+--         ["<leader>gq"] = { "<cmd>lua require('gitsigns').setqflist()<cr>", "Quickfix hunks" },
+--         ["<leader>gd"] = { "<cmd>DiffviewOpen<cr>", "Diff view" },
+--         ["<leader>gh"] = { "<cmd>DiffviewFileHistory %<cr>", "File history" },
+--         ["<leader>gb"] = { "<cmd>GitBlameToggle<cr>", "Git blame" },
+--       }, { prefix = "<leader>" })
+--     end,
+--   },
 }

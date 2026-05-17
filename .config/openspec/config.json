@@ -1,0 +1,15 @@
+{
+  "featureFlags": {},
+  "profile": "custom",
+  "delivery": "both",
+  "telemetry": {
+    "noticeSeen": true,
+    "anonymousId": "54863474-49e8-4745-9afd-e56f3614331d"
+  },
+  "workflows": [
+    "propose",
+    "explore",
+    "apply",
+    "archive"
+  ]
+}

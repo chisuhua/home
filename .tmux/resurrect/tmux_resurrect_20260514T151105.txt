@@ -1,0 +1,53 @@
+pane	CppHDL	0	1	:*	1	OpenCode	:/workspace/project/CppHDL	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode
+pane	CppHDL	1	0	:-	1	:/workspace/project/CppHDL/build	:/workspace/project/CppHDL/build	1	bash	:
+pane	CppHDL	2	0	:	1	09624d521706	:/workspace/project/CppHDL	1	bash	:
+pane	CppHDL	3	0	:	1	09624d521706	:/workspace/project/CppHDL	1	bash	:
+pane	CppTLM	0	1	:*	1	OpenCode	:/workspace/project/CppTLM	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode
+pane	CppTLM	1	0	:-	1	8e8422353842	:/workspace/project/CppTLM	1	nvim	:nvim openspec/config.yaml
+pane	CppTLM	2	0	:	1	8e8422353842	:/workspace/project/CppTLM	1	bash	:
+pane	HydraForge	0	0	:-	1	OpenCode	:/workspace/project/HydraForge	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode
+pane	HydraForge	1	1	:*	1	5079955101d6	:/workspace/project/HydraForge	1	bash	:
+pane	HydraForge	2	0	:	1	5079955101d6	:/workspace/project/HydraForge/docs/research/00_Raw	1	bash	:
+pane	PKGM-Web	0	1	:*	1	:/workspace/project/PKGM-Web	:/workspace/project/PKGM-Web	1	bash	:
+pane	PKGM-Web	1	0	:-	1	00430ae298bf	:/workspace/project/PKGM-Web	1	bash	:
+pane	PTX-EMU	0	1	:*	1	OpenCode	:/workspace/project/PTX-EMU	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode
+pane	PTX-EMU	1	0	:-	1	:/workspace/project/PTX-EMU/build	:/workspace/project/PTX-EMU	1	bash	:
+pane	PTX-EMU	2	0	:	1	09624d521706	:/workspace/project/PTX-EMU	1	bash	:
+pane	PTX-EMU	3	0	:	1	:/workspace/project/PTX-EMU	:/workspace/project/PTX-EMU	1	bash	:
+pane	UsrLinuxEmu	0	1	:*	1	OpenCode	:/workspace/project/UsrLinuxEmu	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode -s ses_1e4b6780cffeK2ijjo4Ftl4cZk
+pane	UsrLinuxEmu	1	0	:-	1	09624d521706	:/workspace/project/UsrLinuxEmu	1	nvim	:nvim openspec/config.yaml
+pane	UsrLinuxEmu	2	0	:	1	5079955101d6	:/workspace/project/UsrLinuxEmu/external/TaskRunner	1	bash	:
+pane	UsrLinuxEmu	3	0	:	1	5079955101d6	:/workspace/project/UsrLinuxEmu	1	bash	:
+pane	main	0	0	:	1	8e8422353842	:/home/ubuntu/.openclaw/agents/main/sessions	1	bash	:
+pane	main	1	0	:	1	OpenCode	:/home/ubuntu/.config/opencode	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.50/node_modules/opencode-ai/bin/opencode
+pane	main	2	0	:	1	8e8422353842	:/home/ubuntu/.config/opencode	1	nvim	:nvim opencode-context-baseline.v1.md
+pane	main	3	0	:	1	8e8422353842	:/home/ubuntu/.local/share/opencode	1	bash	:
+pane	main	4	1	:*	1	8e8422353842	:/workspace/project	1	bash	:
+pane	main	5	0	:-	1	8e8422353842	:/workspace/project	1	bash	:
+window	CppHDL	0	:bash	1	:*	ba3e,364x81,0,0,1	:
+window	CppHDL	1	:bash	0	:-	ba3f,364x81,0,0,2	:
+window	CppHDL	2	:bash	0	:	ba40,364x81,0,0,3	:
+window	CppHDL	3	:bash	0	:	b6e1,214x52,0,0,4	:
+window	CppTLM	0	:bash	1	:*	ba42,364x81,0,0,5	:
+window	CppTLM	1	:bash	0	:-	ba43,364x81,0,0,6	:
+window	CppTLM	2	:bash	0	:	b6e4,214x52,0,0,7	:
+window	HydraForge	0	:bash	0	:-	ba45,364x81,0,0,8	:
+window	HydraForge	1	:bash	1	:*	ba46,364x81,0,0,9	:
+window	HydraForge	2	:bash	0	:	5b9f,214x52,0,0,10	:
+window	PKGM-Web	0	:bash	1	:*	5d50,364x81,0,0,11	:
+window	PKGM-Web	1	:bash	0	:-	5ba1,214x52,0,0,12	:
+window	PTX-EMU	0	:bash	1	:*	5d52,364x81,0,0,13	:
+window	PTX-EMU	1	:bash	0	:-	5d53,364x81,0,0,14	:
+window	PTX-EMU	2	:bash	0	:	5ba4,214x52,0,0,15	:
+window	PTX-EMU	3	:bash	0	:	5ba5,214x52,0,0,16	:
+window	UsrLinuxEmu	0	:bash	1	:*	5d56,364x81,0,0,17	:
+window	UsrLinuxEmu	1	:bash	0	:-	5d57,364x81,0,0,18	:
+window	UsrLinuxEmu	2	:bash	0	:	5ba8,214x52,0,0,19	:
+window	UsrLinuxEmu	3	:bash	0	:	dd4f,364x81,0,0,20	:
+window	main	0	:bash	0	:	dd50,364x81,0,0,21	:
+window	main	1	:bash	0	:	dd51,364x81,0,0,22	:
+window	main	2	:bash	0	:	dd52,364x81,0,0,23	:
+window	main	3	:bash	0	:	dd53,364x81,0,0,24	:
+window	main	4	:bash	1	:*	dd54,364x81,0,0,25	:
+window	main	5	:bash	0	:-	dd55,364x81,0,0,26	:
+state	main	UsrLinuxEmu

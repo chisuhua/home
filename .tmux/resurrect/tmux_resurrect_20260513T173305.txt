@@ -1,0 +1,55 @@
+pane	CppHDL	0	1	:*	1	:/workspace/project/CppHDL	1	node	2508	:
+pane	CppHDL	1	0	:	1	:/workspace/project/CppHDL/build	:/workspace/project/CppHDL/build	1	bash	:
+pane	CppHDL	2	0	:	1	09624d521706	:/workspace/project/CppHDL	1	bash	:
+pane	CppHDL	3	0	:	1	09624d521706	:/workspace/project/CppHDL	1	bash	:
+pane	CppTLM	0	1	:*	1	:/workspace/project/CppTLM	1	bash	2650	:nvim docs/adr/adr-0009-dsl-standard-library.md
+nvim docs/adr/adr-0009-dsl-standard-library.md
+nvim AGENTS.md
+pane	CppTLM	1	0	:	1	:/workspace/project/CppTLM	:/workspace/project/CppTLM/docs	1	bash	:
+pane	CppTLM	2	0	:	1	:/workspace/project/CppTLM	:/workspace/project/CppTLM	1	bash	:
+pane	CppTLM	3	0	:	1	09624d521706	:/workspace/project/CppTLM/docs	1	bash	:
+pane	HydraForge	0	1	:*	1	:/workspace/project/HydraForge	1	bash	2801	:
+pane	HydraForge	1	0	:	1	5079955101d6	:/workspace/project/HydraForge	1	bash	:
+pane	HydraForge	2	0	:	1	5079955101d6	:/workspace/project/HydraForge	1	nvim	:nvim docs/adr/adr-0009-dsl-standard-library.md
+pane	PKGM-Web	0	1	:*	1	:/workspace/project/PKGM-Web	:/home/ubuntu	1	nvim	:nvim docs/adr/adr-0009-dsl-standard-library.md
+pane	PKGM-Web	1	0	:	1	00430ae298bf	:/workspace/project/PKGM-Web	1	nvim	:nvim AGENTS.md
+pane	PTX-EMU	0	1	:*	1	:/workspace/project/PTX-EMU	:/workspace/project/PTX-EMU	1	bash	:
+pane	PTX-EMU	1	0	:	1	:/workspace/project/PTX-EMU/build	:/workspace/project/PTX-EMU/build	1	make	:make
+pane	PTX-EMU	2	0	:	1	09624d521706	:/workspace/project/PTX-EMU	1	bash	:
+pane	PTX-EMU	3	0	:-	1	:/workspace/project/PTX-EMU	:/workspace/project/PTX-EMU	1	bash	:
+pane	UsrLinuxEmu	0	1	:*	1	:/workspace/project/UsrLinuxEmu	:/home/ubuntu	1	bash	:
+pane	UsrLinuxEmu	1	0	:	1	09624d521706	:/workspace/project/UsrLinuxEmu	1	bash	:
+pane	UsrLinuxEmu	2	0	:	1	5079955101d6	:/workspace/project/UsrLinuxEmu/external/TaskRunner	1	bash	:
+pane	UsrLinuxEmu	3	0	:	1	5079955101d6	:/workspace/project/UsrLinuxEmu	1	bash	:
+pane	main	0	1	:*	1	8e8422353842	:/home/ubuntu	1	bash	:
+pane	opencode	0	1	:*	1	:/workspace/home/.config/opencode	:/home/ubuntu/.config/opencode	1	bash	:
+pane	opencode	1	0	:	1	:/home/ubuntu/.tmux/plugins	:/home/ubuntu/.agents/skills	1	bash	:
+pane	opencode	2	0	:	1	OpenCode	:/home/ubuntu	1	bash	:
+pane	opencode	3	0	:	1	:/home/ubuntu/.tmux	:/usr/bin	1	bash	:
+window	CppHDL	0	:bash	1	:*	ba3e,364x81,0,0,1	:
+window	CppHDL	1	:bash	0	:	ba3f,364x81,0,0,2	:
+window	CppHDL	2	:bash	0	:	ba40,364x81,0,0,3	:
+window	CppHDL	3	:bash	0	:	ba41,364x81,0,0,4	:
+window	CppTLM	0	:bash	1	:*	ba42,364x81,0,0,5	:
+window	CppTLM	1	:bash	0	:	ba43,364x81,0,0,6	:
+window	CppTLM	2	:bash	0	:	ba44,364x81,0,0,7	:
+window	CppTLM	3	:bash	0	:	ba45,364x81,0,0,8	:
+window	HydraForge	0	:bash	1	:*	ba46,364x81,0,0,9	:
+window	HydraForge	1	:bash	0	:	5d4f,364x81,0,0,10	:
+window	HydraForge	2	:bash	0	:	5d50,364x81,0,0,11	:
+window	PKGM-Web	0	:bash	1	:*	5d51,364x81,0,0,12	:
+window	PKGM-Web	1	:bash	0	:	5d52,364x81,0,0,13	:
+window	PTX-EMU	0	:bash	1	:*	5d53,364x81,0,0,14	:
+window	PTX-EMU	1	:bash	0	:	5d54,364x81,0,0,15	:
+window	PTX-EMU	2	:bash	0	:	5d55,364x81,0,0,16	:
+window	PTX-EMU	3	:bash	0	:-	5d56,364x81,0,0,17	:
+window	UsrLinuxEmu	0	:bash	1	:*	5d57,364x81,0,0,18	:
+window	UsrLinuxEmu	1	:bash	0	:	58e8,272x60,0,0,19	:
+window	UsrLinuxEmu	2	:bash	0	:	dd4f,364x81,0,0,20	:
+window	UsrLinuxEmu	3	:bash	0	:	dd50,364x81,0,0,21	:
+window	main	0	:bash	1	:*	ba3d,364x81,0,0,0	:
+window	opencode	0	:bash	1	:*	dd51,364x81,0,0,22	:
+window	opencode	1	:bash	0	:	dd52,364x81,0,0,23	:
+window	opencode	2	:bash	0	:	dd53,364x81,0,0,24	:
+window	opencode	3	:bash	0	:	dd54,364x81,0,0,25	:
+state	CppHDL	CppTLM

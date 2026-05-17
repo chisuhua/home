@@ -67,3 +67,52 @@
 ---
 
 **最后更新**: 2026-04-16 00:51
+
+---
+
+## Council 工作流修复记录
+
+**时间**: 2026-05-15
+**问题**: 首次执行时 sessions_yield 使用不当，导致子 Agent 结果未能及时回复用户
+**修复**: 更新 SOUL.md §8 为 v2.4，增加关键执行规则
+
+### 关键变更
+1. **sessions_yield 使用禁令**：并行 spawn 后禁止立即 yield
+2. **每个阶段必须报告**：Stage 开始和完成时必须向用户报告
+3. **错误处理**：子 Agent 失败立即报告，不继续后续阶段
+
+### 文档位置
+- 修复报告：`council-output/docs/council-debug-report.md`
+- SOUL.md §8 已更新为 v2.4
+
+---
+
+## Council Skill 创建记录
+
+**时间**: 2026-05-16
+**技能**: `council-workflow`
+**位置**: `~/.openclaw/skills/council-workflow/`（managed/local skills 目录）
+**包**: `~/.openclaw/skills/council-workflow.skill`
+
+### Skill 内容
+- SKILL.md — 完整工作流定义和 Agent 协调逻辑
+- references/templates.md — PRD/ADR 模板
+- references/review-checklist.md — 评审检查清单
+
+### 核心修复
+将 Council 工作流从 SOUL.md 描述迁移到可执行 Skill，包含：
+1. yield 只使用一次的明确规则
+2. 每个阶段必须报告状态的约束
+3. 完整的任务模板和状态报告模板
+
+### Skills 优先级（从文档）
+| # | Source | Path |
+|---|--------|------|
+| 1 | Workspace skills | `<workspace>/skills` |
+| 2 | Project agent skills | `<workspace>/.agents/skills` |
+| 3 | Personal agent skills | `~/.agents/skills` |
+| 4 | **Managed/local** | **`~/.openclaw/skills`** ← Council 放这里 |
+| 5 | Bundled skills | shipped with install |
+
+### 待验证
+需要用 Skill 重新执行一次完整 Council 流程

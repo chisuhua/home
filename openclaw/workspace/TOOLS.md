@@ -16,7 +16,33 @@
 
 | 别名 | 地址 | 用户 | 用途 |
 |------|------|------|------|
-| home-server | 192.168.1.100 | admin | 家庭服务器 |
+| dev-aliyun | 47.100.102.207 | dev | 阿里云服务器（OpenClaw 容器运行在此机器上） |
+
+---
+
+## 本机运行环境
+
+**运行环境**：OpenClaw 运行在 Docker 容器内，容器名为 `openclaw`
+
+**容器定义**：`/mnt/nas/project/PKGM-Web/docker-compose.yml`
+
+**重启命令**：
+```bash
+# SSH 到宿主机
+ssh dev@47.100.102.207
+
+# 进入项目目录
+cd /mnt/nas/project/PKGM-Web
+
+# 重启 openclaw 容器
+docker compose restart openclaw
+# 或
+docker compose restart
+```
+
+**OpenClaw 服务日志**：
+- `/var/log/supervisor/openclaw-gateway.out.log` — 标准输出日志
+- `/var/log/supervisor/openclaw-gateway.err.log` — 错误日志
 
 ---
 
@@ -41,7 +67,7 @@ openclaw tui --session <会话名>
 
 **SSH 隧道**：
 ```bash
-ssh -L 18789:localhost:18789 <gateway-host>
+ssh -L 18789:localhost:18789 dev@47.100.102.207
 ```
 
 **浏览器访问**: `http://localhost:18789`

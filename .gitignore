@@ -20,7 +20,10 @@
 
 # ============= 编辑器/工具个人配置 =============
 .claude/
-.openclaw/
+.openclaw/*
+!.openclaw/openclaw.json
+!.openclaw/skills/
+!.openclaw/workspace-*/
 .config/htop/
 .config/code-server/
 .vscode/settings.json

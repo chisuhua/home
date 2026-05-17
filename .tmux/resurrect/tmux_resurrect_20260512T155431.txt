@@ -1,0 +1,53 @@
+pane	CppHDL	0	0	:	1	OpenCode	:/workspace/project/CppHDL	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode -s ses_1fecc8147ffeizgtO1Kxm3RJY8
+pane	CppHDL	1	0	:-	1	:/workspace/project/CppHDL/build	:/workspace/project/CppHDL/build	1	cmake	:cmake --build build
+pane	CppHDL	2	1	:*	1	09624d521706	:/workspace/project/CppHDL	1	bash	:
+pane	CppHDL	3	0	:	1	09624d521706	:/workspace/project/CppHDL/docs	1	bash	:
+pane	CppTLM	0	1	:*	1	OpenCode	:/workspace/project/CppTLM	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode
+pane	CppTLM	1	0	:-	1	:/workspace/project/CppTLM	:/workspace/project/CppTLM	1	bash	:
+pane	CppTLM	2	0	:	1	:/workspace/project/CppTLM	:/workspace/project/CppTLM	1	nvim	:nvim examples/demo_e2e_soc.py
+pane	CppTLM	3	0	:	1	09624d521706	:/workspace/project/CppTLM/docs	1	nvim	:nvim user-guide/python-usage.md
+pane	HydraForge	0	1	:*	1	OpenCode	:/workspace/project/HydraForge	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode
+pane	HydraForge	1	0	:-	1	5079955101d6	:/workspace/project/HydraForge	1	bash	:
+pane	HydraForge	2	0	:	1	5079955101d6	:/workspace/project/HydraForge	1	bash	:
+pane	PKGM-Web	0	1	:*	1	OpenCode	:/workspace/project/PKGM-Web	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode -s ses_1ecd072c1ffetvJuaSjOAFiQww
+pane	PKGM-Web	1	0	:-	1	00430ae298bf	:/workspace/project/PKGM-Web	1	bash	:
+pane	PTX-EMU	0	1	:*	1	OpenCode	:/workspace/project/PTX-EMU	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.48/node_modules/opencode-ai/bin/opencode -s ses_1f2a8a99affe2DjTS3PkgJkTYr
+pane	PTX-EMU	1	0	:-	1	:/workspace/project/PTX-EMU/build	:/workspace/project/PTX-EMU	1	bash	:
+pane	PTX-EMU	2	0	:	1	09624d521706	:/workspace/project/PTX-EMU	1	nvim	:nvim tests/ptx/test_if_else.ptx
+pane	PTX-EMU	3	0	:	1	:/workspace/project/PTX-EMU	:/workspace/project/PTX-EMU	1	nvim	:nvim tests/common/ptx_lane_printer.cpp
+pane	UsrLinuxEmu	0	0	:-	1	OpenCode	:/workspace/project/UsrLinuxEmu	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.41/node_modules/opencode-ai/bin/opencode
+pane	UsrLinuxEmu	1	0	:	1	09624d521706	:/workspace/project/UsrLinuxEmu/build	1	bash	:
+pane	UsrLinuxEmu	2	1	:*	1	5079955101d6	:/workspace/project/UsrLinuxEmu	1	bash	:
+pane	main	0	0	:-	1	5079955101d6	:/workspace/project/tmp/lldb-mi/build	1	bash	:
+pane	main	1	1	:*	1	5079955101d6	:/workspace/project	1	bash	:
+pane	opencode	0	1	:*	1	:/workspace/home/.config/opencode	:/home/ubuntu/.config/opencode	1	bash	:
+pane	opencode	1	0	:-	1	:/home/ubuntu/.tmux/plugins	:/home/ubuntu/.config/opencode	1	bash	:
+pane	opencode	2	0	:	1	OpenCode	:/home/ubuntu	1	bash	:
+pane	opencode	3	0	:	1	:/home/ubuntu/.tmux	:/usr/bin	1	bash	:
+window	CppHDL	0	:bash	0	:	ba3e,364x81,0,0,1	:
+window	CppHDL	1	:bash	0	:-	ba3f,364x81,0,0,2	:
+window	CppHDL	2	:bash	1	:*	ba40,364x81,0,0,3	:
+window	CppHDL	3	:bash	0	:	ba41,364x81,0,0,4	:
+window	CppTLM	0	:bash	1	:*	d8e5,272x60,0,0,26	:
+window	CppTLM	1	:bash	0	:-	ba43,364x81,0,0,6	:
+window	CppTLM	2	:bash	0	:	ba44,364x81,0,0,7	:
+window	CppTLM	3	:bash	0	:	ba45,364x81,0,0,8	:
+window	HydraForge	0	:bash	1	:*	dd52,364x81,0,0,23	:
+window	HydraForge	1	:bash	0	:-	dd53,364x81,0,0,24	:
+window	HydraForge	2	:bash	0	:	dd54,364x81,0,0,25	:
+window	PKGM-Web	0	:bash	1	:*	ba46,364x81,0,0,9	:
+window	PKGM-Web	1	:bash	0	:-	5d4f,364x81,0,0,10	:
+window	PTX-EMU	0	:bash	1	:*	5d50,364x81,0,0,11	:
+window	PTX-EMU	1	:bash	0	:-	5d51,364x81,0,0,12	:
+window	PTX-EMU	2	:bash	0	:	5d52,364x81,0,0,13	:
+window	PTX-EMU	3	:bash	0	:	58e3,272x60,0,0,14	:
+window	UsrLinuxEmu	0	:bash	0	:-	5d54,364x81,0,0,15	:
+window	UsrLinuxEmu	1	:bash	0	:	5d55,364x81,0,0,16	:
+window	UsrLinuxEmu	2	:bash	1	:*	dd51,364x81,0,0,22	:
+window	main	0	:bash	0	:-	ba3d,364x81,0,0,0	:
+window	main	1	:bash	1	:*	d8e0,272x60,0,0,21	:
+window	opencode	0	:bash	1	:*	5d56,364x81,0,0,17	:
+window	opencode	1	:bash	0	:-	58e7,272x60,0,0,18	:
+window	opencode	2	:bash	0	:	58e8,272x60,0,0,19	:
+window	opencode	3	:bash	0	:	d8df,272x60,0,0,20	:
+state	UsrLinuxEmu	PTX-EMU

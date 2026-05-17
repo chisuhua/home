@@ -1,0 +1,56 @@
+pane	CppHDL	0	0	:-	1	OpenCode	:/workspace/project/CppHDL	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.51/node_modules/opencode-ai/bin/opencode -s ses_1d59e5ad1ffeIipKIPUFqOWrZ5
+pane	CppHDL	1	1	:*	1	:/workspace/project/CppHDL	1	bash	490	:
+pane	CppHDL	2	0	:	1	09624d521706	:/workspace/project/CppHDL	1	bash	:
+pane	CppHDL	3	0	:	1	ce8a0a7c1ffc	:/home/ubuntu/.config/opencode/skills	1	bash	:
+pane	CppTLM	0	0	:	1	OpenCode	:/workspace/project/CppTLM	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.51/node_modules/opencode-ai/bin/opencode
+pane	CppTLM	1	0	:-	1	8e8422353842	:/workspace/project/CppTLM	1	bash	:
+pane	CppTLM	2	1	:*	1	8e8422353842	:/workspace/project/CppTLM	1	bash	:
+pane	HydraForge	0	1	:*	1	OpenCode	:/workspace/project/HydraForge	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.51/node_modules/opencode-ai/bin/opencode
+pane	HydraForge	1	0	:-	1	5079955101d6	:/workspace/project/HydraForge	1	bash	:
+pane	HydraForge	2	0	:	1	5079955101d6	:/workspace/project/HydraForge/docs	1	bash	:
+pane	MyNotes	0	0	:-	1	OC | 创建目录入口说明文档	:/workspace/project/mynotes/06_Mynotes/agents	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.51/node_modules/opencode-ai/bin/opencode
+pane	MyNotes	1	1	:*	1	ce8a0a7c1ffc	:/workspace/project/mynotes/06_Mynotes	1	bash	:
+pane	PKGM-Web	0	1	:*	1	OpenCode	:/workspace/project/PKGM-Web	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.51/node_modules/opencode-ai/bin/opencode
+pane	PKGM-Web	1	0	:-	1	00430ae298bf	:/workspace/project/PKGM-Web	1	bash	:
+pane	PTX-EMU	0	0	:-	1	OpenCode	:/workspace/project/PTX-EMU	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.51/node_modules/opencode-ai/bin/opencode
+pane	PTX-EMU	1	1	:*	1	:/workspace/project/PTX-EMU/build	:/workspace/project/PTX-EMU	1	bash	:
+pane	PTX-EMU	2	0	:	1	09624d521706	:/workspace/project/PTX-EMU	1	bash	:
+pane	PTX-EMU	3	0	:	1	:/workspace/project/PTX-EMU	:/workspace/project/PTX-EMU	1	bash	:
+pane	UsrLinuxEmu	0	0	:-	1	OpenCode	:/workspace/project/UsrLinuxEmu	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.51/node_modules/opencode-ai/bin/opencode
+pane	UsrLinuxEmu	1	1	:*	1	09624d521706	:/workspace/project/UsrLinuxEmu	1	nvim	:nvim openspec/config.yaml
+pane	UsrLinuxEmu	2	0	:	1	5079955101d6	:/workspace/project/UsrLinuxEmu/external/TaskRunner	1	bash	:
+pane	UsrLinuxEmu	3	0	:	1	5079955101d6	:/workspace/project/UsrLinuxEmu	1	bash	:
+pane	main	0	0	:Z	1	8e8422353842	:/home/ubuntu	0	bash	:
+pane	main	0	0	:Z	2	8e8422353842	:/workspace/home/.openclaw	1	bash	:
+pane	main	1	0	:	1	:/workspace/home/openclaw/workspace	:/workspace/home/.openclaw	1	nvim	:nvim ../.gitignore
+pane	main	2	0	:-	1	8e8422353842	:/home/ubuntu/.local/share/opencode	1	bash	:
+pane	main	3	1	:*	1	OC | OmO Prometheus Agent 配置问题排查	:/home/ubuntu/.config/opencode	1	node	:node /home/ubuntu/.npm-global/bin/../../.local/share/pnpm/global/5/.pnpm/opencode-ai@1.14.51/node_modules/opencode-ai/bin/opencode
+pane	main	4	0	:	1	ce8a0a7c1ffc	:/workspace/project/tmp/docs	1	bash	:
+window	CppHDL	0	:bash	0	:-	b15e,272x60,0,0,1	:
+window	CppHDL	1	:bash	1	:*	ba3f,364x81,0,0,2	:
+window	CppHDL	2	:bash	0	:	b160,272x60,0,0,3	:
+window	CppHDL	3	:bash	0	:	58e5,272x60,0,0,35	:
+window	CppTLM	0	:bash	0	:	b164,272x60,0,0,7	:
+window	CppTLM	1	:bash	0	:-	b165,272x60,0,0,8	:
+window	CppTLM	2	:bash	1	:*	b166,272x60,0,0,9	:
+window	HydraForge	0	:bash	1	:*	58df,272x60,0,0,10	:
+window	HydraForge	1	:bash	0	:-	58e0,272x60,0,0,11	:
+window	HydraForge	2	:bash	0	:	58e1,272x60,0,0,12	:
+window	MyNotes	0	:bash	0	:-	58e1,272x60,0,0,31	:
+window	MyNotes	1	:bash	1	:*	58e2,272x60,0,0,32	:
+window	PKGM-Web	0	:bash	1	:*	58e2,272x60,0,0,13	:
+window	PKGM-Web	1	:bash	0	:-	58e3,272x60,0,0,14	:
+window	PTX-EMU	0	:bash	0	:-	58e4,272x60,0,0,15	:
+window	PTX-EMU	1	:bash	1	:*	58e5,272x60,0,0,16	:
+window	PTX-EMU	2	:bash	0	:	58e6,272x60,0,0,17	:
+window	PTX-EMU	3	:bash	0	:	58e7,272x60,0,0,18	:
+window	UsrLinuxEmu	0	:bash	0	:-	58e8,272x60,0,0,19	:
+window	UsrLinuxEmu	1	:bash	1	:*	d8df,272x60,0,0,20	:
+window	UsrLinuxEmu	2	:bash	0	:	d8e0,272x60,0,0,21	:
+window	UsrLinuxEmu	3	:bash	0	:	d8e1,272x60,0,0,22	:
+window	main	0	:bash	0	:Z	e35b,272x60,0,0{101x60,0,0,23,170x60,102,0,24}	:
+window	main	1	:bash	0	:	d8e4,272x60,0,0,25	:
+window	main	2	:bash	0	:-	d8e5,272x60,0,0,26	:
+window	main	3	:bash	1	:*	d8e6,272x60,0,0,27	:
+window	main	4	:bash	0	:	58e3,272x60,0,0,33	:
+state	main	CppHDL
